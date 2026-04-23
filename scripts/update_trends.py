@@ -107,6 +107,28 @@ Return ONLY valid JSON with this exact structure, no markdown:
     return json.loads(raw[start:end])
 
 
+# ── 소셜 플랫폼 링크 생성 ─────────────────────────────────
+PLATFORM_URLS = {
+    'YouTube':   lambda q: f'https://www.youtube.com/results?search_query={q}',
+    'TikTok':    lambda q: f'https://www.tiktok.com/search?q={q}',
+    'Instagram': lambda q: f'https://www.instagram.com/explore/search/keyword/?q={q}',
+    'Reddit':    lambda q: f'https://www.reddit.com/search/?q={q}',
+    'Netflix':   lambda q: f'https://www.netflix.com/search?q={q}',
+    'NYT Food':  lambda q: f'https://www.nytimes.com/search?query={q}',
+    'K-Drama':   lambda q: f'https://www.youtube.com/results?search_query={q}+k+drama',
+}
+
+def add_social_links(trends_data):
+    for trend in trends_data['trends']:
+        q = quote_plus(trend['title'])
+        trend['social_links'] = {
+            ch: PLATFORM_URLS[ch](q)
+            for ch in trend.get('channels', [])
+            if ch in PLATFORM_URLS
+        }
+    return trends_data
+
+
 # ── 쇼핑몰 검색 URL 자동 생성 ────────────────────────────
 def add_retailer_urls(trends_data):
     for trend in trends_data['trends']:
@@ -190,13 +212,16 @@ if __name__ == "__main__":
     for t in trends["trends"]:
         print(f"    - [{t['tag']}] {t['title']} ({len(t['products'])}개 제품)")
 
-    print("3/4 쇼핑몰 URL 생성 중...")
+    print("3/5 소셜 링크 생성 중...")
+    trends = add_social_links(trends)
+
+    print("4/5 쇼핑몰 URL 생성 중...")
     trends = add_retailer_urls(trends)
 
-    print("4/4 이미지 검색 중...")
+    print("5/5 이미지 검색 중...")
     trends = find_product_images(trends)
 
-    print("5/5 Firestore 저장 중...")
+    print("6/6 Firestore 저장 중...")
     save_to_firestore(trends)
 
     print("=== 완료 ===")

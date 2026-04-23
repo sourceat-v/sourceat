@@ -207,7 +207,12 @@ function renderTrends() {
   TRENDS.forEach((tr, ti) => {
     const section = document.createElement('section');
     section.className = 'trend-section';
-    const channelPills = (tr.channels || []).map(ch => `<span class="ch-badge">${ch}</span>`).join('');
+    const channelPills = (tr.channels || []).map(ch => {
+      const url = tr.social_links?.[ch];
+      return url
+        ? `<a class="ch-badge ch-link" href="${url}" target="_blank" rel="noopener">${ch} ↗</a>`
+        : `<span class="ch-badge">${ch}</span>`;
+    }).join('');
 
     section.innerHTML = `
       <div class="trend-header">
@@ -303,7 +308,12 @@ function openModal(id) {
   if (!found) return;
   const { p, tr } = found;
 
-  const channelPills = (tr.channels || []).map(ch => `<span class="ch-badge">${ch}</span>`).join('');
+  const channelPills = (tr.channels || []).map(ch => {
+    const url = tr.social_links?.[ch];
+    return url
+      ? `<a class="ch-badge ch-link" href="${url}" target="_blank" rel="noopener">${ch} ↗</a>`
+      : `<span class="ch-badge">${ch}</span>`;
+  }).join('');
   document.getElementById('modal-trend-row').innerHTML = `
     <span class="trend-tag ${tr.tag_style}" style="font-size:10px;padding:2px 8px">${tr.tag}</span>
     <span style="font-size:11px;color:var(--gray-400)">trending via</span>
