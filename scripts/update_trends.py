@@ -68,6 +68,7 @@ Return ONLY valid JSON with this exact structure, no markdown:
       "tag": "🔥 Hot",
       "tag_style": "t-hot",
       "channels": ["TikTok", "YouTube"],
+      "search_kr": "한국어 검색어 (예: 불닭볶음면 챌린지)",
       "desc": "2-3 sentence description explaining why this is trending and what it is",
       "products": [
         {{
@@ -120,9 +121,11 @@ PLATFORM_URLS = {
 
 def add_social_links(trends_data):
     for trend in trends_data['trends']:
-        q = quote_plus(trend['title'])
+        # 한국어 검색어 우선, 없으면 영어 제목
+        kr = trend.get('search_kr', '').strip()
+        q_kr = quote_plus(kr) if kr else quote_plus(trend['title'])
         trend['social_links'] = {
-            ch: PLATFORM_URLS[ch](q)
+            ch: PLATFORM_URLS[ch](q_kr)
             for ch in trend.get('channels', [])
             if ch in PLATFORM_URLS
         }
