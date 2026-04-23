@@ -106,6 +106,26 @@ Return ONLY valid JSON with this exact structure, no markdown:
     return json.loads(raw[start:end])
 
 
+# ── 제품 이미지 검색 ──────────────────────────────────────
+def find_product_images(trends_data):
+    found = 0
+    with DDGS() as ddgs:
+        for trend in trends_data['trends']:
+            for product in trend['products']:
+                if product.get('img_url'):
+                    continue
+                query = f"{product['brand']} {product['name']} korean food product"
+                try:
+                    imgs = list(ddgs.images(query, max_results=1))
+                    if imgs:
+                        product['img_url'] = imgs[0]['image']
+                        found += 1
+                except Exception as e:
+                    pass
+    print(f"    이미지 {found}개 수집")
+    return trends_data
+
+
 # ── Firestore 저장 ────────────────────────────────────────
 def save_to_firestore(trends_data):
     db = firestore.client()
@@ -152,7 +172,10 @@ if __name__ == "__main__":
     for t in trends["trends"]:
         print(f"    - [{t['tag']}] {t['title']} ({len(t['products'])}개 제품)")
 
-    print("3/3 Firestore 저장 중...")
+    print("3/3 이미지 검색 중...")
+    trends = find_product_images(trends)
+
+    print("4/4 Firestore 저장 중...")
     save_to_firestore(trends)
 
     print("=== 완료 ===")
