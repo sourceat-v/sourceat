@@ -100,6 +100,7 @@ async function loadFromSheets() {
       initCommentStore();
       renderTrends();
       buildHeroStrip();
+      injectJsonLd();
       return;
     }
   } catch(e) {
@@ -154,6 +155,7 @@ async function loadFromSheets() {
     initCommentStore();
     renderTrends();
     buildHeroStrip();
+    injectJsonLd();
   };
 
   const script = document.createElement('script');
@@ -630,6 +632,44 @@ window.closeSidebar  = closeSidebar;
 window.toggleReply   = toggleReply;
 window.submitReply   = submitReply;
 window.setSort       = setSort;
+
+// ── JSON-LD 구조화 데이터 ─────────────────────────────────
+function injectJsonLd() {
+  const items = [];
+  let pos = 1;
+  TRENDS.forEach(tr => {
+    tr.products.forEach(p => {
+      items.push({
+        '@type': 'ListItem',
+        position: pos++,
+        item: {
+          '@type': 'Product',
+          name: p.name,
+          brand: { '@type': 'Brand', name: p.brand },
+          description: p.desc,
+          ...(p.img_url ? { image: p.img_url } : {}),
+          offers: {
+            '@type': 'AggregateOffer',
+            availability: 'https://schema.org/InStock',
+            priceCurrency: 'USD',
+          }
+        }
+      });
+    });
+  });
+
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Trending Korean Food Products',
+    description: 'Korean food products currently going viral on TikTok, YouTube, and Reddit — updated daily.',
+    url: 'https://sourceat.vercel.app/',
+    itemListElement: items,
+  };
+
+  const tag = document.getElementById('ld-json');
+  if (tag) tag.textContent = JSON.stringify(ld);
+}
 
 // ── 시작 ─────────────────────────────────────────────────
 buildHeroStrip();
