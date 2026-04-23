@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$ourceat — Find Korean Food in America</title>
+  <meta name="description" content="Discover what Korean food products are going viral in the US. Find them at Amazon, Weee!, H-Mart, and Wooltari."/>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="$ourceat — Find Korean Food in America"/>
+  <meta property="og:description" content="Discover what Korean food products are going viral in the US. Find them at Amazon, Weee!, H-Mart, and Wooltari."/>
+  <meta property="og:url" content="https://sourceat.co"/>
+  <meta property="og:image" content="https://hmartus.vtexassets.com/arquivos/ids/162481-300-300?v=638448912692470000&width=600&height=600&aspect=true"/>
+  <meta property="og:site_name" content="$ourceat"/>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="$ourceat — Find Korean Food in America"/>
+  <meta name="twitter:description" content="Discover what Korean food products are going viral in the US. Find them at Amazon, Weee!, H-Mart, and Wooltari."/>
+  <meta name="twitter:image" content="https://hmartus.vtexassets.com/arquivos/ids/162481-300-300?v=638448912692470000&width=600&height=600&aspect=true"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="#" class="logo"><span class="logo-s">$</span>ourceat</a>
+    <button class="sidebar-close" id="sidebar-close-btn" aria-label="Close menu">✕</button>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">About</div>
+    <p class="sb-text">$ourceat tracks what Korean food products are going viral in the US — and shows you exactly where to find them.</p>
+  </div>
+
+  <div class="sb-section">
+    <button class="sb-guide-btn" id="open-guide-btn">
+      <span class="sb-guide-icon">🍜</span>
+      <span class="sb-guide-text">
+        <span class="sb-guide-title">K-Food Beginner's Guide</span>
+        <span class="sb-guide-sub">New to Korean food? Start here</span>
+      </span>
+      <span class="sb-guide-arrow">→</span>
+    </button>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Why these 4 stores?</div>
+    <div class="sb-stores">
+      <div class="sb-store"><strong>Amazon</strong><span>Ships nationwide · Prime eligible</span></div>
+      <div class="sb-store"><strong>Weee!</strong><span>Asian grocery delivery</span></div>
+      <div class="sb-store"><strong>H-Mart</strong><span>Korean specialty · 100+ US locations</span></div>
+      <div class="sb-store"><strong>Wooltari</strong><span>K-brands shipped direct</span></div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sb-label">Suggest a product</div>
+    <a href="mailto:sourceat.co@gmail.com?subject=Product%20Suggestion">sourceat.co@gmail.com →</a>
+  </div>
+</aside>
+
+<!-- K-FOOD GUIDE MODAL -->
+<div class="overlay" id="guide-overlay" onclick="closeGuide(event)">
+  <div class="modal" id="guide-modal">
+    <div class="modal-topbar">
+      <div class="modal-topbar-left">
+        <div class="mlabel" style="margin-bottom:8px">Beginner's Guide</div>
+        <div class="modal-name">New to K-Food?</div>
+        <div class="modal-brand">A quick-start guide for first-timers</div>
+      </div>
+      <button class="modal-close" onclick="closeGuide()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="guide-intro">Korean food has gone global — here's how to explore it without being overwhelmed.</p>
+      <div class="guide-steps">
+        <div class="guide-step">
+          <div class="guide-num">01</div>
+          <div>
+            <div class="guide-title">Start with Buldak Carbonara</div>
+            <div class="guide-desc">The creamy carbonara version is the perfect entry point — mildly spicy, easy to make. Avoid 2× Spicy until you know what you're doing.</div>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-num">02</div>
+          <div>
+            <div class="guide-title">Korean "mild" ≠ American mild</div>
+            <div class="guide-desc">The spice scale in Korea runs hotter. Original Buldak is already medium-hot by American standards. When in doubt, go one level below what you think you can handle.</div>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-num">03</div>
+          <div>
+            <div class="guide-title">Try kimbap — it's not sushi</div>
+            <div class="guide-desc">If you like California rolls, kimbap is lighter, more savory, and more filling. It's one of the most approachable K-foods for newcomers.</div>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-num">04</div>
+          <div>
+            <div class="guide-title">No H-Mart nearby? Use Amazon</div>
+            <div class="guide-desc">Most products on $ourceat ship nationwide via Amazon Prime. It's the easiest starting point if you're not near a Korean grocery store.</div>
+          </div>
+        </div>
+      </div>
+      <div class="mdivider"></div>
+      <div class="mlabel">Trending now on $ourceat</div>
+      <button class="guide-cta" onclick="closeGuide();closeSidebar()">Browse trending K-foods →</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo"><span class="logo-s">$</span>ourceat</a>
+    <button class="hamburger" id="hamburger-btn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="route-badge">
+      <span class="rb-from">🇰🇷 Seoul</span>
+      <span class="rb-path">
+        <span class="rb-line"></span>
+        <span class="rb-plane">✈</span>
+        <span class="rb-line"></span>
+      </span>
+      <span class="rb-to">Your Table 🇺🇸</span>
+    </div>
+    <h1>What's <em>trending</em><br/>in Korean food</h1>
+    <p class="hero-sub">We track what Korean products are going viral — then show you exactly where to find them in the US, across the top Korean grocery retailers.</p>
+  </div>
+  <div class="hero-strip-wrap">
+    <div class="hero-scroll-track" id="hero-scroll-track"></div>
+  </div>
+</section>
+
+<!-- TRENDS (JS가 여기에 렌더링) -->
+<div id="trends-container"></div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-topbar">
+      <div class="modal-topbar-left">
+        <div class="modal-trend-row" id="modal-trend-row"></div>
+        <div class="modal-name" id="modal-name"></div>
+        <div class="modal-brand" id="modal-brand"></div>
+      </div>
+      <button class="modal-close" onclick="closeOverlay()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="mlabel">Where to buy</div>
+      <div class="shop-grid" id="modal-shops"></div>
+      <div class="mlabel" style="margin-top:20px">Share</div>
+      <div id="modal-share" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px"></div>
+      <div class="mdivider"></div>
+      <div class="mlabel">Discussion</div>
+      <div style="margin-bottom:4px">
+        <div class="comment-input-row">
+          <div class="avatar-sm">YOU</div>
+          <textarea class="comment-textarea" id="comment-input" placeholder="Share your experience, tips, or questions about this product..."></textarea>
+        </div>
+        <button class="comment-submit" id="comment-btn">Post</button>
+      </div>
+      <div class="comments-list" id="comments-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span class="logo-s">$</span>ourceat</div>
+  <p>Connecting Korean food to the world — one trend at a time.</p>
+  <p><a href="mailto:sourceat.co@gmail.com">sourceat.co@gmail.com</a></p>
+  <p style="margin-top:20px;font-size:11px;color:#C0BEB6">© 2025 $ourceat. All rights reserved.</p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

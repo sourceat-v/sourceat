@@ -1,0 +1,601 @@
+// ============================================================
+// $ourceat — app.js
+// ============================================================
+import { loadComments, saveComment, saveReply, updateLike, loadTrends } from './firebase.js';
+
+const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzZ8jtv4i6NbivCVID5XmKgKw_gIcWibalBYguB6IMKFt0CUZmvff5SwhXnUU0Qld8v/exec';
+
+const SHOPS = [
+  { key:'amazon',   name:'Amazon',   tag:'Ships nationwide' },
+  { key:'weee',     name:'Weee!',    tag:'Asian grocery'    },
+  { key:'hmart',    name:'H-Mart',   tag:'Korean specialty' },
+  { key:'wooltari', name:'Wooltari', tag:'K-Food direct'    },
+];
+
+let currentSort = 'new';
+
+let TRENDS = [
+  {
+    trend_id:'buldak', title:'Buldak Challenge',
+    tag:'🔥 Hot', tag_style:'t-hot',
+    channels:['TikTok','YouTube','Instagram','Reddit'],
+    desc:"Samyang's fire noodles went from a Korean convenience store staple to a global phenomenon. The challenge format spread across every major platform simultaneously.",
+    video:{ label:'Watch: Fire Noodle Challenge', url:'https://www.youtube.com/results?search_query=buldak+fire+noodle+challenge' },
+    products:[
+      { product_id:'b1', name:'Buldak Ramen Original (5pk)', brand:'Samyang', desc:'The one that started it all. Intensely spicy stir-fried noodles with a savory chicken sauce.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/162481-300-300?v=638448912692470000&width=600&height=600&aspect=true', shops:{ hmart:{price:6.99,url:'https://www.hmart.com/hot-chicken-flavor-ramen-4-94oz-140g--5-packs-1/p'}, weee:{price:7.49,url:'https://www.sayweee.com/en/product/Samyang-Buldak-Ramen--Hot-Chicken-Flavor--2x-Spicy-5pk/59341'}, wooltari:{price:7.29,url:'https://www.wooltariusa.com'}, amazon:{price:9.99,url:'https://www.amazon.com/s?k=samyang+buldak+hot+chicken+ramen+original+5+pack'} } },
+      { product_id:'b2', name:'Buldak Carbonara (5pk)', brand:'Samyang', desc:'Creamy carbonara meets Korean fire. The most popular entry point for first-timers.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/162510-300-300?v=638448912808930000&width=600&height=600&aspect=true', shops:{ hmart:{price:8.99,url:'https://www.hmart.com/carbo-hot-chicken-flavor-ramen-4-5oz-130g--5-packs-1/p'}, weee:{price:8.99,url:'https://www.sayweee.com/en/product/Samyang-Buldak-Ramen-Carbonara-Hot-Chicken-Flavor/71188'}, wooltari:{price:null,url:null}, amazon:{price:12.99,url:'https://www.amazon.com/s?k=samyang+buldak+carbonara+ramen+5+pack'} } },
+      { product_id:'b3', name:'Buldak 2x Spicy (5pk)', brand:'Samyang', desc:'Double the capsaicin. A true test of spice tolerance.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/162484-300-300?v=638448912704870000&width=600&height=600&aspect=true', shops:{ hmart:{price:8.99,url:'https://www.hmart.com/extra-hot-chicken-flavor-ramen-4-94oz-140g--5-packs-1/p'}, weee:{price:9.99,url:'https://www.sayweee.com/en/product/Samyang-Buldak-Ramen--Hot-Chicken-Flavor--2x-Spicy-5pk/59341'}, wooltari:{price:null,url:null}, amazon:{price:11.99,url:'https://www.amazon.com/s?k=samyang+buldak+2x+spicy+ramen+5+pack'} } },
+      { product_id:'b4', name:'Buldak Quattro Cheese (5pk)', brand:'Samyang', desc:'Four cheese blend tames the heat. Popular with cheese lovers.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/162493-300-300?v=638448912746170000&width=600&height=600&aspect=true', shops:{ hmart:{price:7.99,url:'https://www.hmart.com/quattro-cheese-hot-chicken-flavor-ramen-5-11oz-145g--5-packs-1/p'}, weee:{price:9.49,url:'https://www.sayweee.com'}, wooltari:{price:8.49,url:'https://www.wooltariusa.com'}, amazon:{price:12.99,url:'https://www.amazon.com/s?k=samyang+buldak+quattro+cheese+5+pack'} } },
+      { product_id:'b5', name:'Buldak Habanero Lime', brand:'Samyang', desc:'Habanero heat with a fresh citrus twist. Limited availability.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/160657-300-300?v=638448905572300000&width=600&height=600&aspect=true', shops:{ hmart:{price:1.49,url:'https://www.hmart.com/spicy-chicken-flavor-ramen-habanero-lime-big-bowl-3-7oz-105g--1/p'}, weee:{price:null,url:null}, wooltari:{price:null,url:null}, amazon:{price:2.49,url:'https://www.amazon.com/s?k=samyang+buldak+habanero+lime+ramen'} } },
+    ]
+  },
+  {
+    trend_id:'kimbap', title:'Kimbap Moment',
+    tag:'📈 Rising', tag_style:'t-rising',
+    channels:['Netflix','NYT Food','Instagram','K-Drama'],
+    desc:"After years of being overlooked, kimbap is having its moment. Featured in major US food media and K-dramas alike.",
+    video:{ label:'Watch: Kimbap — How to make & eat', url:'https://www.youtube.com/results?search_query=kimbap+how+to+make+korean' },
+    products:[
+      { product_id:'k1', name:'Tuna Mayo Kimbap', brand:'Pulmuone', desc:'Classic tuna and mayo filling. The most approachable kimbap for non-Korean shoppers.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/170697-300-300?v=638700234305070000&width=600&height=600&aspect=true', shops:{ hmart:{price:4.99,url:'https://www.hmart.com/tuna-mayo-kimbap-8-46oz-240g-/p'}, weee:{price:5.49,url:'https://www.sayweee.com'}, wooltari:{price:5.29,url:'https://www.wooltariusa.com'}, amazon:{price:6.99,url:'https://www.amazon.com/s?k=pulmuone+tuna+mayo+kimbap'} } },
+      { product_id:'k2', name:'Vegetable Kimbap', brand:'Pulmuone', desc:'Spinach, pickled radish, burdock and carrots. Vegan-friendly.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/170698-300-300?v=638700234309470000&width=600&height=600&aspect=true', shops:{ hmart:{price:4.99,url:'https://www.hmart.com/vegetable-kimbap-8-11oz-230g-/p'}, weee:{price:null,url:null}, wooltari:{price:4.79,url:'https://www.wooltariusa.com'}, amazon:{price:6.49,url:'https://www.amazon.com/s?k=pulmuone+vegetable+kimbap'} } },
+      { product_id:'k3', name:'Japchae Vegan Kimbap', brand:'Pulmuone', desc:'Glass noodles and vegetables wrapped in seaweed rice.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/161007-300-300?v=638448906919970000&width=600&height=600&aspect=true', shops:{ hmart:{price:4.99,url:'https://www.hmart.com/japchae-vegan-kimbap-7-76oz-220g-/p'}, weee:{price:5.49,url:'https://www.sayweee.com'}, wooltari:{price:null,url:null}, amazon:{price:6.49,url:'https://www.amazon.com/s?k=pulmuone+japchae+kimbap'} } },
+      { product_id:'k4', name:'Triangle Kimbap Bibimbap', brand:'CJ', desc:'Convenience store-style triangle kimbap for younger shoppers.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/172833-300-300?v=638864593628170000&width=600&height=600&aspect=true', shops:{ hmart:{price:null,url:null}, weee:{price:3.49,url:'https://www.sayweee.com'}, wooltari:{price:3.29,url:'https://www.wooltariusa.com'}, amazon:{price:4.99,url:'https://www.amazon.com/s?k=CJ+triangle+kimbap+bibimbap'} } },
+    ]
+  },
+  {
+    trend_id:'streetfood', title:'Street Food at Home',
+    tag:'🚀 Viral', tag_style:'t-viral',
+    channels:['YouTube','TikTok','Instagram Reels'],
+    desc:"Korean street food is coming home — tteokbokki kits and frozen mandu bringing the pojangmacha experience to American kitchens.",
+    video:{ label:'Watch: Korean Street Food at Home', url:'https://www.youtube.com/results?search_query=korean+street+food+tteokbokki+mandu+recipe' },
+    products:[
+      { product_id:'t1', name:'Tteokbokki Kit Original', brand:'Ottogi', desc:'The definitive home tteokbokki kit. Ready in 5 minutes.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/161938-300-300?v=638448910533000000&width=600&height=600&aspect=true', shops:{ hmart:{price:3.49,url:'https://www.hmart.com'}, weee:{price:3.79,url:'https://www.sayweee.com'}, wooltari:{price:3.59,url:'https://www.wooltariusa.com'}, amazon:{price:4.99,url:'https://www.amazon.com/s?k=ottogi+tteokbokki+kit'} } },
+      { product_id:'t2', name:'Carbonara Tteokbokki', brand:'Samyang', desc:'Rose sauce meets chewy rice cakes. Creamy and mildly spicy.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/162482-300-300?v=638448912696300000&width=600&height=600&aspect=true', shops:{ hmart:{price:3.99,url:'https://www.hmart.com'}, weee:{price:null,url:null}, wooltari:{price:3.89,url:'https://www.wooltariusa.com'}, amazon:{price:5.99,url:'https://www.amazon.com/s?k=samyang+carbonara+tteokbokki'} } },
+      { product_id:'t3', name:'Frozen Mandu Kimchi', brand:'Pulmuone', desc:'Kimchi-filled dumplings — pan-fry for crispy exterior.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/159557-300-300?v=638448901893130000&width=600&height=600&aspect=true', shops:{ hmart:{price:6.49,url:'https://www.hmart.com'}, weee:{price:6.99,url:'https://www.sayweee.com'}, wooltari:{price:null,url:null}, amazon:{price:9.99,url:'https://www.amazon.com/s?k=pulmuone+frozen+mandu+kimchi'} } },
+      { product_id:'t4', name:'Bibigo Mandu Pork & Veggie', brand:'CJ Bibigo', desc:"CJ Bibigo's best-selling dumpling. Now at mainstream US retailers.", img_url:'https://hmartus.vtexassets.com/arquivos/ids/162356-300-300?v=638448912246270000&width=600&height=600&aspect=true', shops:{ hmart:{price:7.99,url:'https://www.hmart.com'}, weee:{price:7.49,url:'https://www.sayweee.com'}, wooltari:{price:7.99,url:'https://www.wooltariusa.com'}, amazon:{price:12.99,url:'https://www.amazon.com/s?k=bibigo+mandu+pork+vegetable+dumplings'} } },
+      { product_id:'t5', name:'Shin Ramyun Black', brand:'Nongshim', desc:'Premium Shin Ramen. Rich beef bone broth, thicker noodles.', img_url:'https://hmartus.vtexassets.com/arquivos/ids/162050-300-300?v=638448910970270000&width=600&height=600&aspect=true', shops:{ hmart:{price:1.99,url:'https://www.hmart.com'}, weee:{price:2.19,url:'https://www.sayweee.com'}, wooltari:{price:2.09,url:'https://www.wooltariusa.com'}, amazon:{price:2.49,url:'https://www.amazon.com/s?k=nongshim+shin+ramyun+black'} } },
+    ]
+  },
+];
+
+const SEED_COMMENTS = {
+  b1:[
+    { author:'Alex M.',  time:'2 days ago', text:"H-Mart price is hard to beat. Pro tip: leave about 8 spoons of water before mixing the sauce.", likes:14 },
+    { author:'Jenny K.', time:'1 day ago',  text:"Weee delivered in 2 days. Slightly pricier but convenient if you're not near an H-Mart.", likes:7 },
+  ],
+  k1:[{ author:'Ryan T.', time:'3 days ago', text:"Game changer for lunch. Pairs perfectly with kimchi on the side.", likes:11 }],
+  t1:[
+    { author:'Mia L.', time:'5 days ago', text:"Add a slice of processed cheese and a fish cake. That's how they do it on the street.", likes:22 },
+    { author:'Sam B.', time:'4 days ago', text:"Wooltari had a bundle deal with the carbonara version last month.", likes:6 },
+  ],
+  t4:[{ author:'Chris W.', time:'1 week ago', text:"Found these at Costco too — massive bag, great value.", likes:18 }],
+};
+
+const commentStore = {};
+function initCommentStore() {
+  TRENDS.forEach(tr => tr.products.forEach(p => {
+    if (!commentStore[p.product_id]) {
+      commentStore[p.product_id] = (SEED_COMMENTS[p.product_id] || []).map(c => ({ ...c, id: Math.random() }));
+    }
+  }));
+}
+
+// ── 데이터 로드 (Firestore → Sheets → 하드코딩) ──────────
+async function loadFromSheets() {
+  const container = document.getElementById('trends-container');
+  container.innerHTML = '<div style="text-align:center;padding:60px 32px;color:#9A9A94;font-size:14px">Loading products...</div>';
+
+  // 1순위: Firestore (매일 자동 업데이트)
+  try {
+    const firestoreTrends = await loadTrends();
+    if (firestoreTrends && firestoreTrends.length > 0) {
+      TRENDS = firestoreTrends;
+      console.log('✅ Firestore 데이터 로드:', TRENDS.length, '트렌드');
+      container.innerHTML = '';
+      initCommentStore();
+      renderTrends();
+      buildHeroStrip();
+      return;
+    }
+  } catch(e) {
+    console.warn('Firestore 로드 실패, 다음 소스 시도:', e);
+  }
+
+  const timeoutId = setTimeout(() => {
+    console.warn('Sheets 타임아웃 — 로컬 데이터로 렌더링');
+    container.innerHTML = '';
+    initCommentStore();
+    renderTrends();
+    buildHeroStrip();
+  }, 6000);
+
+  window.handleSheetData = function(data) {
+    clearTimeout(timeoutId);
+    try {
+      if (data && data.trends && data.trends.length > 0) {
+        const trendMap = {};
+        data.trends.forEach(t => {
+          trendMap[t.trend_id] = {
+            trend_id:  t.trend_id,
+            title:     t.title,
+            tag:       t.tag,
+            tag_style: t.tag_style,
+            channels:  Array.isArray(t.channels) ? t.channels : String(t.channels).split(',').map(c => c.trim()),
+            desc:      t.desc,
+            products:  []
+          };
+        });
+        (data.products || []).forEach(p => {
+          if (!trendMap[p.trend_id]) return;
+          trendMap[p.trend_id].products.push({
+            product_id: p.product_id,
+            name:  p.name,  brand: p.brand,
+            desc:  p.desc,  img_url: p.img_url,
+            shops: p.shops || {
+              hmart:    { price: p.hmart_price    || null, url: p.hmart_url    || null },
+              weee:     { price: p.weee_price     || null, url: p.weee_url     || null },
+              wooltari: { price: p.wooltari_price || null, url: p.wooltari_url || null },
+              amazon:   { price: p.amazon_price   || null, url: p.amazon_url   || null },
+            }
+          });
+        });
+        TRENDS = Object.values(trendMap).filter(t => t.products.length > 0);
+        console.log('✅ 구글 시트 데이터 로드 성공:', TRENDS.length, '트렌드');
+      }
+    } catch(e) {
+      console.error('데이터 파싱 오류:', e);
+    }
+    container.innerHTML = '';
+    initCommentStore();
+    renderTrends();
+    buildHeroStrip();
+  };
+
+  const script = document.createElement('script');
+  script.src = `${SHEET_API_URL}?action=all&callback=handleSheetData`;
+  script.onerror = () => {
+    clearTimeout(timeoutId);
+    console.warn('Script 로드 실패 — 로컬 데이터 사용');
+    container.innerHTML = '';
+    initCommentStore();
+    renderTrends();
+    buildHeroStrip();
+  };
+  document.head.appendChild(script);
+}
+
+// ── 히어로 스크롤 스트립 ──────────────────────────────────
+function buildHeroStrip() {
+  const track = document.getElementById('hero-scroll-track');
+  if (!track) return;
+
+  // 트렌드 순서대로 그룹핑 (hot → rising → viral)
+  const groups = TRENDS.map(tr =>
+    tr.products.map(p => ({ img: p.img_url, name: p.name })).filter(p => p.img)
+  );
+
+  if (groups.every(g => g.length === 0)) return;
+
+  // 라운드로빈 인터리브: groups[0][0], groups[1][0], groups[2][0], groups[0][1], ...
+  const interleaved = [];
+  const maxLen = Math.max(...groups.map(g => g.length));
+  for (let i = 0; i < maxLen; i++) {
+    groups.forEach(g => { if (g[i]) interleaved.push(g[i]); });
+  }
+
+  // seamless loop을 위해 두 배로 복제
+  const items = [...interleaved, ...interleaved];
+  track.innerHTML = items.map(({ img, name }) => `
+    <div class="hero-scroll-item">
+      <img src="${img}" alt="${name}" loading="lazy"/>
+    </div>
+  `).join('');
+}
+
+// ── 헬퍼 ─────────────────────────────────────────────────
+function availCount(shops) { return SHOPS.filter(sh => shops[sh.key] && shops[sh.key].url).length; }
+
+// ── 렌더링 ────────────────────────────────────────────────
+function renderTrends() {
+  const container = document.getElementById('trends-container');
+  container.innerHTML = '';
+
+  TRENDS.forEach((tr, ti) => {
+    const section = document.createElement('section');
+    section.className = 'trend-section';
+    const channelPills = (tr.channels || []).map(ch => `<span class="ch-badge">${ch}</span>`).join('');
+
+    section.innerHTML = `
+      <div class="trend-header">
+        <div class="trend-meta">
+          <span class="trend-tag ${tr.tag_style}">${tr.tag}</span>
+          <div class="trend-channels">${channelPills}</div>
+        </div>
+        <div class="trend-title">${tr.title}</div>
+        <div class="trend-desc">${tr.desc}</div>
+        <div class="trend-count-row">
+          <span class="trend-count">${tr.products.length} products tracked</span>
+          ${tr.video ? `<a class="trend-video-link" href="${tr.video.url}" target="_blank" rel="noopener noreferrer">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.5l-5 3A.5.5 0 016 11V5a.5.5 0 01.5-.44l5 3a.5.5 0 010 .94z"/></svg>
+            ${tr.video.label}
+          </a>` : ''}
+        </div>
+      </div>
+      <div class="prod-grid" id="grid-${tr.trend_id}"></div>
+    `;
+    container.appendChild(section);
+
+    const grid = section.querySelector(`#grid-${tr.trend_id}`);
+    tr.products.forEach((p, pi) => {
+      const ac = availCount(p.shops);
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.animationDelay = `${(ti * 0.08) + (pi * 0.06)}s`;
+      card.onclick = () => openModal(p.product_id);
+
+      const thumb = document.createElement('div');
+      thumb.className = 'card-thumb';
+      thumb.style.position = 'relative';
+      const avBadge = document.createElement('span');
+      avBadge.className = `avail-badge ${ac === SHOPS.length ? 'avail-all' : 'avail-some'}`;
+      avBadge.style.cssText = 'position:absolute;top:8px;right:8px;z-index:2';
+      avBadge.textContent = `${ac}/${SHOPS.length} stores`;
+      thumb.appendChild(avBadge);
+      if (p.img_url) {
+        const img = document.createElement('img');
+        img.src = p.img_url; img.alt = p.name; img.loading = 'lazy';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s';
+        img.onerror = function() {
+          const fb = document.createElement('div');
+          fb.className = 'thumb-fallback';
+          fb.textContent = p.brand;
+          this.parentNode.replaceChild(fb, this);
+        };
+        thumb.appendChild(img);
+      } else {
+        const fb = document.createElement('div');
+        fb.className = 'thumb-fallback';
+        fb.textContent = p.brand;
+        thumb.appendChild(fb);
+      }
+      card.appendChild(thumb);
+
+      const pillsHTML = SHOPS.map(sh => {
+        const on = p.shops[sh.key] && p.shops[sh.key].url;
+        return `<span class="shop-pill ${on ? 'on' : ''}">${sh.name}</span>`;
+      }).join('');
+
+      const body = document.createElement('div');
+      body.innerHTML = `
+        <div class="card-body">
+          <div class="card-brand">${p.brand}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-desc">${p.desc}</div>
+        </div>
+        <div class="card-shops-preview">${pillsHTML}</div>
+        <div class="card-footer">
+          <span class="card-store-count">${ac} store${ac !== 1 ? 's' : ''}</span>
+          <span class="card-cta">Find it →</span>
+        </div>
+      `;
+      while (body.firstChild) card.appendChild(body.firstChild);
+      grid.appendChild(card);
+    });
+  });
+}
+
+// ── 모달 ─────────────────────────────────────────────────
+function findProduct(id) {
+  for (const tr of TRENDS) {
+    const p = tr.products.find(x => x.product_id === id);
+    if (p) return { p, tr };
+  }
+  return null;
+}
+
+function openModal(id) {
+  const found = findProduct(id);
+  if (!found) return;
+  const { p, tr } = found;
+
+  const channelPills = (tr.channels || []).map(ch => `<span class="ch-badge">${ch}</span>`).join('');
+  document.getElementById('modal-trend-row').innerHTML = `
+    <span class="trend-tag ${tr.tag_style}" style="font-size:10px;padding:2px 8px">${tr.tag}</span>
+    <span style="font-size:11px;color:var(--gray-400)">trending via</span>
+    ${channelPills}
+  `;
+  document.getElementById('modal-name').textContent  = p.name;
+  document.getElementById('modal-brand').textContent = p.brand;
+  document.getElementById('modal-desc').textContent  = p.desc;
+
+  document.getElementById('modal-shops').innerHTML = SHOPS.map(sh => {
+    const s = p.shops[sh.key] || {};
+    return s.url
+      ? `<a class="shop-btn avail" href="${s.url}" target="_blank" rel="noopener noreferrer">
+          <span class="shop-btn-name">${sh.name}</span>
+          <span class="shop-btn-tag">${sh.tag}</span>
+          <span class="shop-btn-cta">Shop on ${sh.name} →</span>
+         </a>`
+      : `<div class="shop-btn unavail">
+          <span class="shop-btn-name">${sh.name}</span>
+          <span class="shop-btn-na">Not carried</span>
+         </div>`;
+  }).join('');
+
+  // 소셜 공유
+  const shareUrl   = encodeURIComponent(window.location.href);
+  const shareTitle = encodeURIComponent(`${p.name} — Find it in the US on $ourceat`);
+  document.getElementById('modal-share').innerHTML = `
+    <button class="share-btn" onclick="copyLink()" id="copy-btn">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="1" width="10" height="10" rx="2"/><path d="M1 5h4v10h10V9"/></svg>
+      Copy link
+    </button>
+    <a class="share-btn" href="https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M12.6 1h2.4l-5.2 5.9L16 15h-4.8l-3.8-4.9L2.9 15H.5l5.6-6.3L0 1h4.9l3.4 4.4L12.6 1zm-.8 12.5h1.3L4.3 2.3H2.9l8.9 11.2z"/></svg>
+      X (Twitter)
+    </a>
+    <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M16 8a8 8 0 10-9.25 7.9V10.3H4.7V8h2.05V6.22c0-2 1.2-3.12 3-3.12.9 0 1.83.16 1.83.16v2h-1.03c-1.01 0-1.33.63-1.33 1.27V8h2.26l-.36 2.3H9.22V15.9A8 8 0 0016 8z"/></svg>
+      Facebook
+    </a>
+    <a class="share-btn" href="https://www.reddit.com/submit?url=${shareUrl}&title=${shareTitle}" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M16 8A8 8 0 110 8a8 8 0 0116 0zm-5.5-1.5a1 1 0 00-1 1c0 .27.1.5.27.68-.7.37-1.64.6-2.77.6s-2.06-.23-2.77-.6A1 1 0 103 9a2.5 2.5 0 001.5 2.28c0 .06-.01.11-.01.17C4.5 12.9 6.07 14 8 14s3.5-1.1 3.5-2.55c0-.06 0-.11-.01-.17A2.5 2.5 0 0013 9a1 1 0 00-2.5-1.5zM6.5 9.5a.75.75 0 110-1.5.75.75 0 010 1.5zm3 0a.75.75 0 110-1.5.75.75 0 010 1.5zm-3.5 2c.55.35 1.25.55 2 .55s1.45-.2 2-.55c-.1.65-.97 1.05-2 1.05s-1.9-.4-2-1.05z"/></svg>
+      Reddit
+    </a>
+  `;
+
+  currentSort = 'new';
+  renderComments(id);
+  document.getElementById('comment-btn').onclick = () => postComment(id);
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOverlay() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModal(e) { if (e.target === document.getElementById('overlay')) closeOverlay(); }
+
+async function renderComments(id) {
+  const list = document.getElementById('comments-list');
+  list.innerHTML = '<div class="no-comments">Loading...</div>';
+
+  const firebaseComments = await loadComments(id);
+  const localComments = commentStore[id] || [];
+  const all = [...firebaseComments, ...localComments];
+
+  const topLevel = all.filter(c => !c.parentId);
+  const replyMap = {};
+  all.filter(c => c.parentId).forEach(r => {
+    const key = String(r.parentId);
+    if (!replyMap[key]) replyMap[key] = [];
+    replyMap[key].push(r);
+  });
+
+  if (!topLevel.length) {
+    list.innerHTML = '<div class="no-comments">Be the first to share your experience with this product.</div>';
+    return;
+  }
+
+  const sorted = currentSort === 'top'
+    ? [...topLevel].sort((a, b) => (b.likes || 0) - (a.likes || 0))
+    : topLevel;
+
+  const totalCount = all.length;
+  const sortBar = `
+    <div class="comment-sort">
+      <span class="comment-count-label">${totalCount} comment${totalCount !== 1 ? 's' : ''}</span>
+      <div class="sort-btns">
+        <button class="sort-btn ${currentSort === 'top' ? 'active' : ''}" onclick="setSort('${id}','top')">Top</button>
+        <button class="sort-btn ${currentSort === 'new' ? 'active' : ''}" onclick="setSort('${id}','new')">New</button>
+      </div>
+    </div>
+  `;
+
+  const threadsHTML = sorted.map(c => {
+    const cReplies = replyMap[String(c.id)] || [];
+    const repliesHTML = cReplies.length
+      ? `<div class="replies-list">${cReplies.map(r => renderReplyItem(r, id)).join('')}</div>`
+      : '';
+    return `
+      <div class="comment-thread" data-id="${c.id}">
+        <div class="comment-item">
+          <div class="avatar-sm" style="flex-shrink:0">${initials(c.author)}</div>
+          <div style="flex:1">
+            <div class="comment-meta">
+              <span class="comment-author">${c.author}</span>
+              <span class="comment-time">${c.time}</span>
+            </div>
+            <div class="comment-text">${c.text}</div>
+            <div class="comment-actions">
+              <button class="c-action ${c.userLiked ? 'liked' : ''}" onclick="handleLike('${c.id}','${id}',this)">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="${c.userLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5"><path d="M8 14s-6-4.686-6-8a6 6 0 0112 0c0 3.314-6 8-6 8z"/></svg>
+                ${c.likes} helpful
+              </button>
+              <button class="c-action" onclick="toggleReply('${c.id}','${id}')">Reply</button>
+            </div>
+          </div>
+        </div>
+        ${repliesHTML}
+      </div>
+    `;
+  }).join('');
+
+  list.innerHTML = sortBar + threadsHTML;
+}
+
+function renderReplyItem(r, productId) {
+  return `
+    <div class="reply-item">
+      <div class="avatar-sm reply-avatar">${initials(r.author)}</div>
+      <div style="flex:1">
+        <div class="comment-meta">
+          <span class="comment-author">${r.author}</span>
+          <span class="comment-time">${r.time}</span>
+        </div>
+        <div class="comment-text" style="font-size:12px">${r.text}</div>
+        <div class="comment-actions">
+          <button class="c-action ${r.userLiked ? 'liked' : ''}" onclick="handleLike('${r.id}','${productId}',this)">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="${r.userLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5"><path d="M8 14s-6-4.686-6-8a6 6 0 0112 0c0 3.314-6 8-6 8z"/></svg>
+            ${r.likes} helpful
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function initials(author) {
+  return (author || 'AN').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
+function toggleReply(commentId, productId) {
+  const thread = document.querySelector(`.comment-thread[data-id="${commentId}"]`);
+  if (!thread) return;
+  const existing = thread.querySelector('.reply-input-container');
+  if (existing) { existing.remove(); return; }
+
+  const container = document.createElement('div');
+  container.className = 'reply-input-container';
+  container.innerHTML = `
+    <div class="reply-input-row">
+      <div class="avatar-sm reply-avatar">YOU</div>
+      <textarea class="comment-textarea" style="min-height:52px;font-size:12px" placeholder="Write a reply..."></textarea>
+    </div>
+    <div class="reply-actions">
+      <button class="comment-submit" style="font-size:10px;padding:5px 12px" onclick="submitReply('${commentId}','${productId}',this)">Reply</button>
+      <button class="sort-btn" onclick="this.closest('.reply-input-container').remove()">Cancel</button>
+    </div>
+  `;
+  thread.querySelector('.comment-item').after(container);
+  container.querySelector('textarea').focus();
+}
+
+async function submitReply(parentId, productId, btn) {
+  const container = btn.closest('.reply-input-container');
+  const text = container.querySelector('textarea').value.trim();
+  if (!text) return;
+
+  btn.textContent = 'Posting...';
+  btn.disabled = true;
+
+  const docId = await saveReply(productId, parentId, 'Anonymous', text);
+  if (!docId) {
+    if (!commentStore[productId]) commentStore[productId] = [];
+    commentStore[productId].unshift({
+      id: String(Math.random()), author: 'Anonymous', time: 'Just now',
+      text, likes: 0, userLiked: false, parentId,
+    });
+  }
+  await renderComments(productId);
+}
+
+function setSort(productId, sort) {
+  currentSort = sort;
+  renderComments(productId);
+}
+
+async function handleLike(cid, pid, btn) {
+  const localComment = (commentStore[pid] || []).find(x => String(x.id) === String(cid));
+  if (localComment) {
+    localComment.userLiked = !localComment.userLiked;
+    localComment.likes += localComment.userLiked ? 1 : -1;
+  } else {
+    const liked  = btn.classList.contains('liked');
+    const delta  = liked ? -1 : 1;
+    await updateLike(pid, cid, delta);
+    btn.classList.toggle('liked');
+  }
+  renderComments(pid);
+}
+
+async function postComment(id) {
+  const input  = document.getElementById('comment-input');
+  const text   = input.value.trim();
+  if (!text) return;
+
+  const btn = document.getElementById('comment-btn');
+  btn.textContent = 'Posting...';
+  btn.disabled    = true;
+
+  const docId = await saveComment(id, 'Anonymous', text);
+
+  if (docId) {
+    input.value = '';
+    await renderComments(id);
+  } else {
+    if (!commentStore[id]) commentStore[id] = [];
+    commentStore[id].unshift({ id: String(Math.random()), author:'Anonymous', time:'Just now', text, likes:0, userLiked:false, parentId: null });
+    input.value = '';
+    await renderComments(id);
+  }
+
+  btn.textContent = 'Post';
+  btn.disabled    = false;
+}
+
+// ── 링크 복사 ────────────────────────────────────────────
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.getElementById('copy-btn');
+    if (!btn) return;
+    btn.textContent = '✓ Copied!';
+    btn.style.background = '#E1F5EE';
+    btn.style.color = '#085041';
+    btn.style.borderColor = '#5DCAA5';
+    setTimeout(() => {
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="1" width="10" height="10" rx="2"/><path d="M1 5h4v10h10V9"/></svg> Copy link`;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 2000);
+  });
+}
+
+// ── K-Food 가이드 모달 ───────────────────────────────────
+function openGuide() {
+  closeSidebar();
+  document.getElementById('guide-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGuide(e) {
+  if (e && e.target !== document.getElementById('guide-overlay')) return;
+  document.getElementById('guide-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── 사이드바 ─────────────────────────────────────────────
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── 사이드바 이벤트 바인딩 ───────────────────────────────
+document.getElementById('hamburger-btn').addEventListener('click', openSidebar);
+document.getElementById('sidebar-close-btn').addEventListener('click', closeSidebar);
+document.getElementById('sidebar-overlay').addEventListener('click', closeSidebar);
+document.getElementById('open-guide-btn').addEventListener('click', openGuide);
+
+// ── 전역 함수 노출 (HTML onclick에서 사용) ───────────────
+window.handleLike    = handleLike;
+window.closeOverlay  = closeOverlay;
+window.closeModal    = closeModal;
+window.postComment   = postComment;
+window.copyLink      = copyLink;
+window.closeGuide    = closeGuide;
+window.closeSidebar  = closeSidebar;
+window.toggleReply   = toggleReply;
+window.submitReply   = submitReply;
+window.setSort       = setSort;
+
+// ── 시작 ─────────────────────────────────────────────────
+buildHeroStrip();
+loadFromSheets();
