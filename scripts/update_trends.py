@@ -6,6 +6,7 @@ $ourceat — Daily trend updater
 import os
 import json
 import sys
+from urllib.parse import quote_plus
 import anthropic
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -106,6 +107,23 @@ Return ONLY valid JSON with this exact structure, no markdown:
     return json.loads(raw[start:end])
 
 
+# ── 쇼핑몰 검색 URL 자동 생성 ────────────────────────────
+def add_retailer_urls(trends_data):
+    for trend in trends_data['trends']:
+        for product in trend['products']:
+            q = quote_plus(f"{product['brand']} {product['name']}")
+            shops = product.setdefault('shops', {})
+            if not shops.get('amazon', {}).get('url'):
+                shops['amazon']   = {'price': None, 'url': f'https://www.amazon.com/s?k={q}'}
+            if not shops.get('hmart', {}).get('url'):
+                shops['hmart']    = {'price': None, 'url': f'https://www.hmart.com/search?query={q}'}
+            if not shops.get('weee', {}).get('url'):
+                shops['weee']     = {'price': None, 'url': f'https://www.sayweee.com/search?keyword={q}'}
+            if not shops.get('wooltari', {}).get('url'):
+                shops['wooltari'] = {'price': None, 'url': f'https://www.wooltariusa.com/search?q={q}'}
+    return trends_data
+
+
 # ── 제품 이미지 검색 ──────────────────────────────────────
 def find_product_images(trends_data):
     found = 0
@@ -172,10 +190,13 @@ if __name__ == "__main__":
     for t in trends["trends"]:
         print(f"    - [{t['tag']}] {t['title']} ({len(t['products'])}개 제품)")
 
-    print("3/3 이미지 검색 중...")
+    print("3/4 쇼핑몰 URL 생성 중...")
+    trends = add_retailer_urls(trends)
+
+    print("4/4 이미지 검색 중...")
     trends = find_product_images(trends)
 
-    print("4/4 Firestore 저장 중...")
+    print("5/5 Firestore 저장 중...")
     save_to_firestore(trends)
 
     print("=== 완료 ===")

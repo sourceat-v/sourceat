@@ -82,8 +82,8 @@
     .hero-scroll-track{display:flex;gap:32px;align-items:center;width:max-content;animation:kfoodScroll 40s linear infinite}
     .hero-scroll-track:hover{animation-play-state:paused}
     @keyframes kfoodScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .hero-scroll-item{width:140px;height:140px;flex-shrink:0;background:transparent;border:none;position:relative;display:flex;align-items:center;justify-content:center}
-    .hero-scroll-item img{width:100%;height:100%;object-fit:contain;display:block;mix-blend-mode:multiply;filter:drop-shadow(0 8px 18px rgba(0,0,0,.13))}
+    .hero-scroll-item{width:140px;height:140px;flex-shrink:0;background:#fff;border-radius:14px;overflow:hidden;padding:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.07)}
+    .hero-scroll-item img{width:100%;height:100%;object-fit:contain;display:block;mix-blend-mode:multiply}
     @keyframes floatA{0%,100%{transform:translateY(0px) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
     @keyframes floatB{0%,100%{transform:translateY(-5px) rotate(1deg)}50%{transform:translateY(6px) rotate(-1deg)}}
     @keyframes floatC{0%,100%{transform:translateY(3px) rotate(0.5deg)}50%{transform:translateY(-7px) rotate(-1.5deg)}}
