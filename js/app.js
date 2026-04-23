@@ -187,7 +187,7 @@ function buildHeroStrip() {
   const items = [...interleaved, ...interleaved];
   track.innerHTML = items.map(({ img, name }) => `
     <div class="hero-scroll-item">
-      <img src="${img}" alt="${name}" loading="lazy"/>
+      <img src="${img}" alt="${name}" loading="lazy" onerror="this.closest('.hero-scroll-item').remove()"/>
     </div>
   `).join('');
 }
