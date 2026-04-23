@@ -13,6 +13,7 @@ const SHOPS = [
 ];
 
 let currentSort = 'new';
+const COMMENTS_ENABLED = false;
 
 const NICKNAME_KEY = 'sourceat_nickname';
 function getNickname() { return localStorage.getItem(NICKNAME_KEY) || ''; }
@@ -360,6 +361,12 @@ function openModal(id) {
   `;
 
   currentSort = 'new';
+
+  // 댓글 입력 폼 활성/비활성
+  const commentForm = document.getElementById('comment-form');
+  if (commentForm) commentForm.style.display = COMMENTS_ENABLED ? '' : 'none';
+  const disabledNotice = document.getElementById('comments-disabled-notice');
+  if (disabledNotice) disabledNotice.style.display = COMMENTS_ENABLED ? 'none' : '';
 
   const savedNick = getNickname();
   const nameInput = document.getElementById('comment-name');
