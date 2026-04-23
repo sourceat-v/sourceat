@@ -169,8 +169,12 @@
       <div class="mdivider"></div>
       <div class="mlabel">Discussion</div>
       <div style="margin-bottom:4px">
-        <div class="comment-input-row">
-          <div class="avatar-sm">YOU</div>
+        <div class="comment-author-row">
+          <div class="avatar-sm" id="comment-avatar">YOU</div>
+          <input type="text" class="comment-name-input" id="comment-name" placeholder="Your nickname" maxlength="20" autocomplete="off"/>
+        </div>
+        <div class="comment-input-row" style="margin-top:8px">
+          <div style="width:32px;flex-shrink:0"></div>
           <textarea class="comment-textarea" id="comment-input" placeholder="Share your experience, tips, or questions about this product..."></textarea>
         </div>
         <button class="comment-submit" id="comment-btn">Post</button>

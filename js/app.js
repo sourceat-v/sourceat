@@ -14,6 +14,10 @@ const SHOPS = [
 
 let currentSort = 'new';
 
+const NICKNAME_KEY = 'sourceat_nickname';
+function getNickname() { return localStorage.getItem(NICKNAME_KEY) || ''; }
+function setNickname(n) { if (n.trim()) localStorage.setItem(NICKNAME_KEY, n.trim()); }
+
 let TRENDS = [
   {
     trend_id:'buldak', title:'Buldak Challenge',
@@ -346,6 +350,17 @@ function openModal(id) {
   `;
 
   currentSort = 'new';
+
+  const savedNick = getNickname();
+  const nameInput = document.getElementById('comment-name');
+  const avatarEl  = document.getElementById('comment-avatar');
+  nameInput.value = savedNick;
+  avatarEl.textContent = savedNick ? initials(savedNick) : 'YOU';
+  nameInput.oninput = function() {
+    setNickname(this.value);
+    avatarEl.textContent = this.value.trim() ? initials(this.value.trim()) : 'YOU';
+  };
+
   renderComments(id);
   document.getElementById('comment-btn').onclick = () => postComment(id);
   document.getElementById('overlay').classList.add('open');
@@ -457,11 +472,12 @@ function toggleReply(commentId, productId) {
   const existing = thread.querySelector('.reply-input-container');
   if (existing) { existing.remove(); return; }
 
+  const nick = getNickname();
   const container = document.createElement('div');
   container.className = 'reply-input-container';
   container.innerHTML = `
     <div class="reply-input-row">
-      <div class="avatar-sm reply-avatar">YOU</div>
+      <div class="avatar-sm reply-avatar">${nick ? initials(nick) : 'YOU'}</div>
       <textarea class="comment-textarea" style="min-height:52px;font-size:12px" placeholder="Write a reply..."></textarea>
     </div>
     <div class="reply-actions">
@@ -481,7 +497,8 @@ async function submitReply(parentId, productId, btn) {
   btn.textContent = 'Posting...';
   btn.disabled = true;
 
-  const docId = await saveReply(productId, parentId, 'Anonymous', text);
+  const author = getNickname() || 'Anonymous';
+  const docId = await saveReply(productId, parentId, author, text);
   if (!docId) {
     if (!commentStore[productId]) commentStore[productId] = [];
     commentStore[productId].unshift({
@@ -520,14 +537,15 @@ async function postComment(id) {
   btn.textContent = 'Posting...';
   btn.disabled    = true;
 
-  const docId = await saveComment(id, 'Anonymous', text);
+  const author = document.getElementById('comment-name')?.value.trim() || 'Anonymous';
+  const docId = await saveComment(id, author, text);
 
   if (docId) {
     input.value = '';
     await renderComments(id);
   } else {
     if (!commentStore[id]) commentStore[id] = [];
-    commentStore[id].unshift({ id: String(Math.random()), author:'Anonymous', time:'Just now', text, likes:0, userLiked:false, parentId: null });
+    commentStore[id].unshift({ id: String(Math.random()), author, time:'Just now', text, likes:0, userLiked:false, parentId: null });
     input.value = '';
     await renderComments(id);
   }

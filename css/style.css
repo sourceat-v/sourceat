@@ -206,6 +206,12 @@
     .share-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:7px 14px;border-radius:6px;border:1px solid var(--gray-200);background:var(--gray-50);color:var(--gray-700);text-decoration:none;cursor:pointer;font-family:var(--font-b);transition:background .15s,border-color .15s,color .15s}
     .share-btn:hover{background:var(--gray-100);border-color:var(--gray-400);color:var(--gray-900)}
 
+    /* NICKNAME INPUT */
+    .comment-author-row{display:flex;align-items:center;gap:10px}
+    .comment-name-input{flex:1;max-width:180px;border:none;border-bottom:1.5px solid var(--gray-200);background:transparent;font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);outline:none;padding:4px 2px;transition:border-color .2s}
+    .comment-name-input:focus{border-color:var(--teal)}
+    .comment-name-input::placeholder{color:var(--gray-400);font-weight:400}
+
     /* DISCUSSION THREADS */
     .comment-sort{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--gray-100)}
     .comment-count-label{font-size:12px;font-weight:600;color:var(--gray-700);font-family:var(--font-d)}
