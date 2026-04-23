@@ -9,7 +9,7 @@ import sys
 import anthropic
 import firebase_admin
 from firebase_admin import credentials, firestore
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 from datetime import datetime, timezone
 
 
