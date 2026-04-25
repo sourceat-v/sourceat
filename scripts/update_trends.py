@@ -48,16 +48,18 @@ def generate_trends(search_results):
 Based on these recent search results about K-food trends:
 {context}
 
-Generate exactly 3 trending Korean food categories. Each must have 4-5 specific, real packaged products that are actually available in the US market.
+Generate exactly 3 trending Korean food categories. Each must have exactly 10 specific, real packaged products that are actually available in the US market.
 
 Rules:
 - Only use real, existing Korean food brands: Samyang, Nongshim, Ottogi, CJ, Pulmuone, Lotte, Orion, Binggrae, Haitai, etc.
-- Products must be actually sold in the US (Amazon, H-Mart, Weee!, Wooltari)
+- Products must be actually sold in the US (Amazon, H-Mart, Weee!, Wooltari, Yami)
 - Amazon URL: use Amazon search URL format https://www.amazon.com/s?k=SEARCH+TERMS
-- Leave hmart/weee/wooltari price as null (will be filled manually)
+- Yami URL: use Yami search URL format https://www.yami.com/search?q=SEARCH+TERMS
+- Leave hmart/weee/wooltari/yamibuy price as null (will be filled manually)
 - Make descriptions specific and useful for Americans unfamiliar with K-food
 - One trend should be "🔥 Hot" (t-hot), one "📈 Rising" (t-rising), one "🚀 Viral" (t-viral)
 - channels options: TikTok, YouTube, Instagram, Reddit, Netflix, NYT Food, K-Drama
+- Include variety within each trend: different flavors, sizes, brands, or sub-categories
 
 Return ONLY valid JSON with this exact structure, no markdown:
 {{
@@ -78,10 +80,11 @@ Return ONLY valid JSON with this exact structure, no markdown:
           "desc": "One sentence: what it tastes like and why Americans should try it.",
           "img_url": "",
           "shops": {{
-            "amazon": {{"price": null, "url": "https://www.amazon.com/s?k=product+name+brand"}},
-            "hmart":  {{"price": null, "url": null}},
-            "weee":   {{"price": null, "url": null}},
-            "wooltari": {{"price": null, "url": null}}
+            "amazon":   {{"price": null, "url": "https://www.amazon.com/s?k=product+name+brand"}},
+            "hmart":    {{"price": null, "url": null}},
+            "weee":     {{"price": null, "url": null}},
+            "wooltari": {{"price": null, "url": null}},
+            "yamibuy":  {{"price": null, "url": "https://www.yami.com/search?q=product+name+brand"}}
           }}
         }}
       ]
@@ -146,6 +149,8 @@ def add_retailer_urls(trends_data):
                 shops['weee']     = {'price': None, 'url': f'https://www.sayweee.com/search?keyword={q}'}
             if not shops.get('wooltari', {}).get('url'):
                 shops['wooltari'] = {'price': None, 'url': f'https://www.wooltariusa.com/search?q={q}'}
+            if not shops.get('yamibuy', {}).get('url'):
+                shops['yamibuy']  = {'price': None, 'url': f'https://www.yami.com/search?q={q}'}
     return trends_data
 
 
