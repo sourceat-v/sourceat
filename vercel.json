@@ -1,5 +1,10 @@
 {
   "buildCommand": null,
   "outputDirectory": ".",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    { "source": "/buldak", "destination": "/buldak.html" },
+    { "source": "/kimbap", "destination": "/kimbap.html" },
+    { "source": "/tteokbokki", "destination": "/tteokbokki.html" }
+  ]
 }
