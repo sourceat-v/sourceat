@@ -13,6 +13,35 @@ const SHOPS = [
   { key:'yamibuy',  name:'Yami',     tag:'Asian online'     },
 ];
 
+// 맨 도메인 URL을 검색 URL로 자동 변환
+const SHOP_SEARCH = {
+  amazon:   q => `https://www.amazon.com/s?k=${q}`,
+  weee:     q => `https://www.sayweee.com/en/search?keyword=${q}`,
+  hmart:    q => `https://www.hmart.com/search?query=${q}`,
+  wooltari: q => `https://www.wooltariusa.com/search?q=${q}`,
+  yamibuy:  q => `https://www.yami.com/search?q=${q}`,
+};
+const BASE_DOMAINS = {
+  amazon:   'amazon.com',
+  weee:     'sayweee.com',
+  hmart:    'hmart.com',
+  wooltari: 'wooltariusa.com',
+  yamibuy:  'yami.com',
+};
+function resolveShopUrl(key, url, brand, name) {
+  if (!url) return null;
+  const base = BASE_DOMAINS[key];
+  // URL이 맨 도메인이면 (경로 없거나 '/'만) 검색 URL로 교체
+  try {
+    const u = new URL(url);
+    if (base && u.hostname.endsWith(base) && u.pathname.replace(/\//g,'') === '' && !u.search) {
+      const q = encodeURIComponent(`${brand} ${name}`);
+      return SHOP_SEARCH[key] ? SHOP_SEARCH[key](q) : url;
+    }
+  } catch(e) {}
+  return url;
+}
+
 let currentSort = 'new';
 const COMMENTS_ENABLED = false;
 
@@ -25,8 +54,9 @@ let TRENDS = [
     trend_id:'buldak', title:'Buldak Challenge',
     tag:'🔥 Hot', tag_style:'t-hot',
     channels:['TikTok','YouTube','Instagram','Reddit'],
+    search_kr:'불닭볶음면 챌린지',
     desc:"Samyang's fire noodles went from a Korean convenience store staple to a global phenomenon. The challenge format spread across every major platform simultaneously.",
-    video:{ label:'Watch: Fire Noodle Challenge', url:'https://www.youtube.com/results?search_query=buldak+fire+noodle+challenge' },
+    video:{ label:'Watch: Fire Noodle Challenge', url:'https://www.youtube.com/results?search_query=%EB%B6%88%EB%8B%AD%EB%B3%B6%EC%9D%8C%EB%A9%B4+%EC%B1%8C%EB%A6%B0%EC%A7%80' },
     products:[
       { product_id:'b1', name:'Buldak Ramen Original (5pk)', brand:'Samyang', desc:'The one that started it all. Intensely spicy stir-fried noodles with a savory chicken sauce.', img_url:'https://img08.weeecdn.net/item/image/320/664/33D51C5F44804584.jpeg!c864x0_q80.auto', img_fallbacks:['https://img08.weeecdn.net/product/image/246/100/1D0F89AC3A3D7FCA.png!c864x0_q80.auto'], shops:{ hmart:{price:6.99,url:'https://www.hmart.com/hot-chicken-flavor-ramen-4-94oz-140g--5-packs-1/p'}, weee:{price:7.49,url:'https://www.sayweee.com/en/product/Samyang-Buldak-Ramen--Hot-Chicken-Flavor--2x-Spicy-5pk/59341'}, wooltari:{price:7.29,url:'https://www.wooltariusa.com'}, amazon:{price:9.99,url:'https://www.amazon.com/s?k=samyang+buldak+hot+chicken+ramen+original+5+pack'}, yamibuy:{price:8.49,url:'https://www.yami.com/search?q=samyang+buldak+original'} } },
       { product_id:'b2', name:'Buldak Carbonara (5pk)', brand:'Samyang', desc:'Creamy carbonara meets Korean fire. The most popular entry point for first-timers.', img_url:'https://img08.weeecdn.net/product/image/163/812/6482C3FEE019CAFA.png!c864x0_q80.auto', img_fallbacks:['https://img08.weeecdn.net/product/image/988/344/761523A9A8E8CBA2.png!c864x0_q80.auto'], shops:{ hmart:{price:8.99,url:'https://www.hmart.com/carbo-hot-chicken-flavor-ramen-4-5oz-130g--5-packs-1/p'}, weee:{price:8.99,url:'https://www.sayweee.com/en/product/Samyang-Buldak-Ramen-Carbonara-Hot-Chicken-Flavor/71188'}, wooltari:{price:null,url:null}, amazon:{price:12.99,url:'https://www.amazon.com/s?k=samyang+buldak+carbonara+ramen+5+pack'}, yamibuy:{price:9.99,url:'https://www.yami.com/search?q=samyang+buldak+carbonara'} } },
@@ -44,8 +74,9 @@ let TRENDS = [
     trend_id:'kimbap', title:'Kimbap Moment',
     tag:'📈 Rising', tag_style:'t-rising',
     channels:['Netflix','NYT Food','Instagram','K-Drama'],
+    search_kr:'김밥 만들기 먹방',
     desc:"After years of being overlooked, kimbap is having its moment. Featured in major US food media and K-dramas alike.",
-    video:{ label:'Watch: Kimbap — How to make & eat', url:'https://www.youtube.com/results?search_query=kimbap+how+to+make+korean' },
+    video:{ label:'Watch: Kimbap — How to make & eat', url:'https://www.youtube.com/results?search_query=%EA%B9%80%EB%B0%A5+%EB%A7%8C%EB%93%A4%EA%B8%B0' },
     products:[
       { product_id:'k1', name:'Tuna Mayo Kimbap', brand:'Pulmuone', desc:'Classic tuna and mayo filling. The most approachable kimbap for non-Korean shoppers.', img_url:'https://img08.weeecdn.net/product/image/036/535/7FDBACE73077313C.png!c864x0_q80.auto', img_fallbacks:['https://img08.weeecdn.net/product/image/531/389/383668C434AC141B.png!c864x0_q80.auto'], shops:{ hmart:{price:4.99,url:'https://www.hmart.com/tuna-mayo-kimbap-8-46oz-240g-/p'}, weee:{price:5.49,url:'https://www.sayweee.com'}, wooltari:{price:5.29,url:'https://www.wooltariusa.com'}, amazon:{price:6.99,url:'https://www.amazon.com/s?k=pulmuone+tuna+mayo+kimbap'}, yamibuy:{price:5.99,url:'https://www.yami.com/search?q=pulmuone+tuna+kimbap'} } },
       { product_id:'k2', name:'Vegetable Kimbap', brand:'Pulmuone', desc:'Spinach, pickled radish, burdock and carrots. Vegan-friendly.', img_url:'https://img08.weeecdn.net/product/image/445/622/3E3218EE9369A743.png!c864x0_q80.auto', shops:{ hmart:{price:4.99,url:'https://www.hmart.com/vegetable-kimbap-8-11oz-230g-/p'}, weee:{price:null,url:null}, wooltari:{price:4.79,url:'https://www.wooltariusa.com'}, amazon:{price:6.49,url:'https://www.amazon.com/s?k=pulmuone+vegetable+kimbap'}, yamibuy:{price:5.49,url:'https://www.yami.com/search?q=pulmuone+vegetable+kimbap'} } },
@@ -63,8 +94,9 @@ let TRENDS = [
     trend_id:'streetfood', title:'Street Food at Home',
     tag:'🚀 Viral', tag_style:'t-viral',
     channels:['YouTube','TikTok','Instagram Reels'],
+    search_kr:'떡볶이 만두 집에서 만들기',
     desc:"Korean street food is coming home — tteokbokki kits and frozen mandu bringing the pojangmacha experience to American kitchens.",
-    video:{ label:'Watch: Korean Street Food at Home', url:'https://www.youtube.com/results?search_query=korean+street+food+tteokbokki+mandu+recipe' },
+    video:{ label:'Watch: Korean Street Food at Home', url:'https://www.youtube.com/results?search_query=%EB%96%A1%EB%B3%B6%EC%9D%B4+%EB%A7%8C%EB%91%90+%EB%A7%9B%EC%9E%88%EA%B2%8C' },
     products:[
       { product_id:'t1', name:'Tteokbokki Kit Original', brand:'Ottogi', desc:'The definitive home tteokbokki kit. Ready in 5 minutes.', img_url:'https://img08.weeecdn.net/product/image/306/934/7DE375FE2416E992.png!c864x0_q80.auto', shops:{ hmart:{price:3.49,url:'https://www.hmart.com'}, weee:{price:3.79,url:'https://www.sayweee.com'}, wooltari:{price:3.59,url:'https://www.wooltariusa.com'}, amazon:{price:4.99,url:'https://www.amazon.com/s?k=ottogi+tteokbokki+kit'}, yamibuy:{price:3.99,url:'https://www.yami.com/search?q=ottogi+tteokbokki'} } },
       { product_id:'t2', name:'Carbonara Tteokbokki', brand:'Samyang', desc:'Rose sauce meets chewy rice cakes. Creamy and mildly spicy.', img_url:'https://img08.weeecdn.net/product/image/349/331/5E1A19F0FE0CD05A.png!c864x0_q80.auto', img_fallbacks:['https://img08.weeecdn.net/product/image/638/139/2CF3F62717F42AEC.png!c864x0_q80.auto'], shops:{ hmart:{price:3.99,url:'https://www.hmart.com'}, weee:{price:null,url:null}, wooltari:{price:3.89,url:'https://www.wooltariusa.com'}, amazon:{price:5.99,url:'https://www.amazon.com/s?k=samyang+carbonara+tteokbokki'}, yamibuy:{price:4.49,url:'https://www.yami.com/search?q=samyang+carbonara+tteokbokki'} } },
@@ -133,6 +165,29 @@ async function loadFromSheets() {
   injectJsonLd();
 }
 
+// ── 소셜 링크 자동 생성 (social_links 없을 때) ───────────
+const PLATFORM_URLS = {
+  'YouTube':   q => `https://www.youtube.com/results?search_query=${q}`,
+  'TikTok':    q => `https://www.tiktok.com/search?q=${q}`,
+  'Instagram': q => `https://www.instagram.com/explore/search/keyword/?q=${q}`,
+  'Reddit':    q => `https://www.reddit.com/search/?q=${q}`,
+  'Netflix':   q => `https://www.netflix.com/search?q=${q}`,
+  'NYT Food':  q => `https://www.nytimes.com/search?query=${q}`,
+  'K-Drama':   q => `https://www.youtube.com/results?search_query=${q}+k+drama`,
+  'Instagram Reels': q => `https://www.instagram.com/explore/search/keyword/?q=${q}`,
+};
+function ensureSocialLinks(trends) {
+  trends.forEach(tr => {
+    if (tr.social_links && Object.keys(tr.social_links).length > 0) return;
+    const kr = (tr.search_kr || '').trim();
+    const q = encodeURIComponent(kr || tr.title);
+    tr.social_links = {};
+    (tr.channels || []).forEach(ch => {
+      if (PLATFORM_URLS[ch]) tr.social_links[ch] = PLATFORM_URLS[ch](q);
+    });
+  });
+}
+
 // ── 히어로 스크롤 스트립 ──────────────────────────────────
 function buildHeroStrip() {
   const track = document.getElementById('hero-scroll-track');
@@ -166,6 +221,7 @@ function availCount(shops) { return SHOPS.filter(sh => shops[sh.key] && shops[sh
 
 // ── 렌더링 ────────────────────────────────────────────────
 function renderTrends() {
+  ensureSocialLinks(TRENDS);
   const container = document.getElementById('trends-container');
   container.innerHTML = '';
 
@@ -296,8 +352,9 @@ function openModal(id) {
 
   document.getElementById('modal-shops').innerHTML = SHOPS.map(sh => {
     const s = p.shops[sh.key] || {};
-    return s.url
-      ? `<a class="shop-btn avail" href="${s.url}" target="_blank" rel="noopener noreferrer">
+    const href = resolveShopUrl(sh.key, s.url, p.brand, p.name);
+    return href
+      ? `<a class="shop-btn avail" href="${href}" target="_blank" rel="noopener noreferrer">
           <span class="shop-btn-name">${sh.name}</span>
           <span class="shop-btn-tag">${sh.tag}</span>
           <span class="shop-btn-cta">Shop on ${sh.name} →</span>
