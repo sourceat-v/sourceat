@@ -102,6 +102,7 @@
     .t-hot{background:#E24B4A}
     .t-rising{background:var(--teal)}
     .t-viral{background:#534AB7}
+    .t-snack{background:#D97706}
     .trend-channels{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
     .ch-badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:999px;border:1px solid var(--gray-200);color:var(--gray-700);background:var(--white);text-decoration:none}
     .ch-badge.ch-link{cursor:pointer;transition:background .15s,border-color .15s,color .15s}
