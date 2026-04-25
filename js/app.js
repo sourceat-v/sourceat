@@ -102,12 +102,12 @@ function initCommentStore() {
   }));
 }
 
-// ── 데이터 로드 (Firestore → Sheets → 하드코딩) ──────────
+// ── 데이터 로드 (Firestore → 하드코딩) ───────────────────
 async function loadFromSheets() {
   const container = document.getElementById('trends-container');
   container.innerHTML = '<div style="text-align:center;padding:60px 32px;color:#9A9A94;font-size:14px">Loading products...</div>';
 
-  // 1순위: Firestore (매일 자동 업데이트)
+  // 1순위: Firestore (Python 스크립트로 매일 자동 업데이트)
   try {
     const firestoreTrends = await loadTrends();
     if (firestoreTrends && firestoreTrends.length > 0) {
@@ -121,71 +121,16 @@ async function loadFromSheets() {
       return;
     }
   } catch(e) {
-    console.warn('Firestore 로드 실패, 다음 소스 시도:', e);
+    console.warn('Firestore 로드 실패, 하드코딩 데이터 사용:', e);
   }
 
-  const timeoutId = setTimeout(() => {
-    console.warn('Sheets 타임아웃 — 로컬 데이터로 렌더링');
-    container.innerHTML = '';
-    initCommentStore();
-    renderTrends();
-    buildHeroStrip();
-  }, 6000);
-
-  window.handleSheetData = function(data) {
-    clearTimeout(timeoutId);
-    try {
-      if (data && data.trends && data.trends.length > 0) {
-        const trendMap = {};
-        data.trends.forEach(t => {
-          trendMap[t.trend_id] = {
-            trend_id:  t.trend_id,
-            title:     t.title,
-            tag:       t.tag,
-            tag_style: t.tag_style,
-            channels:  Array.isArray(t.channels) ? t.channels : String(t.channels).split(',').map(c => c.trim()),
-            desc:      t.desc,
-            products:  []
-          };
-        });
-        (data.products || []).forEach(p => {
-          if (!trendMap[p.trend_id]) return;
-          trendMap[p.trend_id].products.push({
-            product_id: p.product_id,
-            name:  p.name,  brand: p.brand,
-            desc:  p.desc,  img_url: p.img_url,
-            shops: p.shops || {
-              hmart:    { price: p.hmart_price    || null, url: p.hmart_url    || null },
-              weee:     { price: p.weee_price     || null, url: p.weee_url     || null },
-              wooltari: { price: p.wooltari_price || null, url: p.wooltari_url || null },
-              amazon:   { price: p.amazon_price   || null, url: p.amazon_url   || null },
-            }
-          });
-        });
-        TRENDS = Object.values(trendMap).filter(t => t.products.length > 0);
-        console.log('✅ 구글 시트 데이터 로드 성공:', TRENDS.length, '트렌드');
-      }
-    } catch(e) {
-      console.error('데이터 파싱 오류:', e);
-    }
-    container.innerHTML = '';
-    initCommentStore();
-    renderTrends();
-    buildHeroStrip();
-    injectJsonLd();
-  };
-
-  const script = document.createElement('script');
-  script.src = `${SHEET_API_URL}?action=all&callback=handleSheetData`;
-  script.onerror = () => {
-    clearTimeout(timeoutId);
-    console.warn('Script 로드 실패 — 로컬 데이터 사용');
-    container.innerHTML = '';
-    initCommentStore();
-    renderTrends();
-    buildHeroStrip();
-  };
-  document.head.appendChild(script);
+  // 2순위: 하드코딩 데이터
+  console.log('📦 하드코딩 데이터 사용');
+  container.innerHTML = '';
+  initCommentStore();
+  renderTrends();
+  buildHeroStrip();
+  injectJsonLd();
 }
 
 // ── 히어로 스크롤 스트립 ──────────────────────────────────
