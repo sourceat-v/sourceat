@@ -7,7 +7,7 @@ import os
 import json
 import sys
 import json_repair
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, quote
 import anthropic
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -158,11 +158,12 @@ def add_retailer_urls(trends_data):
     for trend in trends_data['trends']:
         for product in trend['products']:
             q = quote_plus(f"{product['brand']} {product['name']}")
+            q_hmart = quote(f"{product['brand']} {product['name']}", safe='')
             shops = product.setdefault('shops', {})
             if not shops.get('amazon', {}).get('url'):
                 shops['amazon']   = {'price': None, 'url': f'https://www.amazon.com/s?k={q}'}
             if not shops.get('hmart', {}).get('url'):
-                shops['hmart']    = {'price': None, 'url': f'https://www.hmart.com/search?Ntt={q}'}
+                shops['hmart']    = {'price': None, 'url': f'https://www.hmart.com/{q_hmart}?_q={q_hmart}&map=ft'}
             if not shops.get('weee', {}).get('url'):
                 shops['weee']     = {'price': None, 'url': f'https://www.sayweee.com/search?keyword={q}'}
             if not shops.get('wooltari', {}).get('url'):
