@@ -48,6 +48,10 @@ const BASE_DOMAINS = {
 };
 function resolveShopUrl(key, url, search, search_kr) {
   if (!url) return null;
+  // H-Mart: always use English search URL (product page URLs are unreliable)
+  if (key === 'hmart' && SHOP_SEARCH[key]) {
+    return SHOP_SEARCH[key](encodeURIComponent(search));
+  }
   const base = BASE_DOMAINS[key];
   // URL이 맨 도메인이면 (경로 없거나 '/'만) 검색 URL로 교체
   try {
