@@ -91,7 +91,11 @@
     .trend-section+.trend-section{padding-top:52px}
     .trend-section:last-of-type{padding-bottom:80px}
 
-    .trend-header{margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--gray-900)}
+    .trend-header{margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--gray-900);display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+    .trend-header-left{flex:1;min-width:0}
+    .trend-header-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding-top:4px}
+    .trend-stat{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gray-400);white-space:nowrap}
+    .trend-stat strong{color:var(--gray-900);font-weight:700}
     .trend-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
     .trend-tag{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:2px;color:#fff;font-family:var(--font-d)}
     .t-hot{background:#E24B4A}
@@ -99,13 +103,15 @@
     .t-viral{background:#534AB7}
     .t-snack{background:#D97706}
     .trend-channels{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-    .ch-badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:999px;border:1px solid var(--gray-200);color:var(--gray-700);background:var(--white);text-decoration:none}
+    .ch-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:3px 8px;border-radius:999px;border:1px solid var(--gray-200);color:var(--gray-700);background:var(--white);text-decoration:none}
+    .ch-badge svg{flex-shrink:0}
     .ch-badge.ch-link{cursor:pointer;transition:background .15s,border-color .15s,color .15s}
     .ch-badge.ch-link:hover{background:var(--gray-900);border-color:var(--gray-900);color:var(--white)}
     .trend-title{font-family:var(--font-d);font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--gray-900);margin-bottom:4px}
     .trend-desc{font-size:13px;color:var(--gray-400);line-height:1.6;max-width:640px}
     .trend-count-row{display:flex;align-items:center;gap:16px;margin-top:10px;flex-wrap:wrap}
     .trend-count{font-size:12px;color:var(--gray-400)}
+    .shop-logo{width:28px;height:28px;object-fit:contain;border-radius:4px;display:block}
 
     /* PRODUCT GRID */
     .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
@@ -163,13 +169,14 @@
 
     /* shop buttons — 2×2 grid for 4 retailers */
     .shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px}
-    .shop-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:6px;padding:14px 10px;text-decoration:none;transition:border-color .15s,background .15s;position:relative}
+    .shop-btn{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:6px;padding:14px 10px;text-decoration:none;transition:border-color .15s,background .15s;position:relative}
     .shop-btn.avail:hover{border-color:var(--teal);background:var(--teal-light)}
     .shop-btn.unavail{opacity:.4;pointer-events:none;cursor:default}
-    .shop-btn-name{font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900)}
-    .shop-btn-tag{font-size:11px;color:var(--gray-400);margin-top:2px}
+    .shop-btn-logo{width:32px;height:32px;object-fit:contain;border-radius:4px}
+    .shop-btn-name{font-family:var(--font-d);font-size:12px;font-weight:600;color:var(--gray-900)}
+    .shop-btn-tag{font-size:10px;color:var(--gray-400)}
     .shop-btn-na{font-size:11px;color:var(--gray-400)}
-    .shop-btn-cta{margin-top:6px;font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.04em;text-transform:uppercase}
+    .shop-btn-cta{margin-top:4px;font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.04em;text-transform:uppercase}
 
     .mdivider{height:1px;background:var(--gray-100);margin:20px 0}
 

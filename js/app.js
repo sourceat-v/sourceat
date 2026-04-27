@@ -13,6 +13,24 @@ const SHOPS = [
   { key:'yamibuy',  name:'Yami',     tag:'Asian online',     searchLang:'en' },
 ];
 
+const SHOP_LOGOS = {
+  amazon:   'https://www.google.com/s2/favicons?domain=amazon.com&sz=64',
+  weee:     'https://www.google.com/s2/favicons?domain=sayweee.com&sz=64',
+  hmart:    'https://www.google.com/s2/favicons?domain=hmart.com&sz=64',
+  wooltari: 'https://www.google.com/s2/favicons?domain=wooltariusa.com&sz=64',
+  yamibuy:  'https://www.google.com/s2/favicons?domain=yami.com&sz=64',
+};
+
+const CHANNEL_ICONS = {
+  'TikTok':    `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9a8.16 8.16 0 004.78 1.52V7.08a4.85 4.85 0 01-1.01-.39z"/></svg>`,
+  'YouTube':   `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3 3 0 00-2.12-2.12C19.53 3.5 12 3.5 12 3.5s-7.53 0-9.38.57A3 3 0 00.5 6.19 31.1 31.1 0 000 12a31.1 31.1 0 00.5 5.81 3 3 0 002.12 2.12C4.47 20.5 12 20.5 12 20.5s7.53 0 9.38-.57a3 3 0 002.12-2.12A31.1 31.1 0 0024 12a31.1 31.1 0 00-.5-5.81zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>`,
+  'Instagram': `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
+  'Reddit':    `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"/></svg>`,
+  'Netflix':   `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M5.398 0v.006c3.028 8.556 5.37 15.175 8.348 23.596 2.344.058 4.85.398 4.854.398-2.8-7.924-5.923-16.747-8.487-24zm8.489 0v9.63L18.6 24c-.538.086-2.342.498-3.654.678L9.373 9.638V0zm-8.489 0H.744v.008c.06.042 5.316 14.985 5.316 14.985l.016 8.34c1.148.048 2.857.377 2.857.377L8.924 14.97 5.398 0z"/></svg>`,
+  'NYT Food':  `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>`,
+  'K-Drama':   `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg>`,
+};
+
 // 맨 도메인 URL을 검색 URL로 자동 변환
 const SHOP_SEARCH = {
   amazon:   q => `https://www.amazon.com/s?k=${q}`,
@@ -255,25 +273,33 @@ function renderTrends() {
     section.className = 'trend-section';
     const channelPills = (tr.channels || []).map(ch => {
       const url = tr.social_links?.[ch];
+      const icon = CHANNEL_ICONS[ch] || '';
       return url
-        ? `<a class="ch-badge ch-link" href="${url}" target="_blank" rel="noopener">${ch} ↗</a>`
-        : `<span class="ch-badge">${ch}</span>`;
+        ? `<a class="ch-badge ch-link" href="${url}" target="_blank" rel="noopener">${icon}${ch}</a>`
+        : `<span class="ch-badge">${icon}${ch}</span>`;
     }).join('');
 
+    const storeCount = SHOPS.length;
     section.innerHTML = `
       <div class="trend-header">
-        <div class="trend-meta">
-          <span class="trend-tag ${tr.tag_style}">${tr.tag}</span>
-          <div class="trend-channels">${channelPills}</div>
+        <div class="trend-header-left">
+          <div class="trend-meta">
+            <span class="trend-tag ${tr.tag_style}">${tr.tag}</span>
+            <div class="trend-channels">${channelPills}</div>
+          </div>
+          <div class="trend-title">${tr.title}</div>
+          <div class="trend-desc">${tr.desc}</div>
+          <div class="trend-count-row">
+            ${tr.video ? `<a class="trend-video-link" href="${tr.video.url}" target="_blank" rel="noopener noreferrer">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.5l-5 3A.5.5 0 016 11V5a.5.5 0 01.5-.44l5 3a.5.5 0 010 .94z"/></svg>
+              ${tr.video.label}
+            </a>` : ''}
+          </div>
         </div>
-        <div class="trend-title">${tr.title}</div>
-        <div class="trend-desc">${tr.desc}</div>
-        <div class="trend-count-row">
-          <span class="trend-count">${tr.products.length} products tracked</span>
-          ${tr.video ? `<a class="trend-video-link" href="${tr.video.url}" target="_blank" rel="noopener noreferrer">
-            <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.5l-5 3A.5.5 0 016 11V5a.5.5 0 01.5-.44l5 3a.5.5 0 010 .94z"/></svg>
-            ${tr.video.label}
-          </a>` : ''}
+        <div class="trend-header-right">
+          <div class="trend-stat"><strong>${tr.products.length}</strong> products tracked</div>
+          <div class="trend-stat"><strong>${storeCount}</strong> stores compared</div>
+          <div class="trend-stat">Updated daily</div>
         </div>
       </div>
       <div class="prod-grid" id="grid-${tr.trend_id}"></div>
@@ -378,13 +404,16 @@ function openModal(id) {
   document.getElementById('modal-shops').innerHTML = SHOPS.map(sh => {
     const s = p.shops[sh.key] || {};
     const href = resolveShopUrl(sh.key, s.url, p.search || p.brand, p.search_kr);
+    const logo = `<img class="shop-btn-logo" src="${SHOP_LOGOS[sh.key]}" alt="${sh.name}" onerror="this.style.display='none'"/>`;
     return href
       ? `<a class="shop-btn avail" href="${href}" target="_blank" rel="noopener noreferrer">
+          ${logo}
           <span class="shop-btn-name">${sh.name}</span>
           <span class="shop-btn-tag">${sh.tag}</span>
-          <span class="shop-btn-cta">Shop on ${sh.name} →</span>
+          <span class="shop-btn-cta">Shop →</span>
          </a>`
       : `<div class="shop-btn unavail">
+          ${logo}
           <span class="shop-btn-name">${sh.name}</span>
           <span class="shop-btn-na">Not carried</span>
          </div>`;
