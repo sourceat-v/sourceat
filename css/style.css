@@ -75,7 +75,7 @@
     .hero-content{padding:0 32px 52px}
     .hero h1{font-family:var(--font-d);font-size:clamp(32px,5.5vw,56px);font-weight:800;line-height:1.06;letter-spacing:-2px;color:var(--gray-900);max-width:700px;margin:0 auto 20px}
     .hero h1 em{font-style:normal;color:var(--teal)}
-    .hero-sub{font-size:15px;color:var(--gray-400);max-width:640px;margin:0 auto;line-height:1.7;font-weight:400}
+    .hero-sub{font-size:15px;color:var(--gray-400);max-width:480px;margin:0 auto;line-height:1.7;font-weight:400}
 
     /* HERO SCROLL STRIP */
     .hero-strip-wrap{width:100%;overflow:hidden;padding:10px 0 24px;display:flex;flex-direction:column;gap:12px;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%)}
