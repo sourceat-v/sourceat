@@ -212,30 +212,33 @@ function ensureSocialLinks(trends) {
 
 // ── 히어로 스크롤 스트립 ──────────────────────────────────
 function buildHeroStrip() {
-  const track = document.getElementById('hero-scroll-track');
-  if (!track) return;
+  const track1 = document.getElementById('hero-track-1');
+  const track2 = document.getElementById('hero-track-2');
+  if (!track1 || !track2) return;
 
-  // 트렌드 순서대로 그룹핑 (hot → rising → viral)
   const groups = TRENDS.map(tr =>
     tr.products.map(p => ({ img: p.img_url, name: p.name })).filter(p => p.img)
   );
 
   if (groups.every(g => g.length === 0)) return;
 
-  // 라운드로빈 인터리브: groups[0][0], groups[1][0], groups[2][0], groups[0][1], ...
   const interleaved = [];
   const maxLen = Math.max(...groups.map(g => g.length));
   for (let i = 0; i < maxLen; i++) {
     groups.forEach(g => { if (g[i]) interleaved.push(g[i]); });
   }
 
-  // seamless loop을 위해 두 배로 복제
-  const items = [...interleaved, ...interleaved];
-  track.innerHTML = items.map(({ img, name }) => `
+  const row1 = interleaved.filter((_, i) => i % 2 === 0);
+  const row2 = interleaved.filter((_, i) => i % 2 === 1);
+
+  const toHTML = ({ img, name }) => `
     <div class="hero-scroll-item">
       <img src="${img}" alt="${name}" loading="lazy" onerror="this.closest('.hero-scroll-item').remove()"/>
-    </div>
-  `).join('');
+    </div>`;
+
+  // seamless loop을 위해 두 배로 복제
+  track1.innerHTML = [...row1, ...row1].map(toHTML).join('');
+  track2.innerHTML = [...row2, ...row2].map(toHTML).join('');
 }
 
 // ── 헬퍼 ─────────────────────────────────────────────────

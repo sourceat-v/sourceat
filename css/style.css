@@ -78,18 +78,13 @@
     .hero-sub{font-size:15px;color:var(--gray-400);max-width:480px;margin:0 auto;line-height:1.7;font-weight:400}
 
     /* HERO SCROLL STRIP */
-    .hero-strip-wrap{width:100%;overflow:hidden;padding:20px 0 52px;background:linear-gradient(to bottom,transparent,#EDF6F2 25%,#EDF6F2 75%,transparent);-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%)}
-    .hero-scroll-track{display:flex;gap:32px;align-items:center;width:max-content;animation:kfoodScroll 40s linear infinite}
+    .hero-strip-wrap{width:100%;overflow:hidden;padding:16px 0 48px;display:flex;flex-direction:column;gap:16px;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%)}
+    .hero-scroll-track{display:flex;gap:16px;align-items:center;width:max-content;animation:kfoodScroll 38s linear infinite}
+    .hero-track-reverse{animation-direction:reverse;animation-duration:44s}
     .hero-scroll-track:hover{animation-play-state:paused}
     @keyframes kfoodScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .hero-scroll-item{width:140px;height:140px;flex-shrink:0;background:#fff;border-radius:14px;overflow:hidden;padding:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.07)}
+    .hero-scroll-item{width:130px;height:130px;flex-shrink:0;background:#fff;border-radius:14px;overflow:hidden;padding:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.07);border:1px solid #EFEFEB}
     .hero-scroll-item img{width:100%;height:100%;object-fit:contain;display:block;mix-blend-mode:multiply}
-    @keyframes floatA{0%,100%{transform:translateY(0px) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
-    @keyframes floatB{0%,100%{transform:translateY(-5px) rotate(1deg)}50%{transform:translateY(6px) rotate(-1deg)}}
-    @keyframes floatC{0%,100%{transform:translateY(3px) rotate(0.5deg)}50%{transform:translateY(-7px) rotate(-1.5deg)}}
-    .hero-scroll-item:nth-child(3n+1) img{animation:floatA 3.2s ease-in-out infinite}
-    .hero-scroll-item:nth-child(3n+2) img{animation:floatB 2.8s ease-in-out infinite 1s}
-    .hero-scroll-item:nth-child(3n) img{animation:floatC 3.6s ease-in-out infinite 1.8s}
 
     /* TREND SECTION */
     .trend-section{max-width:1280px;margin:0 auto;padding:48px 32px 0}
