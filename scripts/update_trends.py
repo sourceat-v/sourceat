@@ -163,7 +163,7 @@ def add_retailer_urls(trends_data):
             if not shops.get('amazon', {}).get('url'):
                 shops['amazon']   = {'price': None, 'url': f'https://www.amazon.com/s?k={q}'}
             if not shops.get('hmart', {}).get('url'):
-                shops['hmart']    = {'price': None, 'url': f'https://www.hmart.com/?_q={q_hmart}&map=ft'}
+                shops['hmart']    = {'price': None, 'url': f'https://www.hmart.com/{q_hmart}?_q={q_hmart}&map=ft'}
             if not shops.get('weee', {}).get('url'):
                 shops['weee']     = {'price': None, 'url': f'https://www.sayweee.com/search?keyword={q}'}
             if not shops.get('wooltari', {}).get('url'):
