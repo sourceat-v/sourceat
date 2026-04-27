@@ -92,23 +92,33 @@ Return ONLY valid JSON with this exact structure, no markdown:
   ]
 }}"""
 
-    response = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=4096,
-        messages=[{"role": "user", "content": prompt}],
-    )
+    for attempt in range(3):
+        response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=8192,
+            messages=[{"role": "user", "content": prompt}],
+        )
 
-    raw = response.content[0].text.strip()
+        raw = response.content[0].text.strip()
 
-    # JSON 파싱 — 마크다운 펜스 제거
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
+        # 마크다운 펜스 제거
+        if raw.startswith("```"):
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
 
-    start = raw.find("{")
-    end = raw.rfind("}") + 1
-    return json.loads(raw[start:end])
+        start = raw.find("{")
+        end = raw.rfind("}") + 1
+        candidate = raw[start:end]
+
+        try:
+            return json.loads(candidate)
+        except json.JSONDecodeError as e:
+            print(f"    JSON 파싱 실패 (시도 {attempt+1}/3): {e}")
+            if attempt == 2:
+                raise
+
+    raise RuntimeError("JSON 파싱 3회 모두 실패")
 
 
 # ── 소셜 플랫폼 링크 생성 ─────────────────────────────────
