@@ -6,6 +6,7 @@ $ourceat — Daily trend updater
 import os
 import json
 import sys
+import json_repair
 from urllib.parse import quote_plus
 import anthropic
 import firebase_admin
@@ -115,6 +116,13 @@ Return ONLY valid JSON with this exact structure, no markdown:
             return json.loads(candidate)
         except json.JSONDecodeError as e:
             print(f"    JSON 파싱 실패 (시도 {attempt+1}/3): {e}")
+            try:
+                repaired = json_repair.repair_json(candidate)
+                result = json.loads(repaired)
+                print(f"    json_repair로 복구 성공")
+                return result
+            except Exception:
+                pass
             if attempt == 2:
                 raise
 
