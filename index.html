@@ -231,98 +231,14 @@
   </div>
 </section>
 
-<!-- CHECK YOUR FAVORITE -->
-<section style="background:#fff;padding:72px 32px;border-top:1px solid #EFEFEB">
-  <div style="max-width:580px;margin:0 auto;text-align:center">
-    <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#1D9E75;margin-bottom:12px">Personalized for you</div>
-    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,5vw,38px);font-weight:800;color:#1A1A18;margin:0 0 10px;line-height:1.15">Check Your<br><span style="color:#1D9E75">Favorite</span></h2>
-    <p style="font-family:'DM Sans',sans-serif;font-size:15px;color:#9A9A94;margin:0 0 36px;line-height:1.6">Answer 3 quick questions — we'll find your perfect K-food match.</p>
-    <div style="background:#F7F7F5;border:1px solid #EFEFEB;border-radius:20px;padding:36px 32px;text-align:left">
-      <div style="display:flex;gap:6px;margin-bottom:32px">
-        <div id="fdot-1" style="height:4px;border-radius:2px;flex:1;background:#1D9E75;transition:background .4s"></div>
-        <div id="fdot-2" style="height:4px;border-radius:2px;flex:1;background:#D9D9D3;transition:background .4s"></div>
-        <div id="fdot-3" style="height:4px;border-radius:2px;flex:1;background:#D9D9D3;transition:background .4s"></div>
-      </div>
-      <div id="fav-body"></div>
-    </div>
+<!-- CHECK YOUR FAVORITE CTA -->
+<section style="background:#fff;padding:80px 32px;border-top:1px solid #EFEFEB;text-align:center">
+  <div style="max-width:600px;margin:0 auto">
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(28px,5vw,42px);font-weight:800;color:#1A1A18;margin:0 0 12px;line-height:1.2">Not sure where<br>to start?</h2>
+    <p style="font-family:'DM Sans',sans-serif;font-size:16px;color:#9A9A94;margin:0 0 36px;line-height:1.6">Find your perfect K-food match in 3 quick questions.</p>
+    <a href="/favorite" style="display:inline-block;background:#1D9E75;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:18px 48px;border-radius:12px;text-decoration:none;transition:background .2s">Check Your Favorite</a>
   </div>
 </section>
-
-<script>
-(function(){
-  var steps=[
-    {label:'Step 1 / 3',q:'How spicy can you go?',key:'spice',opts:[
-      {e:'🧊',t:'Keep it mild',v:'mild'},
-      {e:'🌶️',t:'A little heat is fine',v:'medium'},
-      {e:'🔥',t:'The hotter the better',v:'hot'}
-    ]},
-    {label:'Step 2 / 3',q:'What are you craving?',key:'type',opts:[
-      {e:'🍜',t:'Noodles & Ramen',v:'noodles'},
-      {e:'🍱',t:'Rice Rolls (Kimbap)',v:'rice'},
-      {e:'🍿',t:'Snacks & Chips',v:'snacks'},
-      {e:'🌮',t:'Street Food Kits',v:'street'}
-    ]},
-    {label:'Step 3 / 3',q:'Where do you usually shop?',key:'shop',opts:[
-      {e:'📦',t:'Amazon',v:'amazon'},
-      {e:'🏪',t:'H-Mart',v:'hmart'},
-      {e:'🚚',t:'Weee! delivery',v:'weee'},
-      {e:'🛒',t:"Wherever's best",v:'any'}
-    ]}
-  ];
-  var RESULTS={
-    noodles:{
-      hot:  {name:'Samyang Buldak 2× Spicy',emoji:'🔥',desc:'The viral fire noodle challenge — for the brave.',page:'/buldak'},
-      medium:{name:'Samyang Buldak Original',emoji:'🍜',desc:'The classic that started the global craze.',page:'/buldak'},
-      mild: {name:'Samyang Buldak Carbonara',emoji:'🍝',desc:'Creamy, cheesy, mildly spicy — the perfect start.',page:'/buldak'}
-    },
-    rice:  {name:'Pulmuone Tuna Mayo Kimbap',emoji:'🍱',desc:'Fresh, savory rice rolls — lighter than sushi.',page:'/kimbap'},
-    snacks:{name:'Haitai Honey Butter Chip', emoji:'🍯',desc:'Sweet, salty, addictive — sold out across Asia.',page:'/snacks'},
-    street:{name:'Ottogi Tteokbokki Kit',    emoji:'🌶️',desc:'Chewy rice cakes in spicy sauce — Seoul street food at home.',page:'/tteokbokki'}
-  };
-  var SHOP={amazon:'on Amazon',hmart:'at H-Mart',weee:'on Weee!',any:'across multiple stores'};
-  var step=0,ans={};
-
-  function dots(){
-    for(var i=1;i<=3;i++){
-      document.getElementById('fdot-'+i).style.background=i<=step+1?'#1D9E75':'#D9D9D3';
-    }
-  }
-  function render(){
-    dots();
-    var body=document.getElementById('fav-body');
-    if(step>=3){
-      var t=ans.type,s=ans.spice;
-      var r=t==='noodles'?RESULTS.noodles[s]:RESULTS[t];
-      var sl=SHOP[ans.shop]||SHOP.any;
-      body.innerHTML='<div style="text-align:center">'
-        +'<div style="font-size:52px;margin-bottom:16px">'+r.emoji+'</div>'
-        +'<div style="font-family:\'DM Sans\',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1D9E75;margin-bottom:8px">Your match</div>'
-        +'<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:22px;font-weight:800;color:#1A1A18;margin-bottom:10px">'+r.name+'</div>'
-        +'<div style="font-family:\'DM Sans\',sans-serif;font-size:15px;color:#6A6A64;margin-bottom:6px">'+r.desc+'</div>'
-        +'<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:#9A9A94;margin-bottom:28px">Available '+sl+'</div>'
-        +'<a href="'+r.page+'" style="display:inline-block;background:#1D9E75;color:#fff;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:14px;font-weight:700;padding:14px 32px;border-radius:10px;text-decoration:none">Find it now →</a>'
-        +'<br><button onclick="window._favRestart()" style="background:none;border:none;font-family:\'DM Sans\',sans-serif;font-size:13px;color:#9A9A94;cursor:pointer;text-decoration:underline;margin-top:14px">Start over</button>'
-        +'</div>';
-      return;
-    }
-    var s=steps[step];
-    var opts=s.opts.map(function(o){
-      return '<button onclick="window._favChoose(\''+s.key+'\',\''+o.v+'\')" '
-        +'style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #D9D9D3;border-radius:12px;padding:16px 20px;cursor:pointer;text-align:left;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:15px;font-weight:600;color:#1A1A18;width:100%;margin-bottom:10px;transition:border-color .15s,background .15s" '
-        +'onmouseover="this.style.borderColor=\'#1D9E75\';this.style.background=\'#F0FBF7\'" '
-        +'onmouseout="this.style.borderColor=\'#D9D9D3\';this.style.background=\'#fff\'">'
-        +'<span style="font-size:24px;flex-shrink:0">'+o.e+'</span><span>'+o.t+'</span>'
-        +'</button>';
-    }).join('');
-    body.innerHTML='<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#9A9A94;margin-bottom:8px">'+s.label+'</div>'
-      +'<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:21px;font-weight:800;color:#1A1A18;margin-bottom:20px">'+s.q+'</div>'
-      +'<div>'+opts+'</div>';
-  }
-  window._favChoose=function(key,val){ans[key]=val;step++;render();};
-  window._favRestart=function(){step=0;ans={};render();};
-  render();
-})();
-</script>
 
 <!-- FOOTER -->
 <footer>
