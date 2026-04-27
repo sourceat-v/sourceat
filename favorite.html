@@ -14,8 +14,9 @@
     :root{--teal:#1D9E75;--teal-light:#E1F5EE;--gray-100:#F7F7F5;--gray-200:#EFEFEB;--gray-400:#9A9A94;--gray-900:#1A1A18}
     body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--gray-900);min-height:100vh;display:flex;flex-direction:column}
     header{height:58px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;padding:0 32px;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:10}
-    .logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;text-decoration:none;color:var(--gray-900)}
-    .logo-s{color:var(--teal)}
+    .logo{text-decoration:none;display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+    .logo-wordmark{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;line-height:1;background:linear-gradient(135deg,#1A1A18 30%,#1D9E75 70%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .logo-sub{font-size:8px;font-weight:400;color:var(--gray-400);letter-spacing:.04em;line-height:1}
     .back-link{font-size:13px;color:var(--gray-400);text-decoration:none;display:flex;align-items:center;gap:6px;font-weight:500}
     .back-link:hover{color:var(--gray-900)}
 
@@ -55,7 +56,7 @@
 </head>
 <body>
 <header>
-  <a href="/" class="logo"><span class="logo-s">$</span>ourceat</a>
+  <a href="/" class="logo"><span class="logo-wordmark">sourceat</span><span class="logo-sub">source and eat</span></a>
   <a href="/" class="back-link">← Back to trends</a>
 </header>
 

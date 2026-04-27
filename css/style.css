@@ -12,10 +12,9 @@
     /* HEADER */
     header{background:var(--white);border-bottom:1px solid var(--gray-200);position:sticky;top:0;z-index:200}
     .header-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between}
-    .logo{font-family:var(--font-d);font-size:21px;font-weight:800;color:var(--gray-900);text-decoration:none;letter-spacing:-0.6px;transition:color .2s}
-    .logo:hover{color:var(--teal-dark)}
-    .logo-s{color:var(--teal);display:inline-block;transform:scaleX(0.82);transform-origin:center;transition:color .2s}
-    .logo:hover .logo-s{color:var(--teal-dark)}
+    .logo{text-decoration:none;display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+    .logo-wordmark{font-family:var(--font-d);font-size:21px;font-weight:800;letter-spacing:-0.6px;line-height:1;background:linear-gradient(135deg,#1A1A18 30%,#1D9E75 70%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .logo-sub{font-family:var(--font-s);font-size:8px;font-weight:400;color:var(--gray-400);letter-spacing:.04em;line-height:1}
 
     /* HAMBURGER */
     .hamburger{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;border-radius:6px;transition:background .15s}
@@ -195,7 +194,7 @@
 
     /* FOOTER */
     footer{background:var(--white);border-top:1px solid var(--gray-200);padding:40px 32px;text-align:center}
-    .footer-logo{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--gray-900);margin-bottom:10px;letter-spacing:-.4px}
+    .footer-logo{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:10px}
     footer p{font-size:13px;color:var(--gray-400);margin-bottom:4px;line-height:1.7}
     footer a{color:var(--teal);text-decoration:none}
     footer a:hover{text-decoration:underline}
