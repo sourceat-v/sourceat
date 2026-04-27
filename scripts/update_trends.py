@@ -1,5 +1,5 @@
 """
-$ourceat — Daily trend updater
+sourceat — Daily trend updater
 매일 실행: 트렌딩 K-food 탐지 → Claude로 큐레이션 → Firestore 저장
 """
 
@@ -44,7 +44,7 @@ def generate_trends(search_results):
         for r in search_results[:20]
     )
 
-    prompt = f"""Today is {today}. You are the curator for $ourceat, a website that helps Americans discover trending Korean food products.
+    prompt = f"""Today is {today}. You are the curator for sourceat, a website that helps Americans discover trending Korean food products.
 
 Based on these recent search results about K-food trends:
 {context}
@@ -224,7 +224,7 @@ def init_firebase():
 
 # ── 메인 ─────────────────────────────────────────────────
 if __name__ == "__main__":
-    print(f"=== $ourceat 트렌드 업데이트 시작 ({datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}) ===")
+    print(f"=== sourceat 트렌드 업데이트 시작 ({datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}) ===")
 
     init_firebase()
 

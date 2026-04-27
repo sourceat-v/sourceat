@@ -1,5 +1,5 @@
 // ============================================================
-// $ourceat — app.js
+// sourceat — app.js
 // ============================================================
 import { loadComments, saveComment, saveReply, updateLike, loadTrends } from './firebase.js';
 
@@ -392,7 +392,7 @@ function openModal(id) {
 
   // 소셜 공유
   const shareUrl   = encodeURIComponent(window.location.href);
-  const shareTitle = encodeURIComponent(`${p.name} — Find it in the US on $ourceat`);
+  const shareTitle = encodeURIComponent(`${p.name} — Find it in the US on sourceat`);
   document.getElementById('modal-share').innerHTML = `
     <button class="share-btn" onclick="copyLink()" id="copy-btn">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="1" width="10" height="10" rx="2"/><path d="M1 5h4v10h10V9"/></svg>
