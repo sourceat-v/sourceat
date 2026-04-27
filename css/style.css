@@ -78,7 +78,7 @@
     .hero-sub{font-size:15px;color:var(--gray-400);max-width:480px;margin:0 auto;line-height:1.7;font-weight:400}
 
     /* HERO SCROLL STRIP */
-    .hero-strip-wrap{width:100%;overflow:hidden;padding:16px 0 48px;display:flex;flex-direction:column;gap:16px;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%)}
+    .hero-strip-wrap{width:100%;overflow:hidden;padding:10px 0 24px;display:flex;flex-direction:column;gap:12px;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%)}
     .hero-scroll-track{display:flex;gap:16px;align-items:center;width:max-content;animation:kfoodScroll 38s linear infinite}
     .hero-track-reverse{animation-direction:reverse;animation-duration:44s}
     .hero-scroll-track:hover{animation-play-state:paused}
