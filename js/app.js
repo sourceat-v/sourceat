@@ -35,7 +35,7 @@ const CHANNEL_ICONS = {
 const SHOP_SEARCH = {
   amazon:   q => `https://www.amazon.com/s?k=${q}`,
   weee:     q => `https://www.sayweee.com/en/search?keyword=${q}`,
-  hmart:    q => `https://www.hmart.com/${q}/s`,
+  hmart:    q => `https://www.hmart.com/search?Ntt=${q}`,
   wooltari: q => `https://www.wooltariusa.com/search?q=${q}`,
   yamibuy:  q => `https://www.yami.com/search?q=${q}`,
 };
