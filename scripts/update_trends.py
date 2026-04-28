@@ -139,7 +139,19 @@ Call the save_trends tool with your curated data."""
     )
 
     tool_use = next(b for b in response.content if b.type == "tool_use")
-    return tool_use.input
+    data = tool_use.input
+    print(f"    tool_use.input keys: {list(data.keys()) if isinstance(data, dict) else type(data)}")
+
+    # Normalize: API may return array directly instead of {"trends": [...]}
+    if isinstance(data, list):
+        return {"trends": data}
+    if "trends" not in data:
+        # Try to find a list value inside the dict
+        for v in data.values():
+            if isinstance(v, list) and len(v) == 3:
+                return {"trends": v}
+        raise ValueError(f"Cannot find trends in tool input: {list(data.keys())}")
+    return data
 
 
 # ── 소셜 플랫폼 링크 생성 ─────────────────────────────────
