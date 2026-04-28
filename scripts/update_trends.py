@@ -204,26 +204,27 @@ def add_retailer_urls(trends_data):
     return trends_data
 
 
-# ── 제품 이미지 검색 (Amazon → Weee → H-Mart → Wooltari) ──
-_IMG_RETAILERS = [
-    ('amazon',      'm.media-amazon.com'),
-    ('weee',        'weeecdn.net'),
-    ('hmart',       'hmart.com'),
-    ('wooltari',    'wooltariusa.com'),
+# ── 제품 이미지 검색 (텍스트 검색 → 상품 페이지 og:image) ─
+_IMG_SOURCES = [
+    ('amazon buy',    ['amazon.com/dp/', 'amazon.com/gp/product']),
+    ('weee korean',   ['sayweee.com/en/product', 'sayweee.com/product']),
+    ('hmart korean',  ['hmart.com/', '/p']),
 ]
 
 
 def _og_image(url):
-    """페이지의 og:image 메타 태그에서 이미지 URL 추출."""
+    """페이지 HTML에서 og:image URL 추출."""
     try:
-        r = requests.get(url, headers=_HEADERS, timeout=6)
-        # og:image content="..." 추출 (BeautifulSoup 없이)
-        for prefix in ['og:image" content="', 'og:image" content=\'']:
-            idx = r.text.find(prefix)
+        r = requests.get(url, headers=_HEADERS, timeout=8)
+        html = r.text
+        for prefix in ['og:image" content="', "og:image' content='",
+                        'og:image" content=\'', "og:image' content=\""]:
+            idx = html.find(prefix)
             if idx != -1:
                 start = idx + len(prefix)
-                end = r.text.find('"' if prefix.endswith('"') else "'", start)
-                img = r.text[start:end]
+                quote_char = prefix[-1]
+                end = html.find(quote_char, start)
+                img = html[start:end]
                 if img.startswith('http'):
                     return img
     except Exception:
@@ -240,45 +241,24 @@ def find_product_images(trends_data):
                     continue
                 base = f"{product['brand']} {product['name']}"
 
-                # 1단계: 리테일러별 DDGS 이미지 검색 + CDN 도메인 필터
-                for retailer, cdn in _IMG_RETAILERS:
+                for query_suffix, url_markers in _IMG_SOURCES:
                     try:
-                        imgs = list(ddgs.images(f"{base} {retailer}", max_results=8))
-                        match = next((img['image'] for img in imgs if cdn in img['image']), None)
-                        if match:
-                            product['img_url'] = match
-                            found += 1
+                        results = list(ddgs.text(f"{base} {query_suffix}", max_results=5))
+                        for r in results:
+                            href = r.get('href', '')
+                            if any(m in href for m in url_markers):
+                                img = _og_image(href)
+                                if img:
+                                    product['img_url'] = img
+                                    found += 1
+                                    break
+                        if product.get('img_url'):
                             break
-                    except Exception:
-                        continue
+                    except Exception as e:
+                        print(f"    검색 오류 ({query_suffix}): {e}")
 
-                if product.get('img_url'):
-                    continue
-
-                # 2단계: 각 리테일러 shop URL에서 og:image 스크래핑
-                for shop_key in ('weee', 'amazon', 'hmart', 'wooltari'):
-                    shop = product.get('shops', {}).get(shop_key, {})
-                    url = shop.get('url') if isinstance(shop, dict) else None
-                    if url and '/search' not in url and '?q=' not in url and '?_q=' not in url:
-                        img = _og_image(url)
-                        if img:
-                            product['img_url'] = img
-                            found += 1
-                            break
-
-                if product.get('img_url'):
-                    continue
-
-                # 3단계: DDGS 폴백 (아무 이미지라도)
-                try:
-                    imgs = list(ddgs.images(f"{base} korean food", max_results=3))
-                    if imgs:
-                        product['img_url'] = imgs[0]['image']
-                        found += 1
-                    else:
-                        print(f"    이미지 없음: {base}")
-                except Exception as e:
-                    print(f"    이미지 검색 오류 ({base}): {e}")
+                if not product.get('img_url'):
+                    print(f"    이미지 없음: {base}")
 
     print(f"    이미지 {found}개 수집")
     return trends_data
