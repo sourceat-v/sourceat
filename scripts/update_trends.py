@@ -204,92 +204,92 @@ def add_retailer_urls(trends_data):
     return trends_data
 
 
-# ── 제품 이미지 검색 (텍스트 검색 → 상품 페이지 og:image) ─
-_IMG_SOURCES = [
-    ('amazon buy',       ['amazon.com/dp/', 'amazon.com/gp/product']),
-    ('weee korean',      ['sayweee.com/en/product', 'sayweee.com/product']),
-    ('hmart korean',     ['hmart.com/p/', 'hmart.com/product']),
-    ('wooltari korean',  ['wooltariusa.com/product', 'wooltariusa.com/p/']),
-    ('yami buy',         ['yami.com/itemdetail', 'yami.com/item/']),
-]
-
-
-def _og_image(url):
-    """페이지 HTML에서 og:image URL 추출."""
-    try:
-        r = requests.get(url, headers=_HEADERS, timeout=8)
-        html = r.text
-        for prefix in ['og:image" content="', "og:image' content='",
-                        'og:image" content=\'', "og:image' content=\""]:
-            idx = html.find(prefix)
-            if idx != -1:
-                start = idx + len(prefix)
-                quote_char = prefix[-1]
-                end = html.find(quote_char, start)
-                img = html[start:end]
-                if img.startswith('http'):
-                    return img
-    except Exception:
-        pass
-    return None
-
-
-def _amazon_search_image(url):
-    """Amazon 검색 결과 페이지 HTML에서 첫 번째 제품 이미지 추출."""
+# ── DuckDuckGo 이미지 직접 검색 ──────────────────────────
+def _ddg_image_search(query):
+    """ddgs 라이브러리 없이 DuckDuckGo 이미지 API 직접 호출."""
     import re
+    session = requests.Session()
+    session.headers.update({
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
+    })
     try:
-        r = requests.get(url, headers=_HEADERS, timeout=8)
-        matches = re.findall(
-            r'https://m\.media-amazon\.com/images/I/[A-Za-z0-9%+._-]+\.(?:jpg|jpeg|png|webp)',
-            r.text
+        # 1. vqd 토큰 획득
+        r = session.get(
+            'https://duckduckgo.com/',
+            params={'q': query, 'iax': 'images', 'ia': 'images'},
+            timeout=10,
         )
-        # 아이콘/스프라이트 제외하고 제품 이미지만
-        for m in matches:
-            if any(s in m for s in ('_AC_', '_SL', '_SX', '_SS')):
-                return m
-        return matches[0] if matches else None
-    except Exception:
+        vqd = re.search(r'vqd=(["\'])?([\d-]+)\1', r.text)
+        if not vqd:
+            return None
+        # 2. 이미지 검색
+        r2 = session.get(
+            'https://duckduckgo.com/i.js',
+            params={'l': 'us-en', 'o': 'json', 'q': query, 'vqd': vqd.group(2), 'f': ',,,,,', 'p': '1'},
+            timeout=10,
+        )
+        results = r2.json().get('results', [])
+        return results[0]['image'] if results else None
+    except Exception as e:
+        print(f"    DDG 이미지 검색 오류: {e}")
         return None
 
 
 def find_product_images(trends_data):
     found = 0
+    for trend in trends_data['trends']:
+        for product in trend['products']:
+            product['img_url'] = ''
+            base = f"{product['brand']} {product['name']}"
+
+            img = _ddg_image_search(f"{base} korean food product")
+            if img:
+                product['img_url'] = img
+                found += 1
+            else:
+                print(f"    이미지 없음: {base}")
+
+                # 2단계: DDGS 텍스트 검색 → 상품 페이지 og:image (폴백)
+    found_placeholder = 0
     with DDGS() as ddgs:
         for trend in trends_data['trends']:
             for product in trend['products']:
-                product['img_url'] = ''
+                if product.get('img_url'):
+                    continue
                 base = f"{product['brand']} {product['name']}"
-
-                # 1단계: 기존 Amazon 검색 URL에서 직접 이미지 추출
-                amazon_url = product.get('shops', {}).get('amazon', {}).get('url', '')
-                if amazon_url:
-                    img = _amazon_search_image(amazon_url)
-                    if img:
-                        product['img_url'] = img
-                        found += 1
-                        continue
-
-                # 2단계: DDGS 텍스트 검색 → 상품 페이지 og:image
-                for query_suffix, url_markers in _IMG_SOURCES:
+                for query_suffix, url_markers in [
+                    ('amazon buy',  ['amazon.com/dp/', 'amazon.com/gp/product']),
+                    ('weee korean', ['sayweee.com/en/product']),
+                ]:
                     try:
                         results = list(ddgs.text(f"{base} {query_suffix}", max_results=5))
                         for r in results:
                             href = r.get('href', '')
                             if any(m in href for m in url_markers):
-                                img = _og_image(href)
-                                if img:
-                                    product['img_url'] = img
-                                    found += 1
+                                try:
+                                    rr = requests.get(href, headers=_HEADERS, timeout=6)
+                                    for prefix in ['og:image" content="', "og:image' content='",
+                                                   'property="og:image" content="']:
+                                        idx = rr.text.find(prefix)
+                                        if idx != -1:
+                                            start = idx + len(prefix)
+                                            end = rr.text.find('"', start)
+                                            candidate = rr.text[start:end]
+                                            if candidate.startswith('http'):
+                                                product['img_url'] = candidate
+                                                found_placeholder += 1
+                                                break
+                                except Exception:
+                                    pass
+                                if product.get('img_url'):
                                     break
                         if product.get('img_url'):
                             break
                     except Exception as e:
                         print(f"    검색 오류 ({query_suffix}): {e}")
 
-                if not product.get('img_url'):
-                    print(f"    이미지 없음: {base}")
-
-    print(f"    이미지 {found}개 수집")
+    print(f"    이미지 {found + found_placeholder}개 수집 (DDG직접:{found} 폴백:{found_placeholder})")
     return trends_data
 
 
