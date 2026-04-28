@@ -206,9 +206,11 @@ def add_retailer_urls(trends_data):
 
 # ── 제품 이미지 검색 (텍스트 검색 → 상품 페이지 og:image) ─
 _IMG_SOURCES = [
-    ('amazon buy',    ['amazon.com/dp/', 'amazon.com/gp/product']),
-    ('weee korean',   ['sayweee.com/en/product', 'sayweee.com/product']),
-    ('hmart korean',  ['hmart.com/', '/p']),
+    ('amazon buy',       ['amazon.com/dp/', 'amazon.com/gp/product']),
+    ('weee korean',      ['sayweee.com/en/product', 'sayweee.com/product']),
+    ('hmart korean',     ['hmart.com/p/', 'hmart.com/product']),
+    ('wooltari korean',  ['wooltariusa.com/product', 'wooltariusa.com/p/']),
+    ('yami buy',         ['yami.com/itemdetail', 'yami.com/item/']),
 ]
 
 
