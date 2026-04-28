@@ -223,6 +223,9 @@ def _og_image_from_url(url):
     return None
 
 
+# Trusted Korean grocery retailer domains — og:image from these is the actual product photo
+_TRUSTED_DOMAINS = ['sayweee.com', 'yami.com', 'wooltariusa.com']
+
 def find_product_images(trends_data):
     found = 0
     with DDGS() as ddgs:
@@ -231,22 +234,41 @@ def find_product_images(trends_data):
                 product['img_url'] = ''
                 base = f"{product['brand']} {product['name']}"
 
-                # 텍스트 검색 결과 URL들에서 순서대로 og:image 시도
-                for query in [f"{base} buy", f"{base} korean food"]:
+                # Phase 1: search within trusted Korean grocery sites (product images are real)
+                for domain in _TRUSTED_DOMAINS:
+                    if product['img_url']:
+                        break
                     try:
-                        results = list(ddgs.text(query, max_results=5))
+                        results = list(ddgs.text(f"site:{domain} {base}", max_results=3))
                         for r in results:
-                            img = _og_image_from_url(r.get('href', ''))
+                            href = r.get('href', '')
+                            if domain not in href:
+                                continue
+                            img = _og_image_from_url(href)
                             if img:
                                 product['img_url'] = img
                                 found += 1
                                 break
                     except Exception:
                         pass
-                    if product.get('img_url'):
-                        break
 
-                if not product.get('img_url'):
+                # Phase 2: fallback — filter to trusted domains from broader search
+                if not product['img_url']:
+                    try:
+                        results = list(ddgs.text(f"{base} korean grocery", max_results=10))
+                        for r in results:
+                            href = r.get('href', '')
+                            if not any(d in href for d in _TRUSTED_DOMAINS):
+                                continue
+                            img = _og_image_from_url(href)
+                            if img:
+                                product['img_url'] = img
+                                found += 1
+                                break
+                    except Exception:
+                        pass
+
+                if not product['img_url']:
                     print(f"    이미지 없음: {base}")
 
     print(f"    이미지 {found}개 수집")
