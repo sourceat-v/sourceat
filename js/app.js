@@ -192,7 +192,6 @@ async function loadFromSheets() {
       container.innerHTML = '';
       initCommentStore();
       renderTrends();
-      buildHeroStrip();
       injectJsonLd();
       return;
     }
@@ -205,7 +204,6 @@ async function loadFromSheets() {
   container.innerHTML = '';
   initCommentStore();
   renderTrends();
-  buildHeroStrip();
   injectJsonLd();
 }
 
@@ -233,38 +231,6 @@ function ensureSocialLinks(trends) {
 }
 
 // ── 히어로 스크롤 스트립 ──────────────────────────────────
-function buildHeroStrip() {
-  const track1 = document.getElementById('hero-track-1');
-  const track2 = document.getElementById('hero-track-2');
-  if (!track1 || !track2) return;
-
-  track1.innerHTML = '';
-  track2.innerHTML = '';
-
-  const groups = TRENDS.map(tr =>
-    tr.products.map(p => ({ img: p.img_url, name: p.name })).filter(p => p.img)
-  );
-
-  if (groups.every(g => g.length === 0)) return;
-
-  const interleaved = [];
-  const maxLen = Math.max(...groups.map(g => g.length));
-  for (let i = 0; i < maxLen; i++) {
-    groups.forEach(g => { if (g[i]) interleaved.push(g[i]); });
-  }
-
-  const row1 = interleaved.filter((_, i) => i % 2 === 0);
-  const row2 = interleaved.filter((_, i) => i % 2 === 1);
-
-  const toHTML = ({ img, name }) => `
-    <div class="hero-scroll-item">
-      <img src="${img}" alt="${name}" loading="lazy" onerror="this.closest('.hero-scroll-item').remove()"/>
-    </div>`;
-
-  // seamless loop을 위해 두 배로 복제
-  track1.innerHTML = [...row1, ...row1].map(toHTML).join('');
-  track2.innerHTML = [...row2, ...row2].map(toHTML).join('');
-}
 
 // ── 헬퍼 ─────────────────────────────────────────────────
 function availCount(shops) { return SHOPS.filter(sh => shops[sh.key] && shops[sh.key].url).length; }
@@ -758,5 +724,4 @@ function injectJsonLd() {
 }
 
 // ── 시작 ─────────────────────────────────────────────────
-buildHeroStrip();
 loadFromSheets();

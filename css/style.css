@@ -78,13 +78,6 @@
     .hero-sub{font-size:15px;color:rgba(255,255,255,0.7);max-width:900px;margin:0 auto;line-height:1.7;font-weight:400;white-space:nowrap}
 
     /* HERO SCROLL STRIP */
-    .hero-strip-wrap{width:100%;overflow:hidden;padding:10px 0 24px;display:flex;flex-direction:column;gap:12px;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%)}
-    .hero-scroll-track{display:flex;gap:16px;align-items:center;width:max-content;animation:kfoodScroll 38s linear infinite}
-    .hero-track-reverse{animation-direction:reverse;animation-duration:44s}
-    .hero-scroll-track:hover{animation-play-state:paused}
-    @keyframes kfoodScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .hero-scroll-item{width:130px;height:130px;flex-shrink:0;background:#fff;border-radius:14px;overflow:hidden;padding:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.07);border:1px solid #EFEFEB}
-    .hero-scroll-item img{width:100%;height:100%;object-fit:contain;display:block;mix-blend-mode:multiply}
 
     /* TREND SECTION */
     .trend-section{max-width:1280px;margin:0 auto;padding:48px 32px 0}
@@ -249,7 +242,6 @@
       .shop-pill{font-size:9px;padding:1px 5px}
       .hero{padding-top:48px}
       .hero-content{padding:0 20px 40px}
-      .hero-scroll-item{width:100px;height:100px}
       .header-inner{padding:0 20px}
       .sidebar{width:100%;max-width:320px}
     }
