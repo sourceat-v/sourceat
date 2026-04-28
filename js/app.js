@@ -238,6 +238,9 @@ function buildHeroStrip() {
   const track2 = document.getElementById('hero-track-2');
   if (!track1 || !track2) return;
 
+  track1.innerHTML = '';
+  track2.innerHTML = '';
+
   const groups = TRENDS.map(tr =>
     tr.products.map(p => ({ img: p.img_url, name: p.name })).filter(p => p.img)
   );

@@ -275,8 +275,10 @@ def find_product_images(trends_data):
                     if imgs:
                         product['img_url'] = imgs[0]['image']
                         found += 1
-                except Exception:
-                    pass
+                    else:
+                        print(f"    이미지 없음: {base}")
+                except Exception as e:
+                    print(f"    이미지 검색 오류 ({base}): {e}")
 
     print(f"    이미지 {found}개 수집")
     return trends_data
