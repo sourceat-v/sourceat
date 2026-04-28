@@ -6,7 +6,6 @@ sourceat — Daily trend updater
 import os
 import json
 import sys
-import json_repair
 from urllib.parse import quote_plus, quote
 import anthropic
 import firebase_admin
@@ -34,6 +33,73 @@ def search_kfood_trends():
     return results
 
 
+# ── Tool schema for structured output ────────────────────
+_SHOP = {
+    "type": "object",
+    "properties": {
+        "price": {"type": ["number", "null"]},
+        "url":   {"type": ["string", "null"]},
+    },
+    "required": ["price", "url"],
+}
+
+_SAVE_TRENDS_TOOL = {
+    "name": "save_trends",
+    "description": "Save the curated K-food trends",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "trends": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "trend_id":   {"type": "string"},
+                        "title":      {"type": "string"},
+                        "tag":        {"type": "string"},
+                        "tag_style":  {"type": "string"},
+                        "channels":   {"type": "array", "items": {"type": "string"}},
+                        "search_kr":  {"type": "string"},
+                        "desc":       {"type": "string"},
+                        "products": {
+                            "type": "array",
+                            "minItems": 10,
+                            "maxItems": 10,
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "product_id": {"type": "string"},
+                                    "name":       {"type": "string"},
+                                    "brand":      {"type": "string"},
+                                    "desc":       {"type": "string"},
+                                    "img_url":    {"type": "string"},
+                                    "shops": {
+                                        "type": "object",
+                                        "properties": {
+                                            "amazon":   _SHOP,
+                                            "hmart":    _SHOP,
+                                            "weee":     _SHOP,
+                                            "wooltari": _SHOP,
+                                            "yamibuy":  _SHOP,
+                                        },
+                                        "required": ["amazon", "hmart", "weee", "wooltari", "yamibuy"],
+                                    },
+                                },
+                                "required": ["product_id", "name", "brand", "desc", "img_url", "shops"],
+                            },
+                        },
+                    },
+                    "required": ["trend_id", "title", "tag", "tag_style", "channels", "search_kr", "desc", "products"],
+                },
+            },
+        },
+        "required": ["trends"],
+    },
+}
+
+
 # ── Claude로 트렌드 생성 ──────────────────────────────────
 def generate_trends(search_results):
     client = anthropic.Anthropic()
@@ -55,78 +121,25 @@ Rules:
 - Only use real, existing Korean food brands: Samyang, Nongshim, Ottogi, CJ, Pulmuone, Lotte, Orion, Binggrae, Haitai, etc.
 - Products must be actually sold in the US (Amazon, H-Mart, Weee!, Wooltari, Yami)
 - Amazon URL: use Amazon search URL format https://www.amazon.com/s?k=SEARCH+TERMS
-- Yami URL: use Yami search URL format https://www.yami.com/search?q=SEARCH+TERMS
-- Leave hmart/weee/wooltari/yamibuy price as null (will be filled manually)
+- Yamibuy URL: use Yami search URL format https://www.yami.com/search?q=SEARCH+TERMS
+- Leave hmart/weee/wooltari price as null and url as null (will be filled manually)
 - Make descriptions specific and useful for Americans unfamiliar with K-food
 - One trend should be "🔥 Hot" (t-hot), one "📈 Rising" (t-rising), one "🚀 Viral" (t-viral)
 - channels options: TikTok, YouTube, Instagram, Reddit, Netflix, NYT Food, K-Drama
 - Include variety within each trend: different flavors, sizes, brands, or sub-categories
 
-Return ONLY valid JSON with this exact structure, no markdown:
-{{
-  "trends": [
-    {{
-      "trend_id": "short_snake_case_id",
-      "title": "Trend Title",
-      "tag": "🔥 Hot",
-      "tag_style": "t-hot",
-      "channels": ["TikTok", "YouTube"],
-      "search_kr": "한국어 검색어 (예: 불닭볶음면 챌린지)",
-      "desc": "2-3 sentence description explaining why this is trending and what it is",
-      "products": [
-        {{
-          "product_id": "unique_id",
-          "name": "Exact Product Name (size/count)",
-          "brand": "Brand Name",
-          "desc": "One sentence: what it tastes like and why Americans should try it.",
-          "img_url": "",
-          "shops": {{
-            "amazon":   {{"price": null, "url": "https://www.amazon.com/s?k=product+name+brand"}},
-            "hmart":    {{"price": null, "url": null}},
-            "weee":     {{"price": null, "url": null}},
-            "wooltari": {{"price": null, "url": null}},
-            "yamibuy":  {{"price": null, "url": "https://www.yami.com/search?q=product+name+brand"}}
-          }}
-        }}
-      ]
-    }}
-  ]
-}}"""
+Call the save_trends tool with your curated data."""
 
-    for attempt in range(3):
-        response = client.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=8192,
-            messages=[{"role": "user", "content": prompt}],
-        )
+    response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=8192,
+        tools=[_SAVE_TRENDS_TOOL],
+        tool_choice={"type": "tool", "name": "save_trends"},
+        messages=[{"role": "user", "content": prompt}],
+    )
 
-        raw = response.content[0].text.strip()
-
-        # 마크다운 펜스 제거
-        if raw.startswith("```"):
-            raw = raw.split("```")[1]
-            if raw.startswith("json"):
-                raw = raw[4:]
-
-        start = raw.find("{")
-        end = raw.rfind("}") + 1
-        candidate = raw[start:end]
-
-        try:
-            return json.loads(candidate)
-        except json.JSONDecodeError as e:
-            print(f"    JSON 파싱 실패 (시도 {attempt+1}/3): {e}")
-            try:
-                repaired = json_repair.repair_json(candidate)
-                result = json.loads(repaired)
-                print(f"    json_repair로 복구 성공")
-                return result
-            except Exception:
-                pass
-            if attempt == 2:
-                raise
-
-    raise RuntimeError("JSON 파싱 3회 모두 실패")
+    tool_use = next(b for b in response.content if b.type == "tool_use")
+    return tool_use.input
 
 
 # ── 소셜 플랫폼 링크 생성 ─────────────────────────────────
