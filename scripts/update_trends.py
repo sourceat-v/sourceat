@@ -234,6 +234,24 @@ def _og_image(url):
     return None
 
 
+def _amazon_search_image(url):
+    """Amazon 검색 결과 페이지 HTML에서 첫 번째 제품 이미지 추출."""
+    import re
+    try:
+        r = requests.get(url, headers=_HEADERS, timeout=8)
+        matches = re.findall(
+            r'https://m\.media-amazon\.com/images/I/[A-Za-z0-9%+._-]+\.(?:jpg|jpeg|png|webp)',
+            r.text
+        )
+        # 아이콘/스프라이트 제외하고 제품 이미지만
+        for m in matches:
+            if any(s in m for s in ('_AC_', '_SL', '_SX', '_SS')):
+                return m
+        return matches[0] if matches else None
+    except Exception:
+        return None
+
+
 def find_product_images(trends_data):
     found = 0
     with DDGS() as ddgs:
@@ -242,6 +260,16 @@ def find_product_images(trends_data):
                 product['img_url'] = ''
                 base = f"{product['brand']} {product['name']}"
 
+                # 1단계: 기존 Amazon 검색 URL에서 직접 이미지 추출
+                amazon_url = product.get('shops', {}).get('amazon', {}).get('url', '')
+                if amazon_url:
+                    img = _amazon_search_image(amazon_url)
+                    if img:
+                        product['img_url'] = img
+                        found += 1
+                        continue
+
+                # 2단계: DDGS 텍스트 검색 → 상품 페이지 og:image
                 for query_suffix, url_markers in _IMG_SOURCES:
                     try:
                         results = list(ddgs.text(f"{base} {query_suffix}", max_results=5))
