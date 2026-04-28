@@ -90,7 +90,7 @@ _SAVE_TRENDS_TOOL = {
                                         "required": ["amazon", "hmart", "weee", "wooltari", "yamibuy"],
                                     },
                                 },
-                                "required": ["product_id", "name", "brand", "desc", "img_url", "shops"],
+                                "required": ["product_id", "name", "brand", "desc", "shops"],
                             },
                         },
                     },
@@ -237,9 +237,6 @@ def find_product_images(trends_data):
     with DDGS() as ddgs:
         for trend in trends_data['trends']:
             for product in trend['products']:
-                # Claude가 img_url을 채워도 무시하고 항상 새로 검색
-                if product.get('img_url'):
-                    print(f"    Claude img_url 무시: {product['img_url'][:80]}")
                 product['img_url'] = ''
                 base = f"{product['brand']} {product['name']}"
 
