@@ -65,8 +65,8 @@ _SAVE_TRENDS_TOOL = {
                         "desc":       {"type": "string"},
                         "products": {
                             "type": "array",
-                            "minItems": 10,
-                            "maxItems": 10,
+                            "minItems": 5,
+                            "maxItems": 5,
                             "items": {
                                 "type": "object",
                                 "properties": {
@@ -115,7 +115,7 @@ def generate_trends(search_results):
 Based on these recent search results about K-food trends:
 {context}
 
-Generate exactly 3 trending Korean food categories. Each must have exactly 10 specific, real packaged products that are actually available in the US market.
+Generate exactly 3 trending Korean food categories. Each must have exactly 5 specific, real packaged products that are actually available in the US market.
 
 Rules:
 - Only use real, existing Korean food brands: Samyang, Nongshim, Ottogi, CJ, Pulmuone, Lotte, Orion, Binggrae, Haitai, etc.
@@ -137,6 +137,9 @@ Call the save_trends tool with your curated data."""
         tool_choice={"type": "tool", "name": "save_trends"},
         messages=[{"role": "user", "content": prompt}],
     )
+
+    if response.stop_reason == "max_tokens":
+        raise RuntimeError("max_tokens 초과 — tool input 잘림")
 
     tool_use = next(b for b in response.content if b.type == "tool_use")
     data = tool_use.input
