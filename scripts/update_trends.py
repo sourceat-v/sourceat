@@ -201,7 +201,14 @@ def add_retailer_urls(trends_data):
     return trends_data
 
 
-# ── 제품 이미지 검색 ──────────────────────────────────────
+# ── 제품 이미지 검색 (Amazon → Weee → H-Mart → Wooltari) ──
+_IMG_RETAILERS = [
+    ('amazon',   'm.media-amazon.com'),
+    ('weee',     'weeecdn.net'),
+    ('hmart',    'hmart.com'),
+    ('wooltari', 'wooltariusa.com'),
+]
+
 def find_product_images(trends_data):
     found = 0
     with DDGS() as ddgs:
@@ -209,14 +216,17 @@ def find_product_images(trends_data):
             for product in trend['products']:
                 if product.get('img_url'):
                     continue
-                query = f"{product['brand']} {product['name']} korean food product"
-                try:
-                    imgs = list(ddgs.images(query, max_results=1))
-                    if imgs:
-                        product['img_url'] = imgs[0]['image']
-                        found += 1
-                except Exception as e:
-                    pass
+                base = f"{product['brand']} {product['name']}"
+                for retailer, cdn in _IMG_RETAILERS:
+                    try:
+                        imgs = list(ddgs.images(f"{base} {retailer}", max_results=5))
+                        match = next((img['image'] for img in imgs if cdn in img['image']), None)
+                        if match:
+                            product['img_url'] = match
+                            found += 1
+                            break
+                    except Exception:
+                        continue
     print(f"    이미지 {found}개 수집")
     return trends_data
 
