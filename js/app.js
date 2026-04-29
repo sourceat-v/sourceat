@@ -252,16 +252,28 @@ function renderTrends() {
         : `<span class="ch-badge">${icon}${ch}</span>`;
     }).join('');
 
+    const rc = tr.rank_change;
+    let rankBadge = '';
+    if (rc === 'NEW') {
+      rankBadge = `<span class="rank-badge rank-new">NEW</span>`;
+    } else if (typeof rc === 'number' && rc > 0) {
+      rankBadge = `<span class="rank-badge rank-up">↑${rc}</span>`;
+    } else if (typeof rc === 'number' && rc < 0) {
+      rankBadge = `<span class="rank-badge rank-down">↓${Math.abs(rc)}</span>`;
+    }
+
     const storeCount = SHOPS.length;
     section.innerHTML = `
       <div class="trend-header">
         <div class="trend-header-left">
           <div class="trend-meta">
             <span class="trend-tag ${tr.tag_style}">${tr.tag}</span>
+            ${rankBadge}
             <div class="trend-channels">${channelPills}</div>
           </div>
           <div class="trend-title">${tr.title}</div>
           <div class="trend-desc">${tr.desc}</div>
+          ${tr.buzz ? `<div class="trend-buzz">${tr.buzz}</div>` : ''}
           <div class="trend-count-row">
             ${tr.video ? `<a class="trend-video-link" href="${tr.video.url}" target="_blank" rel="noopener noreferrer">
               <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.5l-5 3A.5.5 0 016 11V5a.5.5 0 01.5-.44l5 3a.5.5 0 010 .94z"/></svg>

@@ -66,6 +66,7 @@ _SAVE_TRENDS_TOOL = {
                         "channels":   {"type": "array", "items": {"type": "string"}},
                         "search_kr":  {"type": "string"},
                         "desc":       {"type": "string"},
+                        "buzz":       {"type": "string", "description": "One punchy sentence on WHY this is trending RIGHT NOW — cite a specific signal (e.g. 'TikTok challenge hits 80M views this week', 'Featured in NYT Cooking last Tuesday')"},
                         "products": {
                             "type": "array",
                             "minItems": 5,
@@ -76,6 +77,8 @@ _SAVE_TRENDS_TOOL = {
                                     "product_id": {"type": "string"},
                                     "name":       {"type": "string"},
                                     "brand":      {"type": "string"},
+                                    "search":     {"type": "string"},
+                                    "search_kr":  {"type": "string"},
                                     "desc":       {"type": "string"},
                                     "img_url":    {"type": "string"},
                                     "shops": {
@@ -94,7 +97,7 @@ _SAVE_TRENDS_TOOL = {
                             },
                         },
                     },
-                    "required": ["trend_id", "title", "tag", "tag_style", "channels", "search_kr", "desc", "products"],
+                    "required": ["trend_id", "title", "tag", "tag_style", "channels", "search_kr", "desc", "buzz", "products"],
                 },
             },
         },
@@ -130,6 +133,7 @@ Rules:
 - One trend should be "🔥 Hot" (t-hot), one "📈 Rising" (t-rising), one "🚀 Viral" (t-viral)
 - channels options: TikTok, YouTube, Instagram, Reddit, Netflix, NYT Food, K-Drama
 - Include variety within each trend: different flavors, sizes, brands, or sub-categories
+- buzz: one punchy sentence explaining WHY this is trending RIGHT NOW with a concrete signal (views, mentions, media coverage). Make it feel fresh and dateable.
 
 Call the save_trends tool with your curated data."""
 
@@ -275,6 +279,28 @@ def find_product_images(trends_data):
     return trends_data
 
 
+# ── 랭킹 변화 계산 ───────────────────────────────────────
+def compute_rank_changes(trends_data):
+    db = firestore.client()
+    prev_ids = []
+    try:
+        doc = db.collection("site_data").document("trends").get()
+        if doc.exists:
+            prev_ids = [t.get("trend_id", "") for t in doc.to_dict().get("data", [])]
+    except Exception as e:
+        print(f"    이전 랭킹 조회 실패: {e}")
+
+    for i, trend in enumerate(trends_data["trends"]):
+        current_rank = i + 1
+        trend["rank"] = current_rank
+        if trend["trend_id"] in prev_ids:
+            prev_rank = prev_ids.index(trend["trend_id"]) + 1
+            trend["rank_change"] = prev_rank - current_rank  # 양수 = 상승
+        else:
+            trend["rank_change"] = "NEW"
+    return trends_data
+
+
 # ── Firestore 저장 ────────────────────────────────────────
 def save_to_firestore(trends_data):
     db = firestore.client()
@@ -330,7 +356,10 @@ if __name__ == "__main__":
     print("5/5 이미지 검색 중...")
     trends = find_product_images(trends)
 
-    print("6/6 Firestore 저장 중...")
+    print("6/6 랭킹 변화 계산 중...")
+    trends = compute_rank_changes(trends)
+
+    print("7/7 Firestore 저장 중...")
     save_to_firestore(trends)
 
     print("=== 완료 ===")

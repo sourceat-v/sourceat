@@ -102,6 +102,11 @@
     .ch-badge.ch-link:hover{background:var(--gray-900);border-color:var(--gray-900);color:var(--white)}
     .trend-title{font-family:var(--font-d);font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--gray-900);margin-bottom:4px}
     .trend-desc{font-size:13px;color:var(--gray-400);line-height:1.6;max-width:640px}
+    .trend-buzz{font-size:12px;color:var(--gray-700);line-height:1.5;margin-top:6px;padding:5px 10px;background:var(--gray-100);border-left:2px solid var(--teal-mid);border-radius:0 4px 4px 0;max-width:560px;font-style:italic}
+    .rank-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;letter-spacing:.04em;font-family:var(--font-d)}
+    .rank-new{background:#EEF2FF;color:#534AB7;border:1px solid #C7D2FE}
+    .rank-up{background:var(--teal-light);color:var(--teal-dark);border:1px solid var(--teal-mid)}
+    .rank-down{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
     .trend-count-row{display:flex;align-items:center;gap:16px;margin-top:10px;flex-wrap:wrap}
     .trend-count{font-size:12px;color:var(--gray-400)}
     .shop-logo{width:28px;height:28px;object-fit:contain;border-radius:4px;display:block}
