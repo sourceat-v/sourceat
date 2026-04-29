@@ -304,12 +304,26 @@ def compute_rank_changes(trends_data):
 # ── Firestore 저장 ────────────────────────────────────────
 def save_to_firestore(trends_data):
     db = firestore.client()
-    db.collection("site_data").document("trends").set({
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    payload = {
         "data": trends_data["trends"],
         "updatedAt": firestore.SERVER_TIMESTAMP,
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-    })
-    print(f"Firestore 저장 완료: {len(trends_data['trends'])} 트렌드")
+    }
+
+    # 최신 트렌드 저장
+    db.collection("site_data").document("trends").set(payload)
+
+    # 날짜별 아카이브 저장
+    db.collection("trends_history").document(date_str).set(payload)
+
+    # 아카이브 인덱스 업데이트 (날짜 목록)
+    db.collection("site_data").document("archive_index").set(
+        {"dates": firestore.ArrayUnion([date_str])},
+        merge=True
+    )
+
+    print(f"Firestore 저장 완료: {len(trends_data['trends'])} 트렌드 (아카이브: {date_str})")
 
 
 # ── Firebase 초기화 ───────────────────────────────────────

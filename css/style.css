@@ -198,6 +198,26 @@
     .c-action.liked{font-weight:500}
     .no-comments{text-align:center;padding:20px 0;font-size:13px;color:var(--gray-400)}
 
+    /* PAST ISSUES */
+    .past-issues-section{max-width:1280px;margin:0 auto;padding:20px 32px 28px;border-top:1px solid var(--gray-100)}
+    .past-issues-header{margin-bottom:10px}
+    .past-issues-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);font-family:var(--font-d)}
+    .past-issues-row{display:flex;flex-wrap:wrap;gap:8px}
+    .past-chip{font-family:var(--font-d);font-size:11px;font-weight:600;padding:5px 14px;border-radius:999px;border:1px solid var(--gray-200);background:var(--white);color:var(--gray-700);cursor:pointer;transition:all .15s;letter-spacing:.02em}
+    .past-chip:hover{border-color:var(--gray-700);color:var(--gray-900);background:var(--gray-50)}
+    .past-chip.active{background:var(--gray-900);border-color:var(--gray-900);color:var(--white)}
+
+    /* SOURCE IT (category pages) */
+    .source-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;font-family:var(--font-d)}
+    .source-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:20px}
+    .source-card{display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--white);border:1px solid var(--gray-200);border-radius:12px;padding:22px 16px;text-decoration:none;color:inherit;transition:border-color .2s,box-shadow .2s,background .2s;text-align:center}
+    .source-card:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(29,158,117,.1);background:var(--teal-light)}
+    .source-logo{width:36px;height:36px;border-radius:8px;object-fit:contain}
+    .source-name{font-family:var(--font-d);font-size:14px;font-weight:700;color:var(--gray-900)}
+    .source-desc{font-size:11px;color:var(--gray-400);line-height:1.4}
+    .source-cta{font-size:11px;font-weight:700;color:var(--teal);margin-top:4px;letter-spacing:.04em}
+    .source-card:hover .source-cta{color:var(--teal-dark)}
+
     /* MAGAZINE SECTION */
     .mag-section{background:var(--white);border-top:1px solid var(--gray-200);padding:52px 32px 60px}
     .mag-inner{max-width:900px;margin:0 auto}

@@ -1,7 +1,7 @@
 // ============================================================
 // sourceat — app.js
 // ============================================================
-import { loadComments, saveComment, saveReply, updateLike, loadTrends } from './firebase.js';
+import { loadComments, saveComment, saveReply, updateLike, loadTrends, loadArchiveIndex, loadArchiveTrends } from './firebase.js';
 
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzZ8jtv4i6NbivCVID5XmKgKw_gIcWibalBYguB6IMKFt0CUZmvff5SwhXnUU0Qld8v/exec';
 
@@ -205,6 +205,64 @@ async function loadFromSheets() {
   initCommentStore();
   renderTrends();
   injectJsonLd();
+
+  renderPastIssues();
+}
+
+// ── 아카이브 렌더링 ───────────────────────────────────────
+async function renderPastIssues() {
+  const wrap = document.getElementById('past-issues-wrap');
+  if (!wrap) return;
+  const dates = await loadArchiveIndex();
+  if (!dates.length) return;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const pastDates = dates.filter(d => d !== today);
+  if (!pastDates.length) return;
+
+  wrap.innerHTML = `
+    <div class="past-issues-section">
+      <div class="past-issues-header">
+        <span class="past-issues-label">Past Issues</span>
+      </div>
+      <div class="past-issues-row">
+        ${pastDates.map(d => {
+          const label = new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month:'short', day:'numeric' });
+          return `<button class="past-chip" onclick="switchToArchive('${d}')">${label}</button>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+  wrap.style.display = '';
+}
+
+async function switchToArchive(date) {
+  const container = document.getElementById('trends-container');
+  container.innerHTML = '<div style="text-align:center;padding:60px 32px;color:#9A9A94;font-size:14px">Loading...</div>';
+
+  // 칩 활성화
+  document.querySelectorAll('.past-chip').forEach(b => b.classList.remove('active'));
+  const active = document.querySelector(`.past-chip[onclick*="${date}"]`);
+  if (active) active.classList.add('active');
+
+  const archived = await loadArchiveTrends(date);
+  if (!archived) {
+    container.innerHTML = '<div style="text-align:center;padding:60px 32px;color:#9A9A94;font-size:14px">Archive not available for this date.</div>';
+    return;
+  }
+
+  TRENDS = archived;
+  container.innerHTML = '';
+  initCommentStore();
+  renderTrends();
+
+  const label = new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  const banner = document.getElementById('archive-banner');
+  if (banner) {
+    banner.textContent = `Viewing archive: ${label}`;
+    banner.style.display = '';
+  }
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── 소셜 링크 자동 생성 (social_links 없을 때) ───────────
@@ -687,6 +745,7 @@ document.getElementById('open-guide-btn').addEventListener('click', openGuide);
 
 // ── 전역 함수 노출 (HTML onclick에서 사용) ───────────────
 window.handleLike    = handleLike;
+window.switchToArchive = switchToArchive;
 window.closeOverlay  = closeOverlay;
 window.closeModal    = closeModal;
 window.postComment   = postComment;

@@ -30,6 +30,30 @@ export async function loadTrends() {
   }
 }
 
+// ── 아카이브 날짜 목록 불러오기 ──────────────────────────
+export async function loadArchiveIndex() {
+  try {
+    const snap = await getDoc(doc(db, 'site_data', 'archive_index'));
+    if (snap.exists()) {
+      return (snap.data().dates || []).sort().reverse().slice(0, 14);
+    }
+    return [];
+  } catch(err) {
+    return [];
+  }
+}
+
+// ── 특정 날짜 아카이브 트렌드 불러오기 ───────────────────
+export async function loadArchiveTrends(date) {
+  try {
+    const snap = await getDoc(doc(db, 'trends_history', date));
+    if (snap.exists()) return snap.data().data || null;
+    return null;
+  } catch(err) {
+    return null;
+  }
+}
+
 // ── 댓글 불러오기 ─────────────────────────────────────────
 export async function loadComments(productId) {
   try {
