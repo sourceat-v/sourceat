@@ -46,21 +46,37 @@ const BASE_DOMAINS = {
   wooltari: 'wooltariusa.com',
   yamibuy:  'yami.com',
 };
-function resolveShopUrl(key, url, search, search_kr) {
+// 각 스토어의 검색 결과 페이지 경로 (이미 생성된 검색 URL도 재작성하기 위해)
+const SEARCH_PATHS = {
+  weee:     '/en/search',
+  wooltari: '/search',
+  amazon:   '/s',
+  yamibuy:  '/search',
+};
+function resolveShopUrl(key, url, search, search_kr, search_kr_broad) {
   if (!url) return null;
-  // H-Mart: always use English search URL (product page URLs are unreliable)
+  // H-Mart US는 한국어 검색 미지원 — 항상 영어
   if (key === 'hmart' && SHOP_SEARCH[key]) {
     return SHOP_SEARCH[key](encodeURIComponent(search));
   }
   const base = BASE_DOMAINS[key];
-  // URL이 맨 도메인이면 (경로 없거나 '/'만) 검색 URL로 교체
   try {
     const u = new URL(url);
-    if (base && u.hostname.endsWith(base) && u.pathname.replace(/\//g,'') === '' && !u.search) {
-      const shop = SHOPS.find(s => s.key === key);
-      const term = (shop?.searchLang === 'kr' && search_kr) ? search_kr : search;
-      const q = encodeURIComponent(term);
-      return SHOP_SEARCH[key] ? SHOP_SEARCH[key](q) : url;
+    if (base && u.hostname.endsWith(base)) {
+      const isRootDomain = u.pathname.replace(/\//g,'') === '' && !u.search;
+      // Sheets에서 가져온 기존 영어 검색 URL도 재작성 (제품 상세 페이지는 제외)
+      const isSearchUrl = SEARCH_PATHS[key] && u.pathname === SEARCH_PATHS[key];
+      if (isRootDomain || isSearchUrl) {
+        const shop = SHOPS.find(s => s.key === key);
+        let term;
+        if (shop?.searchLang === 'kr') {
+          term = search_kr || search_kr_broad || search;
+        } else {
+          term = search;
+        }
+        const q = encodeURIComponent(term);
+        return SHOP_SEARCH[key] ? SHOP_SEARCH[key](q) : url;
+      }
     }
   } catch(e) {}
   return url;
@@ -321,28 +337,29 @@ function renderTrends() {
     }
 
     const storeCount = SHOPS.length;
+    const buzzText = tr.buzz
+      ? tr.buzz.replace(/\b(\d+(?:\.\d+)?[MKBmkb])\b/g, '<strong class="buzz-stat">$1</strong>')
+      : '';
     section.innerHTML = `
       <div class="trend-header">
-        <div class="trend-header-left">
-          <div class="trend-meta">
-            <span class="trend-tag ${tr.tag_style}">${tr.tag}</span>
-            ${rankBadge}
-            <div class="trend-channels">${channelPills}</div>
-          </div>
-          <div class="trend-title">${tr.title}</div>
-          <div class="trend-desc">${tr.desc}</div>
-          ${tr.buzz ? `<div class="trend-buzz">${tr.buzz}</div>` : ''}
-          <div class="trend-count-row">
-            ${tr.video ? `<a class="trend-video-link" href="${tr.video.url}" target="_blank" rel="noopener noreferrer">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.5l-5 3A.5.5 0 016 11V5a.5.5 0 01.5-.44l5 3a.5.5 0 010 .94z"/></svg>
-              ${tr.video.label}
-            </a>` : ''}
+        <div class="trend-meta">
+          <span class="trend-tag ${tr.tag_style}">${tr.tag}</span>
+          ${rankBadge}
+          <div class="trend-channels">${channelPills}</div>
+          <div class="trend-stats-inline">
+            <span><strong>${tr.products.length}</strong> products</span>
+            <span><strong>${storeCount}</strong> stores</span>
+            <span>updated daily</span>
           </div>
         </div>
-        <div class="trend-header-right">
-          <div class="trend-stat"><strong>${tr.products.length}</strong> products tracked</div>
-          <div class="trend-stat"><strong>${storeCount}</strong> stores compared</div>
-          <div class="trend-stat">Updated daily</div>
+        <div class="trend-title">${tr.title}</div>
+        <div class="trend-desc">${tr.desc}</div>
+        ${buzzText ? `<div class="trend-buzz">${buzzText}</div>` : ''}
+        <div class="trend-count-row">
+          ${tr.video ? `<a class="trend-video-link" href="${tr.video.url}" target="_blank" rel="noopener noreferrer">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.5l-5 3A.5.5 0 016 11V5a.5.5 0 01.5-.44l5 3a.5.5 0 010 .94z"/></svg>
+            ${tr.video.label}
+          </a>` : ''}
         </div>
       </div>
       <div class="prod-grid" id="grid-${tr.trend_id}"></div>
@@ -360,12 +377,6 @@ function renderTrends() {
 
       const thumb = document.createElement('div');
       thumb.className = 'card-thumb';
-      thumb.style.position = 'relative';
-      const avBadge = document.createElement('span');
-      avBadge.className = `avail-badge ${ac === SHOPS.length ? 'avail-all' : 'avail-some'}`;
-      avBadge.style.cssText = 'position:absolute;top:8px;right:8px;z-index:2';
-      avBadge.textContent = `${ac}/${SHOPS.length} stores`;
-      thumb.appendChild(avBadge);
       const firstImg = p.img_url || (p.img_fallbacks && p.img_fallbacks[0]);
       if (firstImg) {
         const img = document.createElement('img');
@@ -405,7 +416,6 @@ function renderTrends() {
         </div>
         <div class="card-shops-preview">${pillsHTML}</div>
         <div class="card-footer">
-          <span class="card-store-count">${ac} store${ac !== 1 ? 's' : ''}</span>
           <span class="card-cta">Find it →</span>
         </div>
       `;
@@ -446,7 +456,7 @@ function openModal(id) {
 
   document.getElementById('modal-shops').innerHTML = SHOPS.map(sh => {
     const s = p.shops[sh.key] || {};
-    const href = resolveShopUrl(sh.key, s.url, p.search || p.brand, p.search_kr);
+    const href = resolveShopUrl(sh.key, s.url, p.search || p.brand, p.search_kr, tr.search_kr);
     const logo = `<img class="shop-btn-logo" src="${SHOP_LOGOS[sh.key]}" alt="${sh.name}" onerror="this.style.display='none'"/>`;
     return href
       ? `<a class="shop-btn avail" href="${href}" target="_blank" rel="noopener noreferrer">
@@ -486,24 +496,7 @@ function openModal(id) {
 
   currentSort = 'new';
 
-  // 댓글 입력 폼 활성/비활성
-  const commentForm = document.getElementById('comment-form');
-  if (commentForm) commentForm.style.display = COMMENTS_ENABLED ? '' : 'none';
-  const disabledNotice = document.getElementById('comments-disabled-notice');
-  if (disabledNotice) disabledNotice.style.display = COMMENTS_ENABLED ? 'none' : '';
-
-  const savedNick = getNickname();
-  const nameInput = document.getElementById('comment-name');
-  const avatarEl  = document.getElementById('comment-avatar');
-  nameInput.value = savedNick;
-  avatarEl.textContent = savedNick ? initials(savedNick) : 'YOU';
-  nameInput.oninput = function() {
-    setNickname(this.value);
-    avatarEl.textContent = this.value.trim() ? initials(this.value.trim()) : 'YOU';
-  };
-
   renderComments(id);
-  document.getElementById('comment-btn').onclick = () => postComment(id);
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
