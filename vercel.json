@@ -8,6 +8,7 @@
     { "source": "/tteokbokki", "destination": "/tteokbokki.html" },
     { "source": "/snacks", "destination": "/snacks.html" },
     { "source": "/favorite", "destination": "/favorite.html" },
-    { "source": "/hetbahn", "destination": "/hetbahn.html" }
+    { "source": "/hetbahn", "destination": "/hetbahn.html" },
+    { "source": "/yakgwa", "destination": "/yakgwa.html" }
   ]
 }
