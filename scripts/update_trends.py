@@ -191,20 +191,29 @@ def add_social_links(trends_data):
 # ── 쇼핑몰 검색 URL 자동 생성 ────────────────────────────
 def add_retailer_urls(trends_data):
     for trend in trends_data['trends']:
+        trend_kr = trend.get('search_kr', '').strip()
         for product in trend['products']:
-            q = quote_plus(f"{product['brand']} {product['name']}")
-            q_hmart = quote(f"{product['brand']} {product['name']}", safe='')
+            p_en = f"{product['brand']} {product['name']}"
+            p_kr = product.get('search_kr', '').strip()
+
+            # 한국어 검색 우선순위: 제품 고유 한국어 → 트렌드 카테고리 한국어 → 영어
+            kr_term = p_kr or trend_kr or p_en
+
+            q_en  = quote_plus(p_en)
+            q_kr  = quote_plus(kr_term)
+            q_hmart = quote(p_en, safe='')  # H-Mart US는 한국어 검색 미지원
+
             shops = product.setdefault('shops', {})
             if not shops.get('amazon', {}).get('url'):
-                shops['amazon']   = {'price': None, 'url': f'https://www.amazon.com/s?k={q}'}
+                shops['amazon']   = {'price': None, 'url': f'https://www.amazon.com/s?k={q_en}'}
             if not shops.get('hmart', {}).get('url'):
                 shops['hmart']    = {'price': None, 'url': f'https://www.hmart.com/{q_hmart}?_q={q_hmart}&map=ft'}
             if not shops.get('weee', {}).get('url'):
-                shops['weee']     = {'price': None, 'url': f'https://www.sayweee.com/search?keyword={q}'}
+                shops['weee']     = {'price': None, 'url': f'https://www.sayweee.com/en/search?keyword={q_kr}'}
             if not shops.get('wooltari', {}).get('url'):
-                shops['wooltari'] = {'price': None, 'url': f'https://www.wooltariusa.com/search?q={q}'}
+                shops['wooltari'] = {'price': None, 'url': f'https://www.wooltariusa.com/search?q={q_kr}'}
             if not shops.get('yamibuy', {}).get('url'):
-                shops['yamibuy']  = {'price': None, 'url': f'https://www.yami.com/search?q={q}'}
+                shops['yamibuy']  = {'price': None, 'url': f'https://www.yami.com/search?q={q_en}'}
     return trends_data
 
 
@@ -230,6 +239,39 @@ def _og_image_from_url(url):
 # Trusted Korean grocery retailer domains — og:image from these is the actual product photo
 _TRUSTED_DOMAINS = ['sayweee.com', 'yami.com', 'wooltariusa.com']
 
+# URL path segments that indicate a product detail page
+_PRODUCT_PATH_HINTS = ['/product', '/item', '/p/', '-p-', '/detail', '/en/product']
+# URL path segments that indicate a non-product page (homepage, category, search)
+_NON_PRODUCT_PATHS = ['/?', '/search', '/category', '/collections', '/tag', '/brand']
+
+def _is_product_page_url(href):
+    """Return True only if the URL looks like a product detail page."""
+    try:
+        path = href.split('?')[0].lower()
+        if any(bad in path for bad in _NON_PRODUCT_PATHS):
+            return False
+        # Very short paths (homepage, root category) are not product pages
+        from urllib.parse import urlparse
+        parsed_path = urlparse(href).path.strip('/')
+        if len(parsed_path) < 8:
+            return False
+        return True
+    except Exception:
+        return True  # benefit of the doubt
+
+def _is_cdn_image(img_url, store_domain):
+    """Return True if the image URL looks like a product CDN image, not a site default."""
+    try:
+        from urllib.parse import urlparse
+        img_host = urlparse(img_url).netloc.lower()
+        bare_store = store_domain.replace('www.', '')
+        # Reject if the image is served from the exact store domain (likely a promo/default)
+        if img_host == bare_store or img_host == f'www.{bare_store}':
+            return False
+        return True
+    except Exception:
+        return True
+
 def find_product_images(trends_data):
     found = 0
     with DDGS() as ddgs:
@@ -248,8 +290,10 @@ def find_product_images(trends_data):
                             href = r.get('href', '')
                             if domain not in href:
                                 continue
+                            if not _is_product_page_url(href):
+                                continue
                             img = _og_image_from_url(href)
-                            if img:
+                            if img and _is_cdn_image(img, domain):
                                 product['img_url'] = img
                                 found += 1
                                 break
@@ -262,10 +306,13 @@ def find_product_images(trends_data):
                         results = list(ddgs.text(f"{base} korean grocery", max_results=10))
                         for r in results:
                             href = r.get('href', '')
-                            if not any(d in href for d in _TRUSTED_DOMAINS):
+                            matched_domain = next((d for d in _TRUSTED_DOMAINS if d in href), None)
+                            if not matched_domain:
+                                continue
+                            if not _is_product_page_url(href):
                                 continue
                             img = _og_image_from_url(href)
-                            if img:
+                            if img and _is_cdn_image(img, matched_domain):
                                 product['img_url'] = img
                                 found += 1
                                 break
