@@ -58,44 +58,65 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .page-hero{background:var(--white);border-bottom:1px solid var(--gray-200);padding:52px 32px 48px;text-align:center}
+    .page-hero-inner{max-width:720px;margin:0 auto}
+    .breadcrumb{font-size:12px;color:var(--gray-400);margin-bottom:20px}
+    .breadcrumb a{color:var(--teal);text-decoration:none}
+    .breadcrumb a:hover{text-decoration:underline}
+    .page-hero h1{font-family:var(--font-d);font-size:clamp(26px,4vw,42px);font-weight:800;line-height:1.1;letter-spacing:-1.5px;color:var(--gray-900);margin:16px 0 18px}
+    .page-hero p{font-size:15px;color:var(--gray-400);line-height:1.7;max-width:560px;margin:0 auto 20px}
+    .page-hero .channels{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:4px}
+    .page-main{max-width:900px;margin:0 auto;padding:48px 24px 80px}
+    .content-section{margin-bottom:48px}
+    .content-section h2{font-family:var(--font-d);font-size:20px;font-weight:800;color:var(--gray-900);letter-spacing:-.4px;margin-bottom:12px}
+    .content-section p{font-size:14px;color:var(--gray-700);line-height:1.75;margin-bottom:12px}
+    .faq{display:flex;flex-direction:column;gap:0}
+    .faq-item{border-top:1px solid var(--gray-100);padding:20px 0}
+    .faq-item:last-child{border-bottom:1px solid var(--gray-100)}
+    .faq-item h3{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--gray-900);margin-bottom:8px;letter-spacing:-.2px}
+    .faq-item p{font-size:13px;color:var(--gray-700);line-height:1.7}
+    .related-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+    .related-link{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--gray-200);border-radius:10px;padding:14px 18px;text-decoration:none;color:var(--gray-900);font-size:13px;font-weight:600;font-family:var(--font-d);transition:border-color .15s,background .15s}
+    .related-link:hover{border-color:var(--teal-mid);background:var(--teal-light)}
+    .related-link span{font-size:18px}
+    .source-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+    .source-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:16px}
+    .source-card{display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--white);border:1px solid var(--gray-200);border-radius:12px;padding:20px 16px;text-decoration:none;color:var(--gray-900);transition:border-color .15s,box-shadow .15s;text-align:center}
+    .source-card:hover{border-color:var(--teal-mid);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .source-logo{width:32px;height:32px;object-fit:contain;border-radius:6px}
+    .source-name{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--gray-900)}
+    .source-desc{font-size:11px;color:var(--gray-400);line-height:1.4}
+    .source-cta{font-size:12px;font-weight:600;color:var(--teal)}
+    @media(max-width:600px){.page-main{padding:32px 16px 60px}.page-hero{padding:40px 20px 36px}.source-grid{grid-template-columns:repeat(2,1fr)}}
+  </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
   <div class="header-inner">
-    <a href="/" class="logo">
-      <span class="logo-wordmark">sourceat</span>
-      <span class="logo-sub">source and eat</span>
-    </a>
-    <nav class="header-nav">
-      <a href="/" class="nav-link">Trends</a>
-      <a href="/buldak" class="nav-link">Buldak</a>
-      <a href="/kimbap" class="nav-link">Kimbap</a>
-      <a href="/yakgwa" class="nav-link active">Yakgwa</a>
-      <a href="/snacks" class="nav-link">Snacks</a>
-      <a href="/hetbahn" class="nav-link">Instant Rice</a>
-    </nav>
+    <a href="/" class="logo"><span class="logo-wordmark">sourceat</span><span class="logo-sub">source and eat</span></a>
   </div>
 </header>
 
-<main class="cat-page">
-
-  <!-- HERO -->
-  <div class="cat-hero">
-    <div class="cat-hero-inner">
-      <div class="cat-eyebrow">
-        <span class="trend-tag t-rising">📈 Rising</span>
-        <span class="cat-channels">
-          <span class="ch-badge">TikTok</span>
-          <span class="ch-badge">YouTube</span>
-          <span class="ch-badge">Instagram</span>
-        </span>
-      </div>
-      <h1>The Grandma Cookie Revival</h1>
-      <p>For most of the 20th century, yakgwa was the cookie your Korean grandmother made for ancestral rites. Meaningful, but not cool. Then Korean Gen Z decided it was the best thing they'd ever eaten — and opened specialty shops with 2-hour queues to prove it. Americans are finding it now. The reaction is always the same: <em>"What is this and why have I never had it before?"</em></p>
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="/">sourceat</a> &rsaquo; Yakgwa</div>
+    <span class="trend-tag t-rising">📈 Rising</span>
+    <h1>The Grandma Cookie Revival</h1>
+    <p>For most of the 20th century, yakgwa was the cookie your Korean grandmother made for ancestral rites. Meaningful, but not cool. Then Korean Gen Z decided it was the best thing they'd ever eaten — and opened specialty shops with 2-hour queues to prove it. Americans are finding it now. The reaction is always the same: "What is this and why have I never had it before?"</p>
+    <div class="channels">
+      <span class="ch-badge">TikTok</span>
+      <span class="ch-badge">YouTube</span>
+      <span class="ch-badge">Instagram</span>
     </div>
   </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="page-main">
 
   <!-- STATS -->
   <div class="signal-grid">
