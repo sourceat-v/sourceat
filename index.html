@@ -15,13 +15,13 @@
   <meta property="og:title" content="Korean Food Price Comparison — Buldak, Kimbap, Tteokbokki | sourceat"/>
   <meta property="og:description" content="Track what Korean food products are going viral on TikTok, YouTube, and Reddit — updated daily. Find them at Amazon, H-Mart, Weee!, and Wooltari."/>
   <meta property="og:url" content="https://sourceat.co/"/>
-  <meta property="og:image" content="https://img08.weeecdn.net/item/image/320/664/33D51C5F44804584.jpeg!c864x0_q80.auto"/>
+  <meta property="og:image" content="https://sourceat.co/og-image.svg"/>
   <meta property="og:site_name" content="sourceat"/>
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="sourceat — What's Trending in Korean Food Right Now"/>
   <meta name="twitter:description" content="Track what Korean food products are going viral on TikTok, YouTube, and Reddit — updated daily."/>
-  <meta name="twitter:image" content="https://img08.weeecdn.net/item/image/320/664/33D51C5F44804584.jpeg!c864x0_q80.auto"/>
+  <meta name="twitter:image" content="https://sourceat.co/og-image.svg"/>
   <!-- JSON-LD -->
   <script type="application/ld+json">
   {
@@ -53,6 +53,18 @@
   <div class="sb-section">
     <div class="sb-label">About</div>
     <p class="sb-text">sourceat tracks what Korean food products are going viral in the US — and shows you exactly where to find them.</p>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Trends</div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <a href="/buldak" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🔥</span>Buldak Challenge</a>
+      <a href="/kimbap" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>📈</span>Kimbap Moment</a>
+      <a href="/tteokbokki" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🚀</span>Street Food at Home</a>
+      <a href="/snacks" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>✨</span>Korean Snack Wave</a>
+      <a href="/hetbahn" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🍚</span>Hetbahn Moment</a>
+      <a href="/yakgwa" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🍯</span>Grandma Cookie Revival</a>
+    </nav>
   </div>
 
   <div class="sb-section">
@@ -136,11 +148,20 @@
 <header>
   <div class="header-inner">
     <a href="/" class="logo"><span class="logo-wordmark">sourceat</span><span class="logo-sub">source and eat</span></a>
+    <nav class="header-nav">
+      <a href="/buldak" class="nav-link">Buldak</a>
+      <a href="/kimbap" class="nav-link">Kimbap</a>
+      <a href="/tteokbokki" class="nav-link">Tteokbokki</a>
+      <a href="/snacks" class="nav-link">Snacks</a>
+      <a href="/hetbahn" class="nav-link">Hetbahn</a>
+      <a href="/yakgwa" class="nav-link">Yakgwa</a>
+    </nav>
     <button class="hamburger" id="hamburger-btn" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
   </div>
 </header>
+<script>document.querySelectorAll(".nav-link").forEach(function(l){if(l.getAttribute("href")===window.location.pathname)l.classList.add("active")});</script>
 
 <!-- HERO -->
 <section class="hero">

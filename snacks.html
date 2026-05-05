@@ -15,12 +15,12 @@
   <meta property="og:title" content="The Chip That Caused a Nationwide Shortage — K-Snack Wave | sourceat"/>
   <meta property="og:description" content="In 2014, a single chip sent Korea into a frenzy. A decade later, Korean snack culture is rewriting the American snack aisle — one unboxing video at a time."/>
   <meta property="og:url" content="https://sourceat.co/snacks"/>
-  <meta property="og:image" content="https://img08.weeecdn.net/product/image/016/714/C3EA00EA09C1393.png!c864x0_q80.auto"/>
+  <meta property="og:image" content="https://sourceat.co/og-image.svg"/>
   <meta property="og:site_name" content="sourceat"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="The Chip That Caused a Nationwide Shortage — K-Snack Wave"/>
   <meta name="twitter:description" content="In 2014, a single chip sent Korea into a frenzy. A decade later, K-snack culture is rewriting the American snack aisle."/>
-  <meta name="twitter:image" content="https://img08.weeecdn.net/product/image/016/714/C3EA00EA09C1393.png!c864x0_q80.auto"/>
+  <meta name="twitter:image" content="https://sourceat.co/og-image.svg"/>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -28,7 +28,7 @@
     "headline": "The Chip That Caused a Nationwide Shortage",
     "description": "In 2014, a single chip sent Korea into a frenzy. A decade later, Korean snack culture is rewriting the American snack aisle — one unboxing video at a time.",
     "url": "https://sourceat.co/snacks",
-    "image": "https://img08.weeecdn.net/product/image/016/714/C3EA00EA09C1393.png!c864x0_q80.auto",
+    "image": "https://sourceat.co/og-image.svg",
     "datePublished": "2024-01-01",
     "publisher": {"@type": "Organization", "name": "sourceat", "url": "https://sourceat.co/"},
     "about": {"@type": "Thing", "name": "Korean Snacks", "description": "K-snacks trending in the US"}
@@ -127,8 +127,17 @@
 <header>
   <div class="header-inner">
     <a href="/" class="logo"><span class="logo-wordmark">sourceat</span><span class="logo-sub">source and eat</span></a>
+    <nav class="header-nav">
+      <a href="/buldak" class="nav-link">Buldak</a>
+      <a href="/kimbap" class="nav-link">Kimbap</a>
+      <a href="/tteokbokki" class="nav-link">Tteokbokki</a>
+      <a href="/snacks" class="nav-link">Snacks</a>
+      <a href="/hetbahn" class="nav-link">Hetbahn</a>
+      <a href="/yakgwa" class="nav-link">Yakgwa</a>
+    </nav>
   </div>
 </header>
+<script>document.querySelectorAll(".nav-link").forEach(function(l){if(l.getAttribute("href")===window.location.pathname)l.classList.add("active")});</script>
 
 <!-- PAGE HERO -->
 <section class="page-hero">

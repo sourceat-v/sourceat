@@ -16,6 +16,13 @@
     .logo-wordmark{font-family:var(--font-d);font-size:21px;font-weight:800;letter-spacing:-0.6px;line-height:1;background:linear-gradient(135deg,#1A1A18 30%,#1D9E75 70%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .logo-sub{font-family:var(--font-s);font-size:8px;font-weight:400;color:var(--gray-400);letter-spacing:.04em;line-height:1}
 
+    /* HEADER NAV */
+    .header-nav{display:flex;align-items:center;gap:2px}
+    .nav-link{font-family:var(--font-d);font-size:12px;font-weight:600;color:var(--gray-700);text-decoration:none;padding:5px 10px;border-radius:5px;transition:background .15s,color .15s;letter-spacing:.01em;white-space:nowrap}
+    .nav-link:hover{background:var(--gray-100);color:var(--gray-900)}
+    .nav-link.active{color:var(--teal);background:var(--teal-light)}
+    @media(max-width:900px){.header-nav{display:none}}
+
     /* HAMBURGER */
     .hamburger{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;border-radius:6px;transition:background .15s}
     .hamburger:hover{background:var(--gray-100)}
@@ -239,7 +246,8 @@
     .mag-featured:hover .mag-cta{color:#7DD9BC}
 
     /* Small cards row */
-    .mag-cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .mag-cards-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .mag-card{flex:0 0 calc(33.333% - 8px);min-width:220px}
     .mag-card{display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1px solid var(--gray-200);text-decoration:none;color:inherit;background:var(--white);transition:border-color .2s,box-shadow .2s}
     .mag-card:hover{border-color:var(--gray-400);box-shadow:0 4px 16px rgba(0,0,0,.07)}
     .mag-card-accent{height:3px;flex-shrink:0}

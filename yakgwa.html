@@ -14,7 +14,7 @@
   <meta property="og:title" content="The Grandma Cookie Revival — How Yakgwa Conquered Korean Gen Z | sourceat"/>
   <meta property="og:description" content="Yakgwa is a 700-year-old Korean honey cookie that Gen Z put back on the map. Deep-fried dough soaked in honey-ginger syrup — nothing like it in Western confection."/>
   <meta property="og:url" content="https://sourceat.co/yakgwa"/>
-  <meta property="og:image" content="https://sourceat.co/og-image.png"/>
+  <meta property="og:image" content="https://sourceat.co/og-image.svg"/>
   <meta property="og:site_name" content="sourceat"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="The Grandma Cookie Revival — How Yakgwa Conquered Korean Gen Z"/>
@@ -97,8 +97,17 @@
 <header>
   <div class="header-inner">
     <a href="/" class="logo"><span class="logo-wordmark">sourceat</span><span class="logo-sub">source and eat</span></a>
+    <nav class="header-nav">
+      <a href="/buldak" class="nav-link">Buldak</a>
+      <a href="/kimbap" class="nav-link">Kimbap</a>
+      <a href="/tteokbokki" class="nav-link">Tteokbokki</a>
+      <a href="/snacks" class="nav-link">Snacks</a>
+      <a href="/hetbahn" class="nav-link">Hetbahn</a>
+      <a href="/yakgwa" class="nav-link">Yakgwa</a>
+    </nav>
   </div>
 </header>
+<script>document.querySelectorAll(".nav-link").forEach(function(l){if(l.getAttribute("href")===window.location.pathname)l.classList.add("active")});</script>
 
 <!-- PAGE HERO -->
 <section class="page-hero">
