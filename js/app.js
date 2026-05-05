@@ -455,14 +455,10 @@ function renderTrends() {
       card.style.animationDelay = `${(ti * 0.08) + (pi * 0.06)}s`;
       card.onclick = () => openModal(p.product_id);
 
-      const thumb = document.createElement('div');
-      thumb.className = 'card-thumb';
-      const fb = document.createElement('div');
-      fb.className = 'thumb-fallback';
-      fb.style.background = BRAND_BG[p.brand] || 'linear-gradient(135deg,#90A4AE,#37474F)';
-      fb.innerHTML = `<span class="tf-emoji">${getCategoryEmoji(p.name)}</span><span class="tf-brand">${p.brand}</span>`;
-      thumb.appendChild(fb);
-      card.appendChild(thumb);
+      const accent = document.createElement('div');
+      accent.className = 'card-accent-bar';
+      accent.style.background = BRAND_BG[p.brand] || 'linear-gradient(135deg,#90A4AE,#37474F)';
+      card.appendChild(accent);
 
       const pillsHTML = SHOPS.map(sh => {
         const on = p.shops[sh.key] && p.shops[sh.key].url;
