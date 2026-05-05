@@ -448,13 +448,12 @@ function renderTrends() {
 
     const grid = section.querySelector(`#grid-${tr.trend_id}`);
     tr.products.forEach((p, pi) => {
-      const tag = document.createElement('button');
-      tag.className = 'prod-tag';
-      tag.style.animationDelay = `${(ti * 0.06) + (pi * 0.04)}s`;
-      tag.style.setProperty('--accent', BRAND_BG[p.brand] || 'linear-gradient(135deg,#90A4AE,#37474F)');
-      tag.innerHTML = `<span class="prod-tag-name">${p.name}</span><span class="prod-tag-brand">${p.brand}</span>`;
-      tag.onclick = () => openModal(p.product_id);
-      grid.appendChild(tag);
+      const row = document.createElement('div');
+      row.className = 'prod-row';
+      row.style.animationDelay = `${(ti * 0.05) + (pi * 0.04)}s`;
+      row.innerHTML = `<span class="prod-num">${String(pi + 1).padStart(2, '0')}</span><span class="prod-row-name">${p.name}</span><span class="prod-row-brand">${p.brand}</span><span class="prod-row-arrow">→</span>`;
+      row.onclick = () => openModal(p.product_id);
+      grid.appendChild(row);
     });
   });
 }
