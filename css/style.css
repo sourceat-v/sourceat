@@ -119,36 +119,22 @@
     .trend-count{font-size:12px;color:var(--gray-400)}
     .shop-logo{width:28px;height:28px;object-fit:contain;border-radius:4px;display:block}
 
-    /* PRODUCT GRID */
-    .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+    /* PRODUCT TAG LIST */
+    .prod-list{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
+    @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-    /* CARD */
-    .card{background:var(--white);border:1px solid var(--gray-200);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:box-shadow .2s,border-color .2s;opacity:0;animation:rise .4s ease forwards}
-    .card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07);border-color:var(--gray-400)}
-    @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-    /* card accent bar */
-    .card-accent-bar{height:3px;width:100%;flex-shrink:0}
-
-    /* availability badge */
-    .card-avail{position:absolute;top:8px;right:8px;z-index:2}
-    .avail-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;letter-spacing:.03em}
-    .avail-all{background:var(--teal);color:#fff}
-    .avail-some{background:rgba(26,26,24,.65);color:#fff}
-
-    .card-body{padding:8px 12px 6px;flex:1}
-    .card-brand{font-size:11px;color:var(--gray-400);margin-bottom:3px}
-    .card-name{font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);line-height:1.35;margin-bottom:4px;letter-spacing:-.2px}
-    .card-desc{font-size:11px;color:var(--gray-400);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-    /* shop pills */
-    .card-shops-preview{padding:8px 12px 0;display:flex;gap:4px;flex-wrap:wrap}
-    .shop-pill{font-size:10px;padding:2px 7px;border-radius:999px;background:var(--gray-100);color:var(--gray-400);border:1px solid var(--gray-200)}
-    .shop-pill.on{background:var(--teal-light);color:var(--teal-dark);border-color:var(--teal-mid)}
-
-    .card-footer{padding:8px 12px 12px;border-top:1px solid var(--gray-100);margin-top:8px;display:flex;align-items:center;justify-content:flex-end}
-    .card-cta{font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--teal);padding:4px 9px;border-radius:3px;transition:background .15s,color .15s}
-    .card:hover .card-cta{background:var(--teal);color:var(--white)}
+    .prod-tag{
+      position:relative;overflow:hidden;
+      display:inline-flex;flex-direction:column;gap:2px;
+      background:var(--white);border:1.5px solid var(--gray-200);border-radius:10px;
+      padding:12px 16px 10px;cursor:pointer;text-align:left;
+      transition:box-shadow .15s,border-color .15s,background .15s;
+      opacity:0;animation:rise .35s ease forwards;
+    }
+    .prod-tag::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--gray-200))}
+    .prod-tag:hover{background:var(--gray-50);box-shadow:0 2px 12px rgba(0,0,0,.07);border-color:var(--gray-400)}
+    .prod-tag-name{font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);letter-spacing:-.2px;line-height:1.3}
+    .prod-tag-brand{font-size:11px;color:var(--gray-400)}
 
     /* MODAL */
     .overlay{display:none;position:fixed;inset:0;background:rgba(20,20,18,.6);z-index:500;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}

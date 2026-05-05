@@ -442,43 +442,19 @@ function renderTrends() {
           </a>` : ''}
         </div>
       </div>
-      <div class="prod-grid" id="grid-${tr.trend_id}"></div>
+      <div class="prod-list" id="grid-${tr.trend_id}"></div>
     `;
     container.appendChild(section);
 
     const grid = section.querySelector(`#grid-${tr.trend_id}`);
     tr.products.forEach((p, pi) => {
-      const ac = availCount(p.shops);
-
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.style.animationDelay = `${(ti * 0.08) + (pi * 0.06)}s`;
-      card.onclick = () => openModal(p.product_id);
-
-      const accent = document.createElement('div');
-      accent.className = 'card-accent-bar';
-      accent.style.background = BRAND_BG[p.brand] || 'linear-gradient(135deg,#90A4AE,#37474F)';
-      card.appendChild(accent);
-
-      const pillsHTML = SHOPS.map(sh => {
-        const on = p.shops[sh.key] && p.shops[sh.key].url;
-        return `<span class="shop-pill ${on ? 'on' : ''}">${sh.name}</span>`;
-      }).join('');
-
-      const body = document.createElement('div');
-      body.innerHTML = `
-        <div class="card-body">
-          <div class="card-brand">${p.brand}</div>
-          <div class="card-name">${p.name}</div>
-          <div class="card-desc">${p.desc}</div>
-        </div>
-        <div class="card-shops-preview">${pillsHTML}</div>
-        <div class="card-footer">
-          <span class="card-cta">Find it →</span>
-        </div>
-      `;
-      while (body.firstChild) card.appendChild(body.firstChild);
-      grid.appendChild(card);
+      const tag = document.createElement('button');
+      tag.className = 'prod-tag';
+      tag.style.animationDelay = `${(ti * 0.06) + (pi * 0.04)}s`;
+      tag.style.setProperty('--accent', BRAND_BG[p.brand] || 'linear-gradient(135deg,#90A4AE,#37474F)');
+      tag.innerHTML = `<span class="prod-tag-name">${p.name}</span><span class="prod-tag-brand">${p.brand}</span>`;
+      tag.onclick = () => openModal(p.product_id);
+      grid.appendChild(tag);
     });
   });
 }
