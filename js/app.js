@@ -350,34 +350,30 @@ async function loadFromSheets() {
   const container = document.getElementById('trends-container');
   if (!container) return;
 
-  // 홈 페이지 여부 (tr-card 형식 vs 제품 리스트 형식)
   const isHome = !!document.querySelector('.hub-2col');
   const render = isHome ? renderTrendCards : renderTrends;
 
-  // 1순위: Firestore (Python 스크립트로 매일 자동 업데이트)
-  try {
-    const firestoreTrends = await loadTrends();
-    if (firestoreTrends && firestoreTrends.length > 0) {
-      TRENDS = firestoreTrends;
-      console.log('✅ Firestore 데이터 로드:', TRENDS.length, '트렌드');
-      container.innerHTML = '';
-      initCommentStore();
-      render();
-      injectJsonLd();
-      return;
-    }
-  } catch(e) {
-    console.warn('Firestore 로드 실패, 하드코딩 데이터 사용:', e);
-  }
-
-  // 2순위: 하드코딩 데이터
-  console.log('📦 하드코딩 데이터 사용');
+  // 즉시 하드코딩 데이터로 렌더링 (Firestore 응답 기다리지 않음)
   container.innerHTML = '';
   initCommentStore();
   render();
   injectJsonLd();
+  if (!isHome) renderPastIssues();
 
-  renderPastIssues();
+  // Firestore 업데이트 (4초 타임아웃)
+  try {
+    const timeout = new Promise(resolve => setTimeout(() => resolve(null), 4000));
+    const firestoreTrends = await Promise.race([loadTrends(), timeout]);
+    if (firestoreTrends && firestoreTrends.length > 0) {
+      TRENDS = firestoreTrends;
+      container.innerHTML = '';
+      initCommentStore();
+      render();
+      injectJsonLd();
+    }
+  } catch(e) {
+    console.warn('Firestore 로드 실패:', e);
+  }
 }
 
 // ── 아카이브 렌더링 ───────────────────────────────────────
