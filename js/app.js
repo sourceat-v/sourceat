@@ -835,10 +835,10 @@ function closeSidebar() {
 }
 
 // ── 사이드바 이벤트 바인딩 ───────────────────────────────
-document.getElementById('hamburger-btn').addEventListener('click', openSidebar);
-document.getElementById('sidebar-close-btn').addEventListener('click', closeSidebar);
-document.getElementById('sidebar-overlay').addEventListener('click', closeSidebar);
-document.getElementById('open-guide-btn').addEventListener('click', openGuide);
+document.getElementById('hamburger-btn')?.addEventListener('click', openSidebar);
+document.getElementById('sidebar-close-btn')?.addEventListener('click', closeSidebar);
+document.getElementById('sidebar-overlay')?.addEventListener('click', closeSidebar);
+document.getElementById('open-guide-btn')?.addEventListener('click', openGuide);
 
 // ── 전역 함수 노출 (HTML onclick에서 사용) ───────────────
 window.handleLike    = handleLike;
