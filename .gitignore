@@ -3,3 +3,4 @@ css/.DS_Store
 js/.DS_Store
 scripts/firebase-service-account.json
 .claude/
+.vercel

@@ -277,7 +277,7 @@ function initCommentStore() {
 // ── 데이터 로드 (Firestore → 하드코딩) ───────────────────
 async function loadFromSheets() {
   const container = document.getElementById('trends-container');
-  container.innerHTML = '<div style="text-align:center;padding:60px 32px;color:#9A9A94;font-size:14px">Loading products...</div>';
+  if (!container) return;
 
   // 1순위: Firestore (Python 스크립트로 매일 자동 업데이트)
   try {

@@ -3,36 +3,26 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Korean Food Price Comparison — Buldak, Kimbap, Tteokbokki | sourceat</title>
-  <meta name="description" content="Find the best price on trending Korean food in the US. Compare Buldak ramen, kimbap, tteokbokki, and mandu across Amazon, H-Mart, Weee!, and Wooltari. Updated daily."/>
-  <meta name="keywords" content="buldak ramen buy online, samyang buldak price, kimbap where to buy US, tteokbokki kit amazon, Korean food price comparison, H-Mart online, Korean grocery delivery, Korean snacks online, bibigo mandu, Korean ramen"/>
+  <title>Korean Food & K-Beauty Directory — Best Online Stores | sourceat</title>
+  <meta name="description" content="Find the best Korean food stores and K-beauty shops online in the US. Plus a weekly trend report on what's going viral in Korea right now."/>
+  <meta name="keywords" content="Korean food online store US, K-beauty shop online, where to buy Korean groceries, Korean skincare US, Korean trends 2025"/>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥘</text></svg>"/>
   <link rel="canonical" href="https://sourceat.co/"/>
   <meta name="google-site-verification" content="n_wAcvXd13I_KfXWBFUASHfhzaQqhUl67tH9fZztiqk"/>
   <script defer src="/_vercel/insights/script.js"></script>
-  <!-- Open Graph -->
   <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Korean Food Price Comparison — Buldak, Kimbap, Tteokbokki | sourceat"/>
-  <meta property="og:description" content="Track what Korean food products are going viral on TikTok, YouTube, and Reddit — updated daily. Find them at Amazon, H-Mart, Weee!, and Wooltari."/>
+  <meta property="og:title" content="Korean Food & K-Beauty Directory | sourceat"/>
+  <meta property="og:description" content="Best Korean food stores and K-beauty shops online — plus weekly Korea trend report."/>
   <meta property="og:url" content="https://sourceat.co/"/>
   <meta property="og:image" content="https://sourceat.co/og-image.svg"/>
   <meta property="og:site_name" content="sourceat"/>
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="sourceat — What's Trending in Korean Food Right Now"/>
-  <meta name="twitter:description" content="Track what Korean food products are going viral on TikTok, YouTube, and Reddit — updated daily."/>
+  <meta name="twitter:title" content="sourceat — Korean Food, Beauty & Trends"/>
+  <meta name="twitter:description" content="Best Korean food stores and K-beauty shops online — plus weekly Korea trend report."/>
   <meta name="twitter:image" content="https://sourceat.co/og-image.svg"/>
-  <!-- JSON-LD -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "sourceat",
-    "url": "https://sourceat.co/",
-    "description": "Track trending Korean food products and compare prices across Amazon, H-Mart, Weee!, and Wooltari."
-  }
+  {"@context":"https://schema.org","@type":"WebSite","name":"sourceat","url":"https://sourceat.co/","description":"Directory of the best Korean food and K-beauty websites for US audiences, plus a weekly trend report."}
   </script>
-  <script type="application/ld+json" id="ld-json"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
@@ -49,290 +39,553 @@
     <a href="/" class="logo"><span class="logo-wordmark">sourceat</span><span class="logo-sub">source and eat</span></a>
     <button class="sidebar-close" id="sidebar-close-btn" aria-label="Close menu">✕</button>
   </div>
-
   <div class="sb-section">
-    <div class="sb-label">About</div>
-    <p class="sb-text">sourceat tracks what Korean food products are going viral in the US — and shows you exactly where to find them.</p>
+    <div class="sb-label">Shop</div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <a href="#food" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🛒</span>Korean Food &amp; Groceries</a>
+      <a href="#beauty" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>💄</span>K-Beauty &amp; Skincare</a>
+    </nav>
   </div>
-
   <div class="sb-section">
-    <div class="sb-label">Trends</div>
+    <div class="sb-label">Trending K-Food</div>
     <nav style="display:flex;flex-direction:column;gap:2px">
       <a href="/buldak" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🔥</span>Buldak Challenge</a>
       <a href="/kimbap" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>📈</span>Kimbap Moment</a>
       <a href="/tteokbokki" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🚀</span>Street Food at Home</a>
-      <a href="/snacks" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>✨</span>Korean Snack Wave</a>
-      <a href="/hetbahn" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🍚</span>Hetbahn Moment</a>
-      <a href="/yakgwa" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🍯</span>Grandma Cookie Revival</a>
+      <a href="/yakgwa" style="font-family:var(--font-d);font-size:13px;font-weight:600;color:var(--gray-900);text-decoration:none;padding:7px 10px;border-radius:6px;display:flex;align-items:center;gap:8px;transition:background .15s" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='transparent'"><span>🍯</span>Yakgwa Revival</a>
     </nav>
   </div>
-
-  <div class="sb-section">
-    <button class="sb-guide-btn" id="open-guide-btn">
-      <span class="sb-guide-icon">🍜</span>
-      <span class="sb-guide-text">
-        <span class="sb-guide-title">K-Food Beginner's Guide</span>
-        <span class="sb-guide-sub">New to Korean food? Start here</span>
-      </span>
-      <span class="sb-guide-arrow">→</span>
-    </button>
-  </div>
-
-  <div class="sb-section">
-    <div class="sb-label">Why these 4 stores?</div>
-    <div class="sb-stores">
-      <div class="sb-store"><strong>Amazon</strong><span>Ships nationwide · Prime eligible</span></div>
-      <div class="sb-store"><strong>Weee!</strong><span>Asian grocery delivery</span></div>
-      <div class="sb-store"><strong>H-Mart</strong><span>Korean specialty · 100+ US locations</span></div>
-      <div class="sb-store"><strong>Wooltari</strong><span>K-brands shipped direct</span></div>
-    </div>
-  </div>
-
   <div class="sidebar-footer">
-    <div class="sb-label">Suggest a product</div>
-    <a href="mailto:sourceat.co@gmail.com?subject=Product%20Suggestion">sourceat.co@gmail.com →</a>
+    <div class="sb-label">Suggest a site</div>
+    <a href="mailto:sourceat.co@gmail.com?subject=Site%20Suggestion">sourceat.co@gmail.com →</a>
   </div>
 </aside>
-
-<!-- K-FOOD GUIDE MODAL -->
-<div class="overlay" id="guide-overlay" onclick="closeGuide(event)">
-  <div class="modal" id="guide-modal">
-    <div class="modal-topbar">
-      <div class="modal-topbar-left">
-        <div class="mlabel" style="margin-bottom:8px">Beginner's Guide</div>
-        <div class="modal-name">New to K-Food?</div>
-        <div class="modal-brand">A quick-start guide for first-timers</div>
-      </div>
-      <button class="modal-close" onclick="closeGuide()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p class="guide-intro">Korean food has gone global — here's how to explore it without being overwhelmed.</p>
-      <div class="guide-steps">
-        <div class="guide-step">
-          <div class="guide-num">01</div>
-          <div>
-            <div class="guide-title">Start with Buldak Carbonara</div>
-            <div class="guide-desc">The creamy carbonara version is the perfect entry point — mildly spicy, easy to make. Avoid 2× Spicy until you know what you're doing.</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-num">02</div>
-          <div>
-            <div class="guide-title">Korean "mild" ≠ American mild</div>
-            <div class="guide-desc">The spice scale in Korea runs hotter. Original Buldak is already medium-hot by American standards. When in doubt, go one level below what you think you can handle.</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-num">03</div>
-          <div>
-            <div class="guide-title">Try kimbap — it's not sushi</div>
-            <div class="guide-desc">If you like California rolls, kimbap is lighter, more savory, and more filling. It's one of the most approachable K-foods for newcomers.</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-num">04</div>
-          <div>
-            <div class="guide-title">No H-Mart nearby? Use Amazon</div>
-            <div class="guide-desc">Most products on sourceat ship nationwide via Amazon Prime. It's the easiest starting point if you're not near a Korean grocery store.</div>
-          </div>
-        </div>
-      </div>
-      <div class="mdivider"></div>
-      <div class="mlabel">Trending now on sourceat</div>
-      <button class="guide-cta" onclick="closeGuide();closeSidebar()">Browse trending K-foods →</button>
-    </div>
-  </div>
-</div>
 
 <!-- HEADER -->
 <header>
   <div class="header-inner">
     <a href="/" class="logo"><span class="logo-wordmark">sourceat</span><span class="logo-sub">source and eat</span></a>
     <nav class="header-nav">
+      <a href="#food" class="nav-link">Food &amp; Groceries</a>
+      <a href="#beauty" class="nav-link">K-Beauty</a>
+      <a href="#trends" class="nav-link">Trend Report</a>
       <a href="/buldak" class="nav-link">Buldak</a>
       <a href="/kimbap" class="nav-link">Kimbap</a>
-      <a href="/tteokbokki" class="nav-link">Tteokbokki</a>
-      <a href="/snacks" class="nav-link">Snacks</a>
-      <a href="/hetbahn" class="nav-link">Hetbahn</a>
-      <a href="/yakgwa" class="nav-link">Yakgwa</a>
     </nav>
     <button class="hamburger" id="hamburger-btn" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
   </div>
 </header>
-<script>document.querySelectorAll(".nav-link").forEach(function(l){if(l.getAttribute("href")===window.location.pathname)l.classList.add("active")});</script>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="route-badge">
-      <span class="rb-from">🇰🇷 Seoul</span>
-      <span class="rb-path">
-        <span class="rb-line"></span>
-        <span class="rb-plane">✈</span>
-        <span class="rb-line"></span>
-      </span>
-      <span class="rb-to">Your Table 🇺🇸</span>
+    <div class="hero-cats">
+      <span class="hero-cat-pill">🛒 Korean Food</span>
+      <span class="hero-cat-pill">💄 K-Beauty</span>
+      <span class="hero-cat-pill">📊 Trend Report</span>
     </div>
-    <h1>Your guide to <em>trending</em><br/>Korean food in the US.</h1>
-    <p class="hero-sub">We track what's going viral in K-food and compare prices across top US retailers — updated daily.</p>
+    <h1>Korean Food &amp; Beauty,<br/><em>Best Stores in One Place.</em></h1>
+    <p class="hero-sub"><span class="live-dot"></span>Curated stores for Korean groceries and K-beauty in the US — plus a weekly trend report from Korea.</p>
   </div>
 </section>
 
-<!-- ARCHIVE BANNER -->
-<div id="archive-banner" style="display:none;text-align:center;padding:10px 32px;background:#F7F7F5;border-bottom:1px solid #EFEFEB;font-size:12px;color:#9A9A94;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;letter-spacing:.04em"></div>
-
-<!-- TRENDS (JS가 여기에 렌더링) -->
-<div id="trends-container"></div>
-
-<!-- PAST ISSUES (JS가 여기에 렌더링) -->
-<div id="past-issues-wrap" style="display:none"></div>
-
-<!-- MODAL -->
-<div class="overlay" id="overlay" onclick="closeModal(event)">
-  <div class="modal" id="modal">
-    <div class="modal-topbar">
-      <div class="modal-topbar-left">
-        <div class="modal-trend-row" id="modal-trend-row"></div>
-        <div class="modal-name" id="modal-name"></div>
-        <div class="modal-brand" id="modal-brand"></div>
-      </div>
-      <button class="modal-close" onclick="closeOverlay()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-desc" id="modal-desc"></div>
-      <div class="mlabel">Where to buy</div>
-      <div class="shop-grid" id="modal-shops"></div>
-      <div class="mlabel" style="margin-top:20px">Share</div>
-      <div id="modal-share" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px"></div>
-      <div class="comments-list" id="comments-list"></div>
-    </div>
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <a href="#food" class="ticker-item">🛒 Weee!</a>
+    <span class="ticker-sep"></span>
+    <a href="#food" class="ticker-item">🛒 H-Mart</a>
+    <span class="ticker-sep"></span>
+    <a href="#food" class="ticker-item">🛒 Wooltari USA</a>
+    <span class="ticker-sep"></span>
+    <a href="#food" class="ticker-item">🛒 KimC Market</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 Olive Young</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 Soko Glam</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 Peach &amp; Lily</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 YesStyle</a>
+    <span class="ticker-sep"></span>
+    <a href="#trends" class="ticker-item">🔥 불닭 챌린지</a>
+    <span class="ticker-sep"></span>
+    <a href="#trends" class="ticker-item">🍫 두바이 초콜릿</a>
+    <span class="ticker-sep"></span>
+    <a href="#trends" class="ticker-item">💄 유리 피부</a>
+    <span class="ticker-sep"></span>
+    <a href="#food" class="ticker-item">🛒 Weee!</a>
+    <span class="ticker-sep"></span>
+    <a href="#food" class="ticker-item">🛒 H-Mart</a>
+    <span class="ticker-sep"></span>
+    <a href="#food" class="ticker-item">🛒 Wooltari USA</a>
+    <span class="ticker-sep"></span>
+    <a href="#food" class="ticker-item">🛒 KimC Market</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 Olive Young</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 Soko Glam</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 Peach &amp; Lily</a>
+    <span class="ticker-sep"></span>
+    <a href="#beauty" class="ticker-item">💄 YesStyle</a>
+    <span class="ticker-sep"></span>
+    <a href="#trends" class="ticker-item">🔥 불닭 챌린지</a>
+    <span class="ticker-sep"></span>
+    <a href="#trends" class="ticker-item">🍫 두바이 초콜릿</a>
+    <span class="ticker-sep"></span>
+    <a href="#trends" class="ticker-item">💄 유리 피부</a>
+    <span class="ticker-sep"></span>
   </div>
 </div>
 
-<!-- MAGAZINE SECTION -->
-<section class="mag-section">
-  <div class="mag-inner">
-    <div class="mag-header-row">
-      <div class="mag-eyebrow">The K-Food Files</div>
-      <div class="mag-date">Issue · April 2026</div>
-    </div>
+<!-- 2-COLUMN HUB -->
+<div class="hub-2col">
 
-    <!-- FEATURED: BULDAK -->
-    <a href="/buldak" class="mag-featured">
-      <div class="mag-featured-body">
-        <div class="mag-featured-num">01</div>
-        <div class="mag-card-meta">
-          <span class="trend-tag t-hot">🔥 Hot</span>
-          <span class="mag-num-label">No. 01</span>
+  <!-- LEFT: FOOD -->
+  <section class="hub-section reveal" id="food">
+    <div class="hub-section-header">
+      <span class="hub-emoji">🛒</span>
+      <div>
+        <h2 class="hub-cat-title">Korean Food &amp; Groceries</h2>
+        <p class="hub-cat-desc">Best online stores to buy authentic Korean ingredients, ramen, and snacks delivered in the US.</p>
+      </div>
+    </div>
+    <div class="hub-links">
+      <a href="https://www.weee.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#1D9E75"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Weee!</div>
+          <div class="hub-link-desc">America's largest Asian grocery delivery. Huge Korean selection with same-day or next-day shipping in major cities.</div>
         </div>
-        <div class="mag-featured-title">The Noodle That Made the Internet Cry Fire Tears</div>
-        <div class="mag-featured-sub">Samyang's fire chicken went from a Korean convenience store dare to a global phenomenon. How a single instant noodle broke the internet — and why Americans can't stop eating it.</div>
-        <span class="mag-cta">Read the story →</span>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://www.hmart.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#1D9E75"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">H-Mart</div>
+          <div class="hub-link-desc">America's #1 Korean supermarket with 100+ US locations. Order online or shop in-store.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://www.wooltariusa.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#1D9E75"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Wooltari USA</div>
+          <div class="hub-link-desc">Korean brand goods shipped direct from Korea. Great for hard-to-find regional products and pantry staples.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://kimcmarket.com/" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#1D9E75"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">KimC Market</div>
+          <div class="hub-link-desc">Korean-American owned online grocery focused on authentic Korean ingredients and pantry essentials, shipped nationwide.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://www.gochujar.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#1D9E75"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Gochujar</div>
+          <div class="hub-link-desc">Premium Korean pantry staples for home cooks — gochugaru, doenjang, sesame oil, and artisanal Korean sauces.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- RIGHT: BEAUTY -->
+  <section class="hub-section reveal" style="transition-delay:.1s" id="beauty">
+    <div class="hub-section-header">
+      <span class="hub-emoji">💄</span>
+      <div>
+        <h2 class="hub-cat-title">K-Beauty &amp; Skincare</h2>
+        <p class="hub-cat-desc">Authentic Korean cosmetics and skincare — from established retailers to direct-from-Korea shops.</p>
+      </div>
+    </div>
+    <div class="hub-links">
+      <a href="https://global.oliveyoung.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#E4698A"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Olive Young Global</div>
+          <div class="hub-link-desc">Korea's #1 beauty retailer — the Korean Sephora. Ships worldwide with authentic products at Korean retail prices.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://sokoglam.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#E4698A"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Soko Glam</div>
+          <div class="hub-link-desc">US-based K-beauty pioneer with expert-vetted products and great skincare routine guides for beginners.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://www.peachandlily.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#E4698A"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Peach &amp; Lily</div>
+          <div class="hub-link-desc">Editor-curated K-beauty at Walmart and online. Accessible picks at lower price points — great entry point.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://www.yesstyle.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#E4698A"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">YesStyle</div>
+          <div class="hub-link-desc">Massive K-beauty and fashion selection with frequent sales. Widest range for comparing across brands.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://www.stylevana.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#E4698A"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Stylevana</div>
+          <div class="hub-link-desc">Competitive K-beauty pricing with regular flash sales. Good free shipping thresholds for bulk orders.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+      <a href="https://jolse.com" target="_blank" rel="noopener" class="hub-link-card">
+        <span class="hub-link-dot" style="background:#E4698A"></span>
+        <div class="hub-link-info">
+          <div class="hub-link-name">Jolse</div>
+          <div class="hub-link-desc">Ships directly from Korea. Wide range of skincare and makeup — strong on niche and indie K-beauty brands.</div>
+        </div>
+        <span class="hub-link-cta">Visit →</span>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<!-- AD STRIP -->
+<div class="ad-slot-wrap">
+  <div class="ad-slot ad-slot-h reveal" style="transition-delay:.05s">
+    <span class="ad-slot-icon">📢</span>
+    <span>Advertisement</span>
+  </div>
+</div>
+
+<!-- TREND REPORT -->
+<section class="trend-report reveal" id="trends">
+  <div class="trend-report-header">
+    <div>
+      <div class="tr-eyebrow">Weekly Trend Report</div>
+      <div class="tr-title">What's Trending in Korea Right Now</div>
+    </div>
+    <div class="tr-date"><span class="live-dot" style="width:6px;height:6px"></span>May 2026</div>
+  </div>
+
+  <div class="trend-report-grid">
+
+    <!-- 1. 불닭 챌린지 → Weee! -->
+    <a href="https://www.weee.com" target="_blank" rel="noopener" class="tr-card reveal">
+      <div class="tr-card-bar" style="background:#E24B4A"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-hot">🔥 Hot</span><span class="tr-cat">Food</span></div>
+        <div class="tr-card-kr">불닭 챌린지</div>
+        <div class="tr-card-en">Buldak Challenge</div>
+        <div class="tr-card-desc">Samyang's fire noodle is still the most-shared food content globally. New limited flavors keep dropping every season.</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">불닭볶음면</span><span class="tr-kw-en">Original Buldak</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">까르보나라 불닭</span><span class="tr-kw-en">Carbonara</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">2배 매운 불닭</span><span class="tr-kw-en">2× Spicy</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">컵불닭</span><span class="tr-kw-en">Cup Buldak</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">치즈 불닭</span><span class="tr-kw-en">Cheese Buldak</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">불닭 소스</span><span class="tr-kw-en">Buldak Sauce</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">삼양라면</span><span class="tr-kw-en">Samyang Ramen</span></span>
+        </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 Weee!</span>
+          <span class="tr-card-cta">Shop →</span>
+        </div>
       </div>
     </a>
 
-    <!-- SECONDARY CARDS -->
-    <div class="mag-cards-row">
-      <a href="/kimbap" class="mag-card">
-        <div class="mag-card-accent" style="background:var(--teal)"></div>
-        <div class="mag-card-inner">
-          <div class="mag-card-meta">
-            <span class="trend-tag t-rising">📈 Rising</span>
-            <span class="mag-num-label">No. 02</span>
-          </div>
-          <div class="mag-card-title">Korea's Quiet Lunch Gets Its Close-Up</div>
-          <div class="mag-card-sub">After years in sushi's shadow, kimbap is finally having its American moment — Netflix, the NYT, and TikTok all took notice at once.</div>
-          <div class="mag-card-footer">
-            <span class="mag-card-meta-line">10 products · 5 stores</span>
-            <span class="mag-cta-sm">Read the story →</span>
-          </div>
+    <!-- 2. 두바이 초콜릿 → H-Mart -->
+    <a href="https://www.hmart.com" target="_blank" rel="noopener" class="tr-card reveal" style="transition-delay:.06s">
+      <div class="tr-card-bar" style="background:#D97706"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-hot">🔥 Hot</span><span class="tr-cat">Food</span></div>
+        <div class="tr-card-kr">두바이 초콜릿</div>
+        <div class="tr-card-en">Dubai Pistachio Chocolate</div>
+        <div class="tr-card-desc">The pistachio-kataifi chocolate from Dubai swept Korean social media. Every Korean brand now has their own version.</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">두바이 초콜릿</span><span class="tr-kw-en">Dubai Chocolate</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">피스타치오 초콜릿</span><span class="tr-kw-en">Pistachio Choc.</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">카다이프 초콜릿</span><span class="tr-kw-en">Kataifi Choc.</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">녹차 초콜릿</span><span class="tr-kw-en">Matcha Choc.</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">픽스 초콜릿</span><span class="tr-kw-en">Fix Chocolate</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">한국 초콜릿</span><span class="tr-kw-en">Korean Chocolate</span></span>
         </div>
-      </a>
-      <a href="/tteokbokki" class="mag-card">
-        <div class="mag-card-accent" style="background:#534AB7"></div>
-        <div class="mag-card-inner">
-          <div class="mag-card-meta">
-            <span class="trend-tag t-viral">🚀 Viral</span>
-            <span class="mag-num-label">No. 03</span>
-          </div>
-          <div class="mag-card-title">The Pojangmacha Comes Home</div>
-          <div class="mag-card-sub">Tteokbokki kits and frozen mandu are bringing the pojangmacha street stall experience straight to American kitchens.</div>
-          <div class="mag-card-footer">
-            <span class="mag-card-meta-line">10 products · 5 stores</span>
-            <span class="mag-cta-sm">Read the story →</span>
-          </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 H-Mart</span>
+          <span class="tr-card-cta">Shop →</span>
         </div>
-      </a>
-      <a href="/snacks" class="mag-card">
-        <div class="mag-card-accent" style="background:#D97706"></div>
-        <div class="mag-card-inner">
-          <div class="mag-card-meta">
-            <span class="trend-tag t-snack">✨ Trending</span>
-            <span class="mag-num-label">No. 04</span>
-          </div>
-          <div class="mag-card-title">The Chip That Caused a Nationwide Shortage</div>
-          <div class="mag-card-sub">From Honey Butter Chips to Pepero — K-snacks are quietly rewriting the American snack aisle, one viral unboxing at a time.</div>
-          <div class="mag-card-footer">
-            <span class="mag-card-meta-line">10 products · 5 stores</span>
-            <span class="mag-cta-sm">Read the story →</span>
-          </div>
+      </div>
+    </a>
+
+    <!-- 3. 약과 → Wooltari USA -->
+    <a href="https://www.wooltariusa.com" target="_blank" rel="noopener" class="tr-card reveal" style="transition-delay:.12s">
+      <div class="tr-card-bar" style="background:#B45309"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-rising">📈 Rising</span><span class="tr-cat">Food</span></div>
+        <div class="tr-card-kr">약과 부활</div>
+        <div class="tr-card-en">Yakgwa Revival</div>
+        <div class="tr-card-desc">The 700-year-old honey cookie is back. Gen Z nostalgia meets premium bakery reinvention — now finding its way to US Korean grocers.</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">약과</span><span class="tr-kw-en">Yakgwa</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">꿀과자</span><span class="tr-kw-en">Honey Cookie</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">한과</span><span class="tr-kw-en">Korean Sweets</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">전통 과자</span><span class="tr-kw-en">Traditional Snack</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">약과 쿠키</span><span class="tr-kw-en">Yakgwa Cookie</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">약과 라떼</span><span class="tr-kw-en">Yakgwa Latte</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">강정</span><span class="tr-kw-en">Gangjeong</span></span>
         </div>
-      </a>
-      <a href="/hetbahn" class="mag-card">
-        <div class="mag-card-accent" style="background:#534AB7"></div>
-        <div class="mag-card-inner">
-          <div class="mag-card-meta">
-            <span class="trend-tag t-viral">🚀 Viral</span>
-            <span class="mag-num-label">No. 05</span>
-          </div>
-          <div class="mag-card-title">Two Minutes, Perfect Rice</div>
-          <div class="mag-card-sub">Koreans have eaten Hetbahn for 30 years. Americans found it on TikTok in 2024 and couldn't believe microwave rice could taste this good.</div>
-          <div class="mag-card-footer">
-            <span class="mag-card-meta-line">10 products · 5 stores</span>
-            <span class="mag-cta-sm">Read the story →</span>
-          </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 Wooltari USA</span>
+          <span class="tr-card-cta">Shop →</span>
         </div>
-      </a>
-      <a href="/yakgwa" class="mag-card">
-        <div class="mag-card-accent" style="background:#B45309"></div>
-        <div class="mag-card-inner">
-          <div class="mag-card-meta">
-            <span class="trend-tag t-rising">📈 Rising</span>
-            <span class="mag-num-label">No. 06</span>
-          </div>
-          <div class="mag-card-title">The Grandma Cookie Revival</div>
-          <div class="mag-card-sub">Yakgwa is a 700-year-old Korean honey cookie that Gen Z put back on the map. Deep-fried, soaked in honey-ginger syrup — nothing like it exists in Western confection.</div>
-          <div class="mag-card-footer">
-            <span class="mag-card-meta-line">10 products · 5 stores</span>
-            <span class="mag-cta-sm">Read the story →</span>
-          </div>
+      </div>
+    </a>
+
+    <!-- 4. 프리미엄 김밥 → Weee! -->
+    <a href="https://www.weee.com" target="_blank" rel="noopener" class="tr-card reveal" style="transition-delay:.18s">
+      <div class="tr-card-bar" style="background:#1D9E75"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-rising">📈 Rising</span><span class="tr-cat">Food</span></div>
+        <div class="tr-card-kr">프리미엄 김밥</div>
+        <div class="tr-card-en">Premium Kimbap</div>
+        <div class="tr-card-desc">Gourmet kimbap with truffle and fusion fillings is having a moment — frozen versions now ship to US doors via Weee!</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">냉동 김밥</span><span class="tr-kw-en">Frozen Kimbap</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">참치 김밥</span><span class="tr-kw-en">Tuna Kimbap</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">김밥 키트</span><span class="tr-kw-en">Kimbap Kit</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">트러플 김밥</span><span class="tr-kw-en">Truffle Kimbap</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">치즈 김밥</span><span class="tr-kw-en">Cheese Kimbap</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">김밥 재료</span><span class="tr-kw-en">Kimbap Ingredients</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">단무지</span><span class="tr-kw-en">Pickled Radish</span></span>
         </div>
-      </a>
-    </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 Weee!</span>
+          <span class="tr-card-cta">Shop →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 5. 유리 피부 → Olive Young -->
+    <a href="https://global.oliveyoung.com" target="_blank" rel="noopener" class="tr-card reveal" style="transition-delay:.06s">
+      <div class="tr-card-bar" style="background:#E4698A"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-hot">🔥 Hot</span><span class="tr-cat">Beauty</span></div>
+        <div class="tr-card-kr">유리 피부</div>
+        <div class="tr-card-en">Glass Skin</div>
+        <div class="tr-card-desc">Korea's most-searched beauty goal — ultra-dewy, reflective skin achieved through essence layering and intensive barrier care.</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">토너</span><span class="tr-kw-en">Toner</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">에센스</span><span class="tr-kw-en">Essence</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">수분 크림</span><span class="tr-kw-en">Hydrating Cream</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">앰플</span><span class="tr-kw-en">Ampoule</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">세럼</span><span class="tr-kw-en">Serum</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">히알루론산</span><span class="tr-kw-en">Hyaluronic Acid</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">스킨케어 세트</span><span class="tr-kw-en">Skincare Set</span></span>
+        </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 Olive Young</span>
+          <span class="tr-card-cta">Shop →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 6. 선크림 → Olive Young -->
+    <a href="https://global.oliveyoung.com" target="_blank" rel="noopener" class="tr-card reveal" style="transition-delay:.12s">
+      <div class="tr-card-bar" style="background:#534AB7"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-viral">🚀 Viral</span><span class="tr-cat">Beauty</span></div>
+        <div class="tr-card-kr">선크림 문화</div>
+        <div class="tr-card-en">Sunscreen Culture</div>
+        <div class="tr-card-desc">Lightweight SPF50+ daily sunscreen is Korea's #1 beauty export — non-greasy formulas the West had no idea existed.</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">선크림 SPF50+</span><span class="tr-kw-en">Sunscreen SPF50+</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">선세럼</span><span class="tr-kw-en">Sun Serum</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">선스틱</span><span class="tr-kw-en">Sun Stick</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">톤업 선크림</span><span class="tr-kw-en">Tone-Up SPF</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">선쿠션</span><span class="tr-kw-en">Sun Cushion</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">무기자차</span><span class="tr-kw-en">Mineral SPF</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">워터프루프 선크림</span><span class="tr-kw-en">Waterproof SPF</span></span>
+        </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 Olive Young</span>
+          <span class="tr-card-cta">Shop →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 7. 립 틴트 → Olive Young -->
+    <a href="https://global.oliveyoung.com" target="_blank" rel="noopener" class="tr-card reveal" style="transition-delay:.18s">
+      <div class="tr-card-bar" style="background:#E4698A"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-rising">📈 Rising</span><span class="tr-cat">Beauty</span></div>
+        <div class="tr-card-kr">립 틴트 열풍</div>
+        <div class="tr-card-en">Lip Tint Wave</div>
+        <div class="tr-card-desc">Korean lip tints — sheer, gradient, blotted — have overtaken lip gloss globally. Romand, Peripera, and 3CE lead the charge.</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">립 틴트</span><span class="tr-kw-en">Lip Tint</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">롬앤</span><span class="tr-kw-en">Romand</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">페리페라</span><span class="tr-kw-en">Peripera</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">그라데이션 립</span><span class="tr-kw-en">Gradient Lip</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">3CE 립</span><span class="tr-kw-en">3CE Lip</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">물광 립</span><span class="tr-kw-en">Glossy Lip</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">매트 립</span><span class="tr-kw-en">Matte Lip</span></span>
+        </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 Olive Young</span>
+          <span class="tr-card-cta">Shop →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 8. 탕후루 → Weee! -->
+    <a href="https://www.weee.com" target="_blank" rel="noopener" class="tr-card reveal" style="transition-delay:.24s">
+      <div class="tr-card-bar" style="background:#D97706"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag t-snack">✨ Trending</span><span class="tr-cat">Food</span></div>
+        <div class="tr-card-kr">탕후루</div>
+        <div class="tr-card-en">Tanghulu</div>
+        <div class="tr-card-desc">Candied fruit skewers took Korean street food by storm. The crunchy sugar-coated strawberry on a stick is now a staple at Korean markets.</div>
+        <div class="tr-keywords">
+          <span class="tr-kw"><span class="tr-kw-ko">탕후루 세트</span><span class="tr-kw-en">Tanghulu Kit</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">딸기 탕후루</span><span class="tr-kw-en">Strawberry</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">포도 탕후루</span><span class="tr-kw-en">Grape</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">설탕 시럽</span><span class="tr-kw-en">Sugar Syrup</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">꼬치</span><span class="tr-kw-en">Skewers</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">귤 탕후루</span><span class="tr-kw-en">Mandarin</span></span>
+          <span class="tr-kw"><span class="tr-kw-ko">탕후루 재료</span><span class="tr-kw-en">Tanghulu Set</span></span>
+        </div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 Weee!</span>
+          <span class="tr-card-cta">Shop →</span>
+        </div>
+      </div>
+    </a>
 
   </div>
 </section>
 
-<!-- CHECK YOUR FAVORITE CTA -->
-<section style="background:#fff;padding:80px 32px;border-top:1px solid #EFEFEB;text-align:center">
-  <div style="max-width:600px;margin:0 auto">
-    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(28px,5vw,42px);font-weight:800;color:#1A1A18;margin:0 0 12px;line-height:1.2">Not sure where<br>to start?</h2>
-    <p style="font-family:'DM Sans',sans-serif;font-size:16px;color:#9A9A94;margin:0 0 36px;line-height:1.6">Find your perfect K-food match in 3 quick questions.</p>
-    <a href="/favorite" style="display:inline-block;background:#1D9E75;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:18px 48px;border-radius:12px;text-decoration:none;transition:background .2s">Check Your Favorite</a>
+<!-- BOTTOM TAB BAR (mobile only) -->
+<nav class="bottom-tab-bar" id="bottom-tab-bar">
+  <div class="bottom-tab-inner">
+    <a href="#food" class="tab-btn active" data-tab="food">
+      <span class="tab-icon">🛒</span>
+      <span>Food</span>
+      <span class="tab-dot"></span>
+    </a>
+    <a href="#beauty" class="tab-btn" data-tab="beauty">
+      <span class="tab-icon">💄</span>
+      <span>Beauty</span>
+      <span class="tab-dot"></span>
+    </a>
+    <a href="#trends" class="tab-btn" data-tab="trends">
+      <span class="tab-icon">📊</span>
+      <span>Trends</span>
+      <span class="tab-dot"></span>
+    </a>
   </div>
-</section>
+</nav>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo"><span class="logo-wordmark" style="font-size:24px">sourceat</span><span class="logo-sub" style="font-size:9px;margin-top:3px">source and eat</span></div>
-  <p>Connecting Korean food to the world — one trend at a time.</p>
+  <p>Connecting Korean culture to the world — one link at a time.</p>
   <p><a href="mailto:sourceat.co@gmail.com">sourceat.co@gmail.com</a></p>
+  <p style="margin-top:8px;font-size:12px;color:var(--gray-400)">Missing a site? <a href="mailto:sourceat.co@gmail.com?subject=Site%20Suggestion">Suggest one →</a></p>
   <p style="margin-top:20px;font-size:11px;color:#C0BEB6">© 2026 sourceat. All rights reserved.</p>
 </footer>
 
+<script>
+  // keyword chip — copy to clipboard
+  function _copyText(text) {
+    if (navigator.clipboard) return navigator.clipboard.writeText(text);
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    return Promise.resolve();
+  }
+  document.addEventListener('click', e => {
+    const kw = e.target.closest('.tr-kw');
+    if (!kw) return;
+    e.preventDefault();
+    const koEl = kw.querySelector('.tr-kw-ko');
+    const enEl = kw.querySelector('.tr-kw-en');
+    const text = koEl?.textContent.trim();
+    if (!text) return;
+    _copyText(text).then(() => {
+      const origEn = enEl.textContent;
+      kw.classList.add('copied');
+      enEl.textContent = 'Copied!';
+      setTimeout(() => { kw.classList.remove('copied'); enEl.textContent = origEn; }, 1600);
+    });
+  });
+
+  // inject "Copy to search" label before each keyword group
+  document.querySelectorAll('.tr-keywords').forEach(el => {
+    const lbl = document.createElement('p');
+    lbl.className = 'tr-kw-label';
+    lbl.textContent = '🔍 Copy to search on site';
+    el.before(lbl);
+  });
+
+  // bottom tab — active section tracking
+  (function() {
+    const tabs = document.querySelectorAll('.tab-btn[data-tab]');
+    const ids = ['food','beauty','trends'];
+    const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+    if (!tabs.length || !sections.length) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        tabs.forEach(t => t.classList.remove('active'));
+        const t = document.querySelector(`.tab-btn[data-tab="${e.target.id}"]`);
+        if (t) t.classList.add('active');
+      });
+    }, { rootMargin:'-35% 0px -35% 0px' });
+    sections.forEach(s => obs.observe(s));
+  })();
+
+  // scroll reveal
+  const _ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); _ro.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => _ro.observe(el));
+
+  // auto-load logos from card hrefs
+  document.querySelectorAll('.hub-link-card').forEach(card => {
+    const dot = card.querySelector('.hub-link-dot');
+    if (!dot) return;
+    try {
+      const hostname = new URL(card.href).hostname;
+      const domain = hostname.replace(/^(www|global|dict|papago|en)\./i, '');
+      const bgColor = dot.style.background;
+      const wrap = document.createElement('span');
+      wrap.className = 'hub-link-logo-wrap';
+      wrap.style.background = bgColor;
+      const img = document.createElement('img');
+      img.alt = '';
+      img.loading = 'lazy';
+      img.src = `https://logo.clearbit.com/${domain}`;
+      img.onerror = function() {
+        this.onerror = null;
+        this.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+      };
+      wrap.appendChild(img);
+      dot.replaceWith(wrap);
+    } catch(e) {}
+  });
+</script>
 <script type="module" src="js/app.js"></script>
 </body>
 </html>
