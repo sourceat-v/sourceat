@@ -306,7 +306,7 @@ function renderTrendCards() {
     const isExternal = !pageUrl;
 
     const post = document.createElement('article');
-    post.className = 'post-item reveal';
+    post.className = 'post-item';
 
     post.innerHTML = `
       <div class="post-meta">
@@ -325,11 +325,6 @@ function renderTrendCards() {
 
     container.appendChild(post);
   });
-
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
-  }, { threshold: 0.05 });
-  container.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
   // 사이드바 추천 제품 렌더링
   const picks = document.getElementById('sidebar-picks');

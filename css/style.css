@@ -1,8 +1,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
       --teal:#1D9E75;--teal-dark:#085041;--teal-light:#E1F5EE;--teal-mid:#5DCAA5;
-      --gray-50:#F7F7F5;--gray-100:#EFEFEB;--gray-200:#D9D9D3;--gray-400:#9A9A94;
-      --gray-700:#3A3A38;--gray-900:#1A1A18;--white:#FFFFFF;
+      --gray-50:#F7F7F5;--gray-100:#EFEFEB;--gray-200:#D9D9D3;--gray-300:#C4C4BD;--gray-400:#9A9A94;
+      --gray-500:#6B6B65;--gray-600:#52524E;--gray-700:#3A3A38;--gray-900:#1A1A18;--white:#FFFFFF;
       --font-d:'Plus Jakarta Sans',sans-serif;
       --font-b:'DM Sans',sans-serif;
     }
