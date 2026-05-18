@@ -303,11 +303,10 @@ function renderTrendCards() {
 
     const fp = tr.products[0];
     const href = pageUrl || (fp && Object.values(fp.shops||{}).find(s=>s?.url)?.url) || '#';
+    const isExternal = !pageUrl;
 
-    const post = document.createElement('a');
+    const post = document.createElement('article');
     post.className = 'post-item reveal';
-    post.href = href;
-    if (!pageUrl) { post.target = '_blank'; post.rel = 'noopener'; }
 
     post.innerHTML = `
       <div class="post-meta">
@@ -315,12 +314,14 @@ function renderTrendCards() {
         <span class="post-cat">${tr.channels?.[0] || 'K-Food'}</span>
         <span class="post-date">· ${dateStr}</span>
       </div>
-      <div class="post-title-kr">${tr.search_kr || tr.title}</div>
-      <div class="post-title-en">${tr.title}</div>
+      <a class="post-title-link" href="${href}"${isExternal ? ' target="_blank" rel="noopener"' : ''}>
+        <div class="post-title-kr">${tr.search_kr || tr.title}</div>
+        <div class="post-title-en">${tr.title}</div>
+      </a>
       <div class="post-excerpt">${tr.desc}${tr.buzz ? ' ' + tr.buzz : ''}</div>
       <p class="tr-kw-label">🔍 Copy to search on site</p>
       <div class="tr-keywords">${keywords}</div>
-      <div class="post-cta">${pageUrl ? 'Read full story →' : 'Shop now →'}</div>`;
+      <a class="post-cta" href="${href}"${isExternal ? ' target="_blank" rel="noopener"' : ''}>${pageUrl ? 'Read full story →' : 'Shop now →'}</a>`;
 
     container.appendChild(post);
   });
