@@ -279,9 +279,22 @@
     <div class="tr-date" id="trend-date"><span class="live-dot" style="width:6px;height:6px"></span>May 2026</div>
   </div>
 
-  <div id="trends-container" class="post-list">
+  <div class="trend-report-body">
+    <div id="trends-container" class="post-list"><!-- JS renders here --></div>
+    <aside class="trend-sidebar">
+      <div class="sidebar-widget" id="sidebar-picks"><!-- JS renders here --></div>
+      <div class="sidebar-widget sidebar-stores">
+        <div class="widget-label">Shop Korean Food</div>
+        <a href="https://www.weee.com" target="_blank" rel="noopener" class="sidebar-store-link"><span class="ss-dot" style="background:#1D9E75"></span>Weee! <span class="ss-tag">Asian grocery delivery</span></a>
+        <a href="https://www.hmart.com" target="_blank" rel="noopener" class="sidebar-store-link"><span class="ss-dot" style="background:#1D9E75"></span>H-Mart <span class="ss-tag">100+ US locations</span></a>
+        <a href="https://www.wooltariusa.com" target="_blank" rel="noopener" class="sidebar-store-link"><span class="ss-dot" style="background:#1D9E75"></span>Wooltari USA <span class="ss-tag">Ships from Korea</span></a>
+        <a href="https://www.amazon.com/s?k=korean+food" target="_blank" rel="noopener" class="sidebar-store-link"><span class="ss-dot" style="background:#F59E0B"></span>Amazon <span class="ss-tag">Prime eligible</span></a>
+      </div>
+    </aside>
+  </div>
 
-    <!-- JS가 여기에 렌더링 -->
+  <!-- hidden fallback card (replaced by JS) -->
+  <div style="display:none">
     <a href="https://www.weee.com" target="_blank" rel="noopener" class="tr-card reveal">
       <div class="tr-card-bar" style="background:#E24B4A"></div>
       <div class="tr-card-body">
@@ -471,8 +484,8 @@
         </div>
       </div>
     </a>
-
   </div>
+
 </section>
 
 <!-- BOTTOM TAB BAR (mobile only) -->

@@ -330,6 +330,25 @@ function renderTrendCards() {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
   }, { threshold: 0.05 });
   container.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+  // 사이드바 추천 제품 렌더링
+  const picks = document.getElementById('sidebar-picks');
+  if (picks && TRENDS.length > 0) {
+    const topTrend = TRENDS[0];
+    picks.innerHTML = `<div class="widget-label">🔥 Top Picks — ${topTrend.title}</div>`;
+    topTrend.products.slice(0, 4).forEach(p => {
+      const shops = Object.entries(p.shops||{})
+        .filter(([,v]) => v?.url)
+        .slice(0, 3)
+        .map(([k, v]) => `<a class="sp-shop-btn" href="${v.url}" target="_blank" rel="noopener">${SHOP_LABELS[k] || k}</a>`)
+        .join('');
+      const el = document.createElement('a');
+      el.className = 'sidebar-pick';
+      el.href = TREND_PAGES[topTrend.trend_id] || '#';
+      el.innerHTML = `<div class="sp-name">${p.name}</div><div class="sp-brand">${p.brand}</div><div class="sp-shops">${shops}</div>`;
+      picks.appendChild(el);
+    });
+  }
 }
 
 async function loadFromSheets() {
