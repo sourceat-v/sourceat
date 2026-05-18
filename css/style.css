@@ -303,24 +303,26 @@
 
     /* ── TREND REPORT ─────────────────────────────── */
     .trend-report{max-width:1280px;margin:0 auto;padding:52px 32px 80px}
-    .trend-report-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--gray-200)}
+    .trend-report-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:40px;padding-bottom:16px;border-bottom:1px solid var(--gray-200)}
     .tr-eyebrow{font-family:var(--font-d);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-400);margin-bottom:6px}
     .tr-title{font-family:var(--font-d);font-size:22px;font-weight:800;color:var(--gray-900);letter-spacing:-.5px}
     .tr-date{font-size:11px;color:var(--gray-400)}
-    .trend-report-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .tr-card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .2s,box-shadow .2s}
-    .tr-card:hover{border-color:var(--gray-400);box-shadow:0 4px 20px rgba(0,0,0,.08)}
-    .tr-card-bar{height:3px;flex-shrink:0}
-    .tr-card-body{padding:18px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
-    .tr-card-meta{display:flex;align-items:center;gap:8px}
+    /* blog post list */
+    .post-list{display:flex;flex-direction:column;max-width:680px}
+    .post-item{display:block;padding:36px 0;border-bottom:1px solid var(--gray-200);text-decoration:none;color:inherit;transition:opacity .15s}
+    .post-item:first-child{padding-top:0}
+    .post-item:last-child{border-bottom:none}
+    .post-item:hover{opacity:.8}
+    .post-meta{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+    .post-cat{font-size:10px;font-weight:600;color:var(--gray-400);letter-spacing:.06em;font-family:var(--font-d)}
+    .post-date{font-size:10px;color:var(--gray-300);font-family:var(--font-d)}
+    .post-title-kr{font-family:var(--font-d);font-size:26px;font-weight:800;color:var(--gray-900);letter-spacing:-.5px;line-height:1.2;margin-bottom:4px}
+    .post-title-en{font-size:12px;color:var(--gray-400);font-weight:500;letter-spacing:.02em;margin-bottom:14px}
+    .post-excerpt{font-size:14px;color:var(--gray-600);line-height:1.75;margin-bottom:18px}
+    .post-cta{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-d);font-size:12px;font-weight:700;color:var(--teal);margin-top:18px}
+    .post-item:hover .post-cta{color:var(--teal-dark)}
+    /* legacy card classes — kept for category pages */
     .tr-cat{font-size:10px;font-weight:600;color:var(--gray-400);letter-spacing:.06em;font-family:var(--font-d)}
-    .tr-card-kr{font-family:var(--font-d);font-size:16px;font-weight:800;color:var(--gray-900);letter-spacing:-.3px;line-height:1.2}
-    .tr-card-en{font-size:11px;color:var(--gray-400);font-weight:500;margin-top:1px}
-    .tr-card-desc{font-size:12px;color:var(--gray-700);line-height:1.55;flex:1}
-    .tr-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-100)}
-    .tr-shop-label{font-size:10px;font-weight:600;color:var(--gray-400);font-family:var(--font-d);letter-spacing:.03em}
-    .tr-card-cta{font-size:11px;font-weight:700;color:var(--teal);font-family:var(--font-d)}
-    .tr-card:hover .tr-card-cta{color:var(--teal-dark)}
     /* keyword chips */
     .tr-kw-label{font-size:10px;font-weight:600;color:var(--gray-400);letter-spacing:.05em;text-transform:uppercase;font-family:var(--font-d);margin-top:12px;margin-bottom:6px}
     .tr-keywords{display:flex;flex-wrap:wrap;gap:5px}
@@ -336,17 +338,15 @@
     .hero-cats{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:28px}
     .hero-cat-pill{font-family:var(--font-d);font-size:11px;font-weight:600;color:rgba(255,255,255,.65);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:5px 14px;letter-spacing:.04em}
 
-    @media(max-width:900px){.hub-2col{grid-template-columns:1fr}.trend-report-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:900px){.hub-2col{grid-template-columns:1fr}}
 
-    /* ── MOBILE (≤768px) ─── bottom tab + horizontal trend scroll */
+    /* ── MOBILE (≤768px) ─── bottom tab */
     @media(max-width:768px){
       body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
       #food,#beauty,#trends{scroll-margin-top:66px}
       .bottom-tab-bar{display:block}
-      /* horizontal swipe cards */
-      .trend-report-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:12px;margin:0 -20px;padding:0 20px 8px;scrollbar-width:none;-ms-overflow-style:none}
-      .trend-report-grid::-webkit-scrollbar{display:none}
-      .tr-card{flex:0 0 260px;scroll-snap-align:start}
+      .post-title-kr{font-size:22px}
+      .post-excerpt{font-size:13px}
     }
     @media(max-width:640px){.hub-2col{padding:32px 20px 0}.trend-report{padding:36px 20px 56px}.ad-slot-wrap{padding:0 20px}}
 

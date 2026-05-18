@@ -284,57 +284,50 @@ function renderTrendCards() {
   const container = document.getElementById('trends-container');
   if (!container) return;
 
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
   const dateEl = document.getElementById('trend-date');
   if (dateEl) {
-    const now = new Date();
     dateEl.innerHTML = `<span class="live-dot" style="width:6px;height:6px"></span>${now.toLocaleString('en-US',{month:'long'})} ${now.getFullYear()}`;
   }
 
   container.innerHTML = '';
 
   TRENDS.forEach((tr, i) => {
-    const barColor = TAG_COLORS[tr.tag_style] || '#9A9A94';
     const pageUrl = TREND_PAGES[tr.trend_id];
 
-    const keywords = tr.products.slice(0, 7).map(p =>
+    const keywords = tr.products.slice(0, 6).map(p =>
       `<span class="tr-kw"><span class="tr-kw-ko">${p.search_kr || p.name}</span><span class="tr-kw-en">${p.name.split(' ').slice(0,2).join(' ')}</span></span>`
     ).join('');
 
-    let primaryShop = '';
     const fp = tr.products[0];
-    if (fp) {
-      for (const key of ['weee','hmart','wooltari','amazon']) {
-        if (fp.shops?.[key]?.url) { primaryShop = SHOP_LABELS[key]; break; }
-      }
-    }
+    const href = pageUrl || (fp && Object.values(fp.shops||{}).find(s=>s?.url)?.url) || '#';
 
-    const card = document.createElement('a');
-    card.className = 'tr-card reveal';
-    card.href = pageUrl || (fp && Object.values(fp.shops||{}).find(s=>s?.url)?.url) || '#';
-    if (!pageUrl) { card.target = '_blank'; card.rel = 'noopener'; }
-    if (i % 4) card.style.transitionDelay = `${(i % 4) * 0.06}s`;
+    const post = document.createElement('a');
+    post.className = 'post-item reveal';
+    post.href = href;
+    if (!pageUrl) { post.target = '_blank'; post.rel = 'noopener'; }
 
-    card.innerHTML = `
-      <div class="tr-card-bar" style="background:${barColor}"></div>
-      <div class="tr-card-body">
-        <div class="tr-card-meta"><span class="trend-tag ${tr.tag_style}">${tr.tag}</span><span class="tr-cat">Food</span></div>
-        <div class="tr-card-kr">${tr.search_kr || tr.title}</div>
-        <div class="tr-card-en">${tr.title}</div>
-        <div class="tr-card-desc">${tr.desc}</div>
-        <p class="tr-kw-label">🔍 Copy to search on site</p>
-        <div class="tr-keywords">${keywords}</div>
-        <div class="tr-card-footer">
-          <span class="tr-shop-label">📍 ${primaryShop || 'Shop'}</span>
-          <span class="tr-card-cta">${pageUrl ? 'Explore →' : 'Shop →'}</span>
-        </div>
-      </div>`;
-    container.appendChild(card);
+    post.innerHTML = `
+      <div class="post-meta">
+        <span class="trend-tag ${tr.tag_style}">${tr.tag}</span>
+        <span class="post-cat">${tr.channels?.[0] || 'K-Food'}</span>
+        <span class="post-date">· ${dateStr}</span>
+      </div>
+      <div class="post-title-kr">${tr.search_kr || tr.title}</div>
+      <div class="post-title-en">${tr.title}</div>
+      <div class="post-excerpt">${tr.desc}${tr.buzz ? ' ' + tr.buzz : ''}</div>
+      <p class="tr-kw-label">🔍 Copy to search on site</p>
+      <div class="tr-keywords">${keywords}</div>
+      <div class="post-cta">${pageUrl ? 'Read full story →' : 'Shop now →'}</div>`;
+
+    container.appendChild(post);
   });
 
-  // 새로 추가된 카드에 스크롤 reveal 적용
   const ro = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
-  }, { threshold: 0.08 });
+  }, { threshold: 0.05 });
   container.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 }
 
