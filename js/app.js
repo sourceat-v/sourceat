@@ -275,9 +275,76 @@ function initCommentStore() {
 }
 
 // ── 데이터 로드 (Firestore → 하드코딩) ───────────────────
+// ── 홈 트렌드 카드 렌더링 (tr-card 형식) ─────────────────
+const TAG_COLORS = { 't-hot':'#E24B4A', 't-rising':'#1D9E75', 't-viral':'#534AB7', 't-snack':'#D97706' };
+const TREND_PAGES = { buldak:'/buldak', kimbap:'/kimbap', streetfood:'/tteokbokki', ksnacks:'/snacks', hetbahn:'/hetbahn', yakgwa:'/yakgwa' };
+const SHOP_LABELS = { weee:'Weee!', hmart:'H-Mart', wooltari:'Wooltari', amazon:'Amazon', yamibuy:'Yami' };
+
+function renderTrendCards() {
+  const container = document.getElementById('trends-container');
+  if (!container) return;
+
+  const dateEl = document.getElementById('trend-date');
+  if (dateEl) {
+    const now = new Date();
+    dateEl.innerHTML = `<span class="live-dot" style="width:6px;height:6px"></span>${now.toLocaleString('en-US',{month:'long'})} ${now.getFullYear()}`;
+  }
+
+  container.innerHTML = '';
+
+  TRENDS.forEach((tr, i) => {
+    const barColor = TAG_COLORS[tr.tag_style] || '#9A9A94';
+    const pageUrl = TREND_PAGES[tr.trend_id];
+
+    const keywords = tr.products.slice(0, 7).map(p =>
+      `<span class="tr-kw"><span class="tr-kw-ko">${p.search_kr || p.name}</span><span class="tr-kw-en">${p.name.split(' ').slice(0,2).join(' ')}</span></span>`
+    ).join('');
+
+    let primaryShop = '';
+    const fp = tr.products[0];
+    if (fp) {
+      for (const key of ['weee','hmart','wooltari','amazon']) {
+        if (fp.shops?.[key]?.url) { primaryShop = SHOP_LABELS[key]; break; }
+      }
+    }
+
+    const card = document.createElement('a');
+    card.className = 'tr-card reveal';
+    card.href = pageUrl || (fp && Object.values(fp.shops||{}).find(s=>s?.url)?.url) || '#';
+    if (!pageUrl) { card.target = '_blank'; card.rel = 'noopener'; }
+    if (i % 4) card.style.transitionDelay = `${(i % 4) * 0.06}s`;
+
+    card.innerHTML = `
+      <div class="tr-card-bar" style="background:${barColor}"></div>
+      <div class="tr-card-body">
+        <div class="tr-card-meta"><span class="trend-tag ${tr.tag_style}">${tr.tag}</span><span class="tr-cat">Food</span></div>
+        <div class="tr-card-kr">${tr.search_kr || tr.title}</div>
+        <div class="tr-card-en">${tr.title}</div>
+        <div class="tr-card-desc">${tr.desc}</div>
+        <p class="tr-kw-label">🔍 Copy to search on site</p>
+        <div class="tr-keywords">${keywords}</div>
+        <div class="tr-card-footer">
+          <span class="tr-shop-label">📍 ${primaryShop || 'Shop'}</span>
+          <span class="tr-card-cta">${pageUrl ? 'Explore →' : 'Shop →'}</span>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+
+  // 새로 추가된 카드에 스크롤 reveal 적용
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  container.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+}
+
 async function loadFromSheets() {
   const container = document.getElementById('trends-container');
   if (!container) return;
+
+  // 홈 페이지 여부 (tr-card 형식 vs 제품 리스트 형식)
+  const isHome = !!document.querySelector('.hub-2col');
+  const render = isHome ? renderTrendCards : renderTrends;
 
   // 1순위: Firestore (Python 스크립트로 매일 자동 업데이트)
   try {
@@ -287,7 +354,7 @@ async function loadFromSheets() {
       console.log('✅ Firestore 데이터 로드:', TRENDS.length, '트렌드');
       container.innerHTML = '';
       initCommentStore();
-      renderTrends();
+      render();
       injectJsonLd();
       return;
     }
@@ -299,7 +366,7 @@ async function loadFromSheets() {
   console.log('📦 하드코딩 데이터 사용');
   container.innerHTML = '';
   initCommentStore();
-  renderTrends();
+  render();
   injectJsonLd();
 
   renderPastIssues();
